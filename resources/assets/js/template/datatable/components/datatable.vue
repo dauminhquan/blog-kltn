@@ -1,7 +1,7 @@
 <template>
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Column selectors</h5>
+            <h5 class="panel-title">Danh sách</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -10,11 +10,7 @@
                 </ul>
             </div>
         </div>
-        <div class="panel-body">
-            All of the data export buttons have a <code>exportOptions</code> option which can be used to specify information about what data should be exported and how. In this example the copy button will export column index 0 and all visible columns, the Excel button will export only the visible columns and the PDF button will export column indexes 0, 1, 2 and 5 only. Column visibility controls are also included so you can change the columns easily.
-        </div>
-        <button @click="setdata">huy</button>
-        <button @click="setDatatable">dadsada</button>
+
         <table id="table" class="table datatable-button-html5-columns">
             <thead>
             <tr>
@@ -450,7 +446,7 @@
                                 className: 'btn bg-blue btn-icon'
                             },
                             {
-                                text: 'Xóa mục đã chọn',
+                                text: 'Thêm mới',
                                 className: 'btn bg-teal-400',
                                 action: function(e, dt, node, config) {
                                     swal({

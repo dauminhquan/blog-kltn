@@ -20,3 +20,11 @@ Route::get('/datatable',function (){
 Route::get('/list-job',function (){
    return view('list_job');
 });
+
+//admin
+
+Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin'],function (){
+   Route::group(['prefix' => 'student-manage','as' => 'student.manage.'],function (){
+      Route::get('/',['name' => "index","uses" => 'StudentManageController@studentManage']);
+   });
+});

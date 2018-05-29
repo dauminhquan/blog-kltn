@@ -1,4 +1,5 @@
 {
-    "/assets/js/build/datatable-theme.js": "/assets/js/build/datatable-theme.js",
-    "/assets/js/build/list-job-theme.js": "/assets/js/build/list-job-theme.js"
+    "/assets/js/build/list-job-theme.js": "/assets/js/build/list-job-theme.js",
+    "/assets/js/build/pages/admin/student-manage/student-manage.js": "/assets/js/build/pages/admin/student-manage/student-manage.js",
+    "/assets/js/build/datatable-theme.js": "/assets/js/build/datatable-theme.js"
 }

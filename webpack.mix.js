@@ -15,4 +15,8 @@ let mix = require('laravel-mix');
 //    .sass('resources/assets/sass/app.scss', 'public/css');
 
 mix.js('resources/assets/js/template/datatable/datatable.js', 'public/assets/js/build/datatable-theme.js');
+
 mix.js('resources/assets/js/template/list_job/list_job.js', 'public/assets/js/build/list-job-theme.js');
+
+mix.js('resources/assets/js/admin/studentmanage/studentmanage/studentmanage.js', 'public/assets/js/build/pages/admin/student-manage/student-manage.js');
+

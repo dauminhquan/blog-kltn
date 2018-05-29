@@ -6,8 +6,3 @@ const app = new Vue({
     store:store,
    el: '#page-content',
 })
-
-window.addSelect = function()
-{
-    app.$store.commit('setSelected',[1,2,3,4,5])
-}

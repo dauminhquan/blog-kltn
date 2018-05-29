@@ -7,10 +7,11 @@
 </template>
 <script>
     import datatable from './components/datatable.vue'
-    import Vue from 'vue'
 
-    Vue.component('datatable',datatable)
     export default {
+        components: {
+            'datatable' : datatable
+        },
         data(){
             return {
 
