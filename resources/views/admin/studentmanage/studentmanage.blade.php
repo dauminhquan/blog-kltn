@@ -6,6 +6,7 @@
     <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/student-manage/student-manage.js")}}"></script>
 @endsection
 @section('theme-asset')
+    {{--<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--}}
     <script type="text/javascript" src="{{asset('assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/tables/datatables/extensions/buttons.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/forms/selects/select2.min.js')}}"></script>

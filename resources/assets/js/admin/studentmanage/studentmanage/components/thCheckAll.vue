@@ -11,7 +11,7 @@
         <ul class="dropdown-menu">
             <li><a href="javascript:void(0);" @click="selectAll" v-if="checked == false">Chọn tất cả</a></li>
             <li><a href="javascript:void(0);" @click="selectAll" v-if="checked == true">Bỏ chọn tất cả</a></li>
-            <li><a href="javascript:void(0);" >Xóa mục đã chọn</a></li>
+            <li><a href="javascript:void(0);" @click="delete_selected" >Xóa mục đã chọn</a></li>
         </ul>
     </div>
 </template>
@@ -58,6 +58,9 @@
                 else{
                     this.checked = true
                 }
+            },
+            delete_selected(){
+                this.$emit('delete_selected')
             }
         }
     }

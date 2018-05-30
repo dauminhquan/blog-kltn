@@ -1566,7 +1566,7 @@ body[class*=navbar-bottom] .footer:not(.navbar) {
  * ---------------------------------------------------------------------------- */
 .pace-demo {
   display: inline-block;
-  background-color: #37474F;
+  /*background-color: #37474F;*/
   border-radius: 3px;
   margin-top: 1px;
   margin-bottom: 1px;
@@ -1604,7 +1604,7 @@ body[class*=navbar-bottom] .footer:not(.navbar) {
 .theme_xbox .pace_activity:after {
   border-radius: 50%;
   border: 1px solid transparent;
-  border-top-color: #fff;
+  border-top-color: #0a3209;
 }
 .theme_xbox_xs .pace_activity:before,
 .theme_xbox_sm .pace_activity:before,

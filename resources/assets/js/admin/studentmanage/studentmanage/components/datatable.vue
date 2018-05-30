@@ -15,7 +15,7 @@
             <thead>
             <tr>
                 <th class="check-all">
-                    <th-check-all :selected="false" @setcheckAll="setCheckAllData"></th-check-all>
+                    <th-check-all :selected="false" @delete_selected="delete_selected" @setcheckAll="setCheckAllData"></th-check-all>
                 </th>
                 <th></th>
                 <th>Họ và tên</th>
@@ -27,98 +27,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="check-item">
-                   <td-checkbox :checkAll="checkAll" id-item="1" @push_item_selected="id_item_selected.push($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
-                </td>
-                <td class="avatar-user"><img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-1/c2.0.160.160/p160x160/31671240_879236188913966_190523374861025280_n.jpg?_nc_cat=0&oh=e1976bd62499cf51a828b1644292e072&oe=5B7A89EB" alt=""></td>
-                <td><a href="#">Enright</a></td>
-                <td>Traffic Court Referee</td>
-                <td>22 Jun 1972</td>
-                <td><span class="label label-success">Active</span></td>
-                <td class="text-center">
-                    <ul class="icons-list">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-menu9"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#"><i class="glyphicon glyphicon-trash"></i> Xóa sinh viên</a></li>
-                                <li><a href="#"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td class="check-item">
-                    <td-checkbox :checkAll="checkAll" id-item="2" @push_item_selected="id_item_selected.push($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
-                </td>
-                <td class="avatar-user"><img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-1/c2.0.160.160/p160x160/31671240_879236188913966_190523374861025280_n.jpg?_nc_cat=0&oh=e1976bd62499cf51a828b1644292e072&oe=5B7A89EB" alt=""></td>
-                <td><a href="#">Enright</a></td>
-                <td>Traffic Court Referee</td>
-                <td>22 Jun 1972</td>
-                <td><span class="label label-success">Active</span></td>
-                <td class="text-center">
-                    <ul class="icons-list">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-menu9"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#"><i class="glyphicon glyphicon-trash"></i> Xóa sinh viên</a></li>
-                                <li><a href="#"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td class="check-item">
-                    <td-checkbox :checkAll="checkAll" id-item="3" @push_item_selected="id_item_selected.push($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
-                </td>
-                <td class="avatar-user"><img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-1/c2.0.160.160/p160x160/31671240_879236188913966_190523374861025280_n.jpg?_nc_cat=0&oh=e1976bd62499cf51a828b1644292e072&oe=5B7A89EB" alt=""></td>
-                <td><a href="#">Enright</a></td>
-                <td>Traffic Court Referee</td>
-                <td>22 Jun 1972</td>
-                <td><span class="label label-success">Active</span></td>
-                <td class="text-center">
-                    <ul class="icons-list">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-menu9"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li @click="demodelete()" id="test-delete"><a href="javascript:void(0)"><i class="glyphicon glyphicon-trash" ></i> Xóa sinh viên</a></li>
-                                <li><a href="#"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td class="check-item">
-                    <td-checkbox :checkAll="checkAll" id-item="4" @push_item_selected="id_item_selected.push($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
-                </td>
-                <td class="avatar-user"><img src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-1/c2.0.160.160/p160x160/31671240_879236188913966_190523374861025280_n.jpg?_nc_cat=0&oh=e1976bd62499cf51a828b1644292e072&oe=5B7A89EB" alt=""></td>
-                <td><a href="#">Enright</a></td>
-                <td>Traffic Court Referee</td>
-                <td>22 Jun 1972</td>
-                <td><span class="label label-success">Active</span></td>
-                <td class="text-center">
-                    <ul class="icons-list">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-menu9"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#"><i class="glyphicon glyphicon-trash"></i> Xóa sinh viên</a></li>
-                                <li><a href="#"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+
+            <tr-table v-for="item in dataRows" :key="item.id_item" :item="item" :checkAll="checkAll"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></tr-table>
             </tbody>
         </table>
 
@@ -130,10 +40,13 @@
                         <h5 class="modal-title">Thêm sinh viên bằng Excel</h5>
                     </div>
 
-                    <form action="#" class="form-inline">
+                    <form v-on:submit.prevent="uploadExcelFile" class="form-inline" enctype="multipart/form-data">
 
                         <div class="modal-body">
-                            <input type="file"class="form-control">
+                            <input type="file"class="form-control" @change="setExcelFile($event)">
+                            <div class="pace-demo" v-if="ExcelFileuploading == true">
+                                <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                            </div>
                         </div>
                         <div class="modal-footer text-center">
                             <button type="submit" class="btn btn-primary">Tải file lên <i class="icon-plus22"></i></button>
@@ -151,16 +64,23 @@
 
     import tdCheckbox from './tdCheckbox.vue'
     import thCheckAll from './thCheckAll.vue'
+    import trTable from './trTable.vue'
+    import axios from 'axios'
     export default {
         components:{
             'td-checkbox' : tdCheckbox,
-            'th-check-all': thCheckAll
+            'th-check-all': thCheckAll,
+            'tr-table': trTable,
         },
 
         computed: {
 
         },
+        beforeMount(){
+            this.dataRows = this.data_test
+        },
         mounted(){
+
             this.setDatatable()
 
         },
@@ -182,7 +102,7 @@
                         paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
                     }
                 });
-                this.table = $('#table').DataTable({
+                this.table = $('#table').dataTable({
                     columnDefs: [ { orderable: false, targets: [0,1,6] }],
                     buttons: {
                         buttons: [
@@ -224,7 +144,7 @@
                     }
                 });
                 // Add placeholder to the datatable filter option
-                $('.dataTables_filter input[type=search]').attr('placeholder','Type to filter...');
+                $('.dataTables_filter input[type=search]').attr('placeholder','Nhập từ khóa');
 
 
                 // Enable Select2 select for the length option
@@ -247,11 +167,39 @@
                     return value != id_item
                 })
             },
-            demodelete(){
+            delete_selected(){
                 // console.log($(item).parents('tr'))
-                this.table.row( $().parents('tr') )
-                    .remove()
-                    .draw();
+                var vm = this
+
+                vm.data_test = vm.data_test.filter(value =>{
+                    return vm.id_item_selected.indexOf(value.id_item) == -1
+                })
+                var rows_selected = vm.fnGetSelected(vm.table)
+
+                for (var i = 0; i < rows_selected.length; i++) {
+                    vm.table.fnDeleteRow(rows_selected[i])
+                };
+
+                vm.id_item_selected = []
+            },
+            push_id_item_selected(id){
+                this.id_item_selected.push(id)
+                this.table.$('tr[will-delete="true"]')
+            },
+            fnGetSelected( oTableLocal )
+            {
+                return oTableLocal.$('tr[will-delete="true"]');
+            },
+            setExcelFile(e){
+                var vm = this
+                vm.ExcelFileUpload = e.target.files[0]
+            },
+            uploadExcelFile(){
+                    var vm = this
+                    this.ExcelFileuploading = true
+                    axios.get('/').then(data => {
+                        this.ExcelFileuploading = false
+                    }).catch()
             }
         },
         data(){
@@ -259,6 +207,164 @@
                 checkAll: false,
                 table: '',
                 id_item_selected: [],
+                data_test: [
+                    {
+                        id_item: 1,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân1',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 2,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân2',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 3,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân3',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 4,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân4',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 5,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân5',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 6,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân6',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 7,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân7',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 8,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân8',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 9,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân9',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 10,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân10',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 11,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân11',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 12,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân12',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 13,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân13',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 14,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân14',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 15,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân15',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 16,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân16',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    },
+                    {
+                        id_item: 17,
+                        avatar: '',
+                        first_name: 'Đậu',
+                        last_name:'Quân17',
+                        khoa: 'Toán tin',
+                        khoa_: 'k27',
+                        tot_nghiep: 'active'
+                    }
+                ],
+                ExcelFileuploading: false,
+                dataRows: [],
+                ExcelFileUpload: ''
 
             }
         },
