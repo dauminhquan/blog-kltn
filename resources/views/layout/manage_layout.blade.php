@@ -702,18 +702,8 @@
 
 <!-- Page header -->
 <div class="page-header">
-    <div class="page-header-content">
-        <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Forms</span></h4>
-
-            <ul class="breadcrumb breadcrumb-caret position-right">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Forms</a></li>
-                <li class="active">Basic inputs</li>
-            </ul>
-        </div>
-
-    </div>
+    @section('header-content')
+        @show
 </div>
 <!-- /page header -->
 

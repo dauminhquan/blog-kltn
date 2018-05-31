@@ -26,5 +26,7 @@ Route::get('/list-job',function (){
 Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin'],function (){
    Route::group(['prefix' => 'student-manage','as' => 'student.manage.'],function (){
       Route::get('/',['name' => "index","uses" => 'StudentManageController@studentManage']);
+       Route::get('/add-student',['name' => "add.student","uses" => 'StudentManageController@addStudent']);
+       Route::get('/info-student',['name' => "info.student","uses" => 'StudentManageController@infoStudent']);
    });
 });

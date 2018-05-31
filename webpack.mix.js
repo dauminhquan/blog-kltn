@@ -20,3 +20,6 @@ mix.js('resources/assets/js/template/list_job/list_job.js', 'public/assets/js/bu
 
 mix.js('resources/assets/js/admin/studentmanage/studentmanage/studentmanage.js', 'public/assets/js/build/pages/admin/student-manage/student-manage.js');
 
+mix.js('resources/assets/js/admin/studentmanage/addstudent/addstudent.js', 'public/assets/js/build/pages/admin/student-manage/add-student.js');
+
+mix.js('resources/assets/js/admin/studentmanage/infostudent/infostudent.js', 'public/assets/js/build/pages/admin/student-manage/info-student.js');

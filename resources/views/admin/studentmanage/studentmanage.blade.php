@@ -1,4 +1,18 @@
 @extends('layout.manage_layout')
+@section('header-content')
+    <div class="page-header-content">
+        <div class="page-title">
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Quản lý sinh viên</span></h4>
+
+            <ul class="breadcrumb breadcrumb-caret position-right">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="form_inputs_basic.html">Quản lý sinh viên</a></li>
+                <li class="active">Danh sách sinh viên</li>
+            </ul>
+        </div>
+
+    </div>
+@endsection
 @section('page-content')
     <content-wrapper></content-wrapper>
 @endsection

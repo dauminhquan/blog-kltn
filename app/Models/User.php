@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function email_receive()
+    {
+        return $this->hasMany('App\Models\Email','to_id_user','id');
+    }
+    public function email_send()
+    {
+        return $this->hasMany('App\Models\Email','from_id_user','id');
+    }
 }

@@ -115,7 +115,7 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    window.open('https://facebook.com','_blank');
+                                    window.open(window.location.origin+'/admin/student-manage/add-student','_blank');
 
                                 }
                             },

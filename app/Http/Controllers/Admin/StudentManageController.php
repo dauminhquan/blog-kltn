@@ -12,4 +12,12 @@ class StudentManageController extends Controller
     {
         return view('admin.studentmanage.studentmanage');
     }
+    public function addStudent()
+    {
+        return view('admin.studentmanage.add_student');
+    }
+    public function infoStudent()
+    {
+        return view('admin.studentmanage.info_student');
+    }
 }
