@@ -739,17 +739,15 @@
 <script type="text/javascript" src="{{asset("assets/js/plugins/loaders/blockui.min.js")}}"></script>
 <script type="text/javascript" src="{{asset("assets/js/plugins/ui/nicescroll.min.js")}}"></script>
 <script type="text/javascript" src="{{asset("assets/js/plugins/ui/drilldown.js")}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/plugins/notifications/pnotify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset("assets/js/plugins/notifications/sweet_alert.min.js")}}"></script>
-<!-- /core JS files -->
 
-<!-- Theme JS files -->
-{{--<script type="text/javascript" src="{{asset("assets/js/plugins/forms/styling/uniform.min.js")}}"></script>--}}
+
 @section('theme-asset')
 @show
 <script type="text/javascript" src="{{asset("assets/js/core/app.js")}}"></script>
 @section('js-page')
 @show
-{{--<script type="text/javascript" src="{{asset("assets/js/pages/form_inputs.js")}}"></script>--}}
-<!-- /theme JS files -->
+
 </body>
 </html>

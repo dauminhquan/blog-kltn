@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+    protected $table = 'courses';
     public function students()
     {
         return $this->hasMany('App\Models\Student','code_course','code_course');

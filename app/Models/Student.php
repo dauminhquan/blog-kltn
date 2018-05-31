@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    protected $hidden = [
+
+    ];
     public function branch()
     {
         return $this->belongsTo('App\Models\Branch','code_branch','code_branch');
@@ -14,6 +17,10 @@ class Student extends Model
     public function course()
     {
         return $this->belongsTo('App\Models\Course','code_course','code_course');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','id_user','id');
     }
     public function enterprises()
     {

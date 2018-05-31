@@ -20,15 +20,15 @@
                 <th></th>
                 <th>Họ và tên</th>
                 <th>Khoa</th>
+                <th>Chuyên ngành</th>
                 <th>Khóa</th>
                 <th>Tốt nghiệp</th>
-
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table_body">
 
-            <tr-table v-for="item in dataRows" :key="item.id_item" :item="item" :checkAll="checkAll"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></tr-table>
+            <tr-table v-for="item in dataRows" :key="item.id_item" :item="item" :checkAll="checkAll" @request_delete_item="confirm_delete_item($event)"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></tr-table>
             </tbody>
         </table>
 
@@ -57,7 +57,35 @@
             </div>
         </div>
         <!-- /inline form modal -->
+        <!-- Danger modal -->
+        <div id="modal_danger" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="icon-warning"></i> Cảnh báo</h6>
+                    </div>
 
+                    <div class="modal-body">
+
+                        <p> <i class="icon-warning"></i> Sau khi xóa, mọi dữ liệu liên quan sẽ bị xóa. Bạn nên cân nhắc điều này ! </p>
+                        <div style="border: snow" class="panel panel-body border-top-danger text-center">
+                            <div class="pace-demo" v-if="deleting == true">
+                                <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger" @click="confirm_delete">Xác định xóa</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /default modal -->
     </div>
 </template>
 <script>
@@ -65,8 +93,10 @@
     import tdCheckbox from './tdCheckbox.vue'
     import thCheckAll from './thCheckAll.vue'
     import trTable from './trTable.vue'
+    import store from 'vuex'
     import axios from 'axios'
     export default {
+        store,
         components:{
             'td-checkbox' : tdCheckbox,
             'th-check-all': thCheckAll,
@@ -74,22 +104,35 @@
         },
 
         computed: {
+            getDataRows(){
+                return this.dataRows
+            }
+        },
+        beforeCreate(){
+
 
         },
         beforeMount(){
-            this.dataRows = this.data_test
+            this.getStudents()
         },
         mounted(){
-
-            this.setDatatable()
+                this.setDatatable()
+            // console.log(this.table.fnGetData())
 
         },
+        beforeUpdate(){
+            this.table.fnDestroy()
+        },
+        updated(){
+            this.$nextTick(function () {
+
+                this.setDatatable()
+            })
+        }
+        ,
         methods: {
             setCheckAllData(vl){
                 this.checkAll = vl
-            },
-            setdata(){
-                this.table.destroy()
             },
             setDatatable()
             {
@@ -168,19 +211,43 @@
                 })
             },
             delete_selected(){
+                $('#modal_danger').modal('show')
                 // console.log($(item).parents('tr'))
+            },
+            confirm_delete(){
                 var vm = this
+                vm.deleting = true
+                axios.delete('/api/admin/student-manage/delete-list-student',
+                    {
+                        params: {
+                            list_id_student : vm.id_item_selected
+                        }
+                    }).then(data => {
+                    vm.students = vm.students.filter(value =>{
+                        return vm.id_item_selected.indexOf(value.id) == -1
+                    })
+                    var rows_selected = vm.fnGetSelected(vm.table)
 
-                vm.data_test = vm.data_test.filter(value =>{
-                    return vm.id_item_selected.indexOf(value.id_item) == -1
+                    for (var i = 0; i < rows_selected.length; i++) {
+                        vm.table.fnDeleteRow(rows_selected[i])
+                    };
+
+                    vm.deleting = false
+                    $('#modal_danger').modal('hide')
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        addclass: 'bg-success'
+                    });
+                    vm.id_item_selected = []
+                }).catch(err => {
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ serve',
+                        addclass: 'bg-danger'
+                    });
                 })
-                var rows_selected = vm.fnGetSelected(vm.table)
 
-                for (var i = 0; i < rows_selected.length; i++) {
-                    vm.table.fnDeleteRow(rows_selected[i])
-                };
-
-                vm.id_item_selected = []
             },
             push_id_item_selected(id){
                 this.id_item_selected.push(id)
@@ -192,14 +259,100 @@
             },
             setExcelFile(e){
                 var vm = this
-                vm.ExcelFileUpload = e.target.files[0]
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                vm.ExcelFileUpload = files[0]
             },
             uploadExcelFile(){
                     var vm = this
                     this.ExcelFileuploading = true
-                    axios.get('/').then(data => {
+                    var formData = new FormData()
+                    formData.append('ExcelFileUpload',vm.ExcelFileUpload)
+                    axios.post('/api/admin/student-manage/add-student-excel',formData).then(data => {
+                        vm.ExcelFileuploading = false
+                        if(data.data.error.length > 0 || data.data.error == null)
+                        {
+                            var html_err =''
+                            var err = data.data.error
+                            err.forEach(item => {
+                                html_err+='<br>'
+                                html_err+='code_student: '+item.item
+                                html_err+='<br>'
+                                html_err+='Message : '+item.message
+                            })
+                            new PNotify({
+                                title: 'Cảnh báo! Thêm thành công! Một số dữ liệu trong file bị lỗi',
+                                text: data.data.message + '<br> Lỗi tại các vị trí'+html_err,
+                                addclass: 'bg-warning',
+                                hide: false
+                            });
+                        }
+                        else {
+                            new PNotify({
+                                title: 'Ohh Yeah! Thành công!',
+                                text: data.data.message,
+                                addclass: 'bg-success'
+                            });
+
+                            setTimeout(function () {
+                                window.location.reload()
+                            },1000)
+                        }
+                    }).catch(err => {
+                        console.dir(err)
+                        new PNotify({
+                            title: 'Ohh! Có lỗi xảy ra rồi!',
+                            text: err.response.data.message,
+                            addclass: 'bg-danger'
+                        });
                         this.ExcelFileuploading = false
-                    }).catch()
+                    })
+            },
+            getStudents(){
+                var vm = this
+                axios.get('/api/admin/student-manage/get-list-student').then(data => {
+                   vm.dataRows = data.data
+                    vm.students = data.data
+                }).catch(err => {
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: err.response.data,
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
+            confirm_delete_item(id){
+                var vm = this
+                vm.deleting = true
+                axios.delete('/api/admin/student-manage/delete-student',
+                    {
+                        params: {
+                            id : id
+                        }
+                    }).then(data => {
+                    vm.students = vm.students.filter(value =>{
+                        return value.id !=id
+                    })
+                    var rows_selected = vm.fnGetSelected(vm.table)
+
+                    for (var i = 0; i < rows_selected.length; i++) {
+                        vm.table.fnDeleteRow(rows_selected[i])
+                    };
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Đã xóa thành công sinh viên',
+                        addclass: 'bg-success'
+                    });
+                    vm.id_item_selected = []
+                }).catch(err => {
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ serve',
+                        addclass: 'bg-danger'
+                    });
+                })
+
             }
         },
         data(){
@@ -207,169 +360,22 @@
                 checkAll: false,
                 table: '',
                 id_item_selected: [],
-                data_test: [
-                    {
-                        id_item: 1,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân1',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 2,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân2',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 3,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân3',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 4,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân4',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 5,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân5',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 6,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân6',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 7,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân7',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 8,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân8',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 9,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân9',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 10,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân10',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 11,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân11',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 12,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân12',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 13,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân13',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 14,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân14',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 15,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân15',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 16,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân16',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    },
-                    {
-                        id_item: 17,
-                        avatar: '',
-                        first_name: 'Đậu',
-                        last_name:'Quân17',
-                        khoa: 'Toán tin',
-                        khoa_: 'k27',
-                        tot_nghiep: 'active'
-                    }
-                ],
+                students: [],
                 ExcelFileuploading: false,
                 dataRows: [],
-                ExcelFileUpload: ''
+                ExcelFileUpload: '',
+                deleting: false,
 
             }
         },
         watch:{
-
+            getDataRows: {
+                    handler(old){
+                        // console.log(old)
+                        // console.log($('#table_body').html())
+                    },
+                    deep: true
+                }
         },
     }
 </script>
