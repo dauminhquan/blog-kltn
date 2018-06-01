@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Email','from_id_user','id');
     }
+    public function student()
+    {
+        return $this->hasOne('App\Models\Student','id_user','id');
+    }
+
 }

@@ -10,7 +10,11 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\Models\User;
 use App\Services\GetDataService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RequestInfoController extends Controller
 {
@@ -23,5 +27,64 @@ class RequestInfoController extends Controller
     {
         $get_data_service = new GetDataService();
         return $get_data_service->getDepartments();
+    }
+    public function get_branches_with_code_departments($code_departments)
+    {
+        $get_data_service = new GetDataService();
+        return $get_data_service->getBranchesWithCodeDepartments($code_departments);
+    }
+    public function check_exist_info_student(Request $request)
+    {
+        $message = [];
+        if($request->has('code_student'))
+        {
+            if(User::where(DB::raw('LOWER(user_name)'),strtolower($request->code_student))->count()>0)
+            {
+                $message[] = [
+                    'code_student' => 1
+                ];
+            }
+            else{
+                $message[] = [
+                    'code_student' => 0
+                ];
+            }
+        }
+        if($request->has('email_address_student'))
+        {
+            if(Student::where(DB::raw('LOWER(email_address_student)'),strtolower($request->email_address_student))->count()>0)
+            {
+                $message[] = [
+                    'email_address_student' => 1
+                ];
+            }
+            else{
+                $message[] = [
+                    'email_address_student' => 0
+                ];
+            }
+        }
+        return $message;
+    }
+
+
+
+
+    public function get_option_student(Request $request)
+    {
+        if($request->has('code_student') && $request->has('option'))
+        {
+            $get_data_service = new GetDataService();
+            return $get_data_service->getOptionStudent($request->code_student,$request->option);
+        }
+    }
+
+    public function get_student_with_code_student(Request $request)
+    {
+            if($request->has('code_student'))
+            {
+                $get_data_service = new GetDataService();
+                return $get_data_service->getStudentWithCodeStudent($request->code_student);
+            }
     }
 }

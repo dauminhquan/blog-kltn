@@ -3,9 +3,9 @@
 
         <!-- Tab content -->
         <div class="tab-content">
-            <profile :active="true"></profile>
+            <profile :active="true" :code_student="code_student" ></profile>
 
-            <work></work>
+            <work ></work>
         </div>
         <!-- /tab content -->
     </div>
@@ -18,6 +18,11 @@
             'profile' : profile,
             'work': work
         },
+        data(){
+            return {
+
+            }
+        },
         mounted(){
             // Styled file input
             $(".file-styled").uniform({
@@ -29,6 +34,7 @@
             $(".styled").uniform({
                 radioClass: 'choice'
             });
-        }
+        },
+        props:["code_student"]
     }
 </script>

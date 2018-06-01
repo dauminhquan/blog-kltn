@@ -14,8 +14,9 @@
     </div>
 @endsection
 @section('page-content')
-    <main-sidebar></main-sidebar>
-    <main-content></main-content>
+
+    <main-sidebar code_student="{{$code_student}}"></main-sidebar>
+    <main-content code_student="{{$code_student}}"></main-content>
 @endsection
 @section("js-page")
     <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/student-manage/info-student.js")}}"></script>

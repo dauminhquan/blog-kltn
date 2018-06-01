@@ -37,6 +37,10 @@ Route::group(['namespace' => 'Api'],function(){
     Route::group(['prefix' => '/request-info','name' => 'get.info.'],function (){
         Route::get('get-courses','RequestInfoController@get_courses');
         Route::get('get-departments','RequestInfoController@get_departments');
+        Route::get('get-branches/{department}','RequestInfoController@get_branches_with_code_departments');
+        Route::post('check-exist-info-student','RequestInfoController@check_exist_info_student');
+        Route::get('get-option-student','RequestInfoController@get_option_student');
+        Route::get('get-info-student','RequestInfoController@get_student_with_code_student');
     });
 });
 

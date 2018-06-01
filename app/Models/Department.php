@@ -11,5 +11,9 @@ class Department extends Model
     {
         return $this->hasMany('App\Models\Student','code_department','code_department');
     }
+    public function branches()
+    {
+        return $this->hasMany('App\Models\Branch','code_department','code_department');
+    }
 
 }

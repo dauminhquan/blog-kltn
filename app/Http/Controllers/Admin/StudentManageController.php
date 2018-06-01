@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,8 +17,14 @@ class StudentManageController extends Controller
     {
         return view('admin.studentmanage.add_student');
     }
-    public function infoStudent()
+    public function infoStudent(Request $request)
     {
-        return view('admin.studentmanage.info_student');
+
+        if($request->has('code_student') && User::where('user_name',$request->code_student)->count()>0)
+        {
+            $code_student = $request->code_student;
+            return view('admin.studentmanage.info_student',['code_student' => $code_student]);
+        }
+
     }
 }

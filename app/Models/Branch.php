@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Branch extends Model
 {
+    protected $hidden = [
+      'id'
+    ];
     public function students()
     {
         return $this->hasMany('App\Models\Student','code_branch','code_branch');
