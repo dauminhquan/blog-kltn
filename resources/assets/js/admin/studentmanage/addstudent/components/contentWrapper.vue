@@ -53,7 +53,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Email:</label>
-                                        <input type="text" placeholder="Email" required v-model="infoStudent.email_address_student" class="form-control">
+                                        <input type="email" placeholder="Email" required v-model="infoStudent.email_address_student" class="form-control">
                                     </div>
                                 </div>
 
@@ -70,7 +70,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Khoa:</label>
-                                        <choose-info-select2 :required="true" :options="departments" v-model="infoStudent.id_department" data-placeholder="Chọn Khoa"  class="select">
+                                        <choose-info-select2 :required="true" :options="departments" v-model="infoStudent.code_department" data-placeholder="Chọn Khoa"  class="select">
 
                                         </choose-info-select2>
                                     </div>
@@ -78,7 +78,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Chuyên ngành:</label>
-                                        <choose-info-select2 :required="true" :options="branches" v-model="infoStudent.id_branch" data-placeholder="Chọn Ngành"  class="select">
+                                        <choose-info-select2 :required="true" :readonly="true" :un-readonly="infoStudent.code_department" :options="branches" v-model="infoStudent.code_branch" data-placeholder="Chọn Ngành"  class="select">
 
                                         </choose-info-select2>
                                     </div>
@@ -94,7 +94,28 @@
 
 
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Điền mã sinh viên:</label>
+                                        <input type="text" v-model="infoStudent.phone_number_student" required placeholder="Nhập mã sinh viên" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mật khẩu:</label>
+                                        <input type="password" v-model="infoStudent.password" required placeholder="Nhập mật khẩu" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nhập lại mật khẩu:</label>
+                                        <input type="password" v-model="infoStudent.rep_password" required placeholder="Nhập lại mật khẩu" class="form-control">
+                                    </div>
+                                </div>
 
+
+                            </div>
                             <div class="form-group">
                                 <label>Điền thông tin thêm về sinh viên</label>
                                 <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về sinh viên"></textarea>
@@ -114,31 +135,36 @@
 </template>
 <script>
     import choose_info_select2 from './choose-info-select2'
+    import axios from 'axios'
     export default {
         components: {
             'choose-info-select2': choose_info_select2
         },
         mounted(){
-          $('select').select2()
+
             $(".file-styled").uniform({
                 fileButtonClass: 'action btn bg-pink-400'
             });
+            // lấy danh sách khóa học
+            this.getCourses();
+            this.getDepartments();
         },
         data(){
             return {
                 infoStudent:{
-                    id_department: '',
-                    id_course: '',
-                    id_branch: '',
+                    code_course: '',
+                    code_branch: '',
                     first_name_student:'',
                     last_name_student:'',
                     address_student:'',
                     phone_number_student: '',
                     email_address_student: '',
                     introduce_student:'',
-                    id_user:'',
                     avatar_student:'',
-                    salary:''
+                    salary:'',
+                    code_student: '',
+                    password: '',
+                    rep_password: ''
                 },
                 departments:[
                     {
@@ -209,11 +235,42 @@
             }
         },
         methods:{
-            test_choose_value(value){
-                console.log(value)
-            },
             setFileAvatar(e){
                 this.infoStudent.avatar_student = e.target.files[0]
+            },
+            getCourses()
+            {
+                var vm = this
+                axios.get('/api/request-info/get-courses').then(data => {
+                    var courses = data.data
+                    vm.courses = [{id:'',text:''}]
+                    courses.forEach(item => {
+
+                        vm.courses.push({
+                            id: item.code_course,
+                            text: item.name_course
+                        })
+                    })
+                }).catch(err =>{
+                    console.log(err)
+                })
+            },
+            getDepartments()
+            {
+                var vm = this
+                axios.get('/api/request-info/get-departments').then(data => {
+                    var courses = data.data
+                    vm.departments = [{id:'',text:''}]
+                    courses.forEach(item => {
+
+                        vm.departments.push({
+                            id: item.code_department,
+                            text: item.name_department
+                        })
+                    })
+                }).catch(err =>{
+                    console.log(err)
+                })
             }
         }
     }
