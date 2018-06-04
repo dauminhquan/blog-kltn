@@ -38,7 +38,25 @@ class RequestInfoController extends Controller
         $message = [];
         if($request->has('code_student'))
         {
-            if(User::where(DB::raw('LOWER(user_name)'),strtolower($request->code_student))->count()>0)
+            if($request->has('email_address_student'))
+            {
+                $user = User::where('user_name',$request->code_student)->first();
+                if($user != null)
+                {
+                    if(Student::where(DB::raw('LOWER(email_address_student)'),strtolower($request->email_address_student))->where('id_user','!=',$user->id)->count()>0)
+                    {
+                        $message[] = [
+                            'email_address_student' => 1
+                        ];
+                    }
+                    else{
+                        $message[] = [
+                            'email_address_student' => 0
+                        ];
+                    }
+                }
+            }
+            elseif(User::where(DB::raw('LOWER(user_name)'),strtolower($request->code_student))->count()>0)
             {
                 $message[] = [
                     'code_student' => 1
@@ -50,7 +68,7 @@ class RequestInfoController extends Controller
                 ];
             }
         }
-        if($request->has('email_address_student'))
+        elseif($request->has('email_address_student'))
         {
             if(Student::where(DB::raw('LOWER(email_address_student)'),strtolower($request->email_address_student))->count()>0)
             {

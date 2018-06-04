@@ -6,7 +6,7 @@
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
         <td class="avatar-user"><img :src="item.avatar" alt=""></td>
-        <td><a href="#">{{item.first_name_student + ' ' +item.last_name_student}}</a></td>
+        <td><a :href="infoStudent(item.code_student)">{{item.first_name_student + ' ' +item.last_name_student}}</a></td>
         <td>{{item.name_department}}</td>
         <td>{{item.name_branch}}</td>
         <td>{{item.name_course}}</td>
@@ -55,6 +55,10 @@
                 this.willDelete = true
                 var vm = this
                 vm.$emit('request_delete_item',vm.item.id)
+            },
+            infoStudent(code_student)
+            {
+                return window.location.origin+'/admin/student-manage/info-student?code_student='+code_student
             }
         }
     }

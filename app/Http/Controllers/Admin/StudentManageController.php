@@ -20,8 +20,10 @@ class StudentManageController extends Controller
     public function infoStudent(Request $request)
     {
 
+
         if($request->has('code_student') && User::where('user_name',$request->code_student)->count()>0)
         {
+
             $code_student = $request->code_student;
             return view('admin.studentmanage.info_student',['code_student' => $code_student]);
         }

@@ -7,13 +7,17 @@
 <script>
     export default {
         props: ['options','readonly','unReadonly', 'value','data-placeholder','required'],
+        updated(){
+
+        },
         mounted: function () {
             var vm = this
+            console.log(this.value)
             // $el chính nó
             if(vm.readonly == true)
             {
                 $(this.$el).select2({ data: vm.options,disabled:true })
-                    .val(this.value)
+                    .val(vm.value)
                     .trigger('change')
                     // emit event on change.
                     .on('change', function () {
@@ -33,6 +37,7 @@
         watch: {
             value: function (value) {
                 // update value
+
                 $(this.$el)
                     .val(value)
                     .trigger('change')
@@ -44,7 +49,11 @@
                 }
             },
             options: function (options) {
+                var vm = this
                 $(this.$el).empty().select2({ data: options })
+                $(this.$el)
+                    .val(vm.value)
+                    .trigger('change')
             }
         },
         destroyed: function () {

@@ -8,6 +8,7 @@ use App\Services\DeleteDataService;
 use App\Services\GetDataService;
 use App\Services\InsertDataFromExcelService;
 use App\Services\InsertDataService;
+use App\Services\UpdateDataService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -45,5 +46,10 @@ class StudentManageController extends Controller
         return $delete_data_service->deleteStudent($request);
     }
 
+    public function update_student(Request $request)
+    {
 
+        $update_data_service = new UpdateDataService();
+        return $update_data_service->UpdateStudent($request);
+    }
 }

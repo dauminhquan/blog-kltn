@@ -109,7 +109,11 @@ class GetDataService
             $user = User::where(DB::raw('LOWER(user_name)'), $code_student)->first();
             if ($user != null)
             {
-               return $user->student;
+                $student = $user->student;
+               return [
+                   'info_student' => $student,
+                   'code_department' => $student->branch->code_department
+               ];
             }
         }
 

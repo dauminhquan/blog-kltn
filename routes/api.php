@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Api'],function(){
             Route::delete('/delete-list-student',['name' => 'delete.list.student','uses' => 'StudentManageController@delete_list_student']);
             Route::delete('/delete-student',['name' => 'delete.student','uses' => 'StudentManageController@delete_student']);
             Route::post('/add-student',['name' => 'add.student','uses' => 'StudentManageController@add_student']);
+            Route::put('/update-student',['name' => 'add.student','uses' => 'StudentManageController@update_student']);
+
         });
 
     });

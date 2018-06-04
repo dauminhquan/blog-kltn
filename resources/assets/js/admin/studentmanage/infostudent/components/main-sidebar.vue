@@ -14,14 +14,13 @@
 
                     </div>
 
-                    <a href="#" class="display-inline-block content-group-sm">
+                    <a href="#"  @click="ShowFormFileAvatar" class="display-inline-block content-group-sm">
+
                         <img :src="avatar_user" class="img-circle img-responsive" alt="" style="width: 110px; height: 110px;">
                     </a>
 
                     <ul class="list-inline list-inline-condensed no-margin-bottom">
-                        <li><a href="#" class="btn bg-indigo btn-rounded btn-icon"><i class="icon-google-drive"></i></a></li>
-                        <li><a href="#" class="btn bg-indigo btn-rounded btn-icon"><i class="icon-twitter"></i></a></li>
-                        <li><a href="#" class="btn bg-indigo btn-rounded btn-icon"><i class="icon-github"></i></a></li>
+                        <li><input type="file" ref="inputFileAvatar" style="display: none"></li>
                     </ul>
                 </div>
 
@@ -116,7 +115,6 @@
     export default {
         props : ['code_student'],
         mounted(){
-            console.log(this.code_student)
             this.getAvatarUser()
         },
         data(){
@@ -127,6 +125,7 @@
             }
         },
         methods:{
+
             getAvatarUser(){
                 var vm = this
                 axios.get('/api/request-info/get-option-student?code_student='+vm.code_student+'&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(data => {
@@ -144,6 +143,9 @@
                 }).catch(err => {
 
                 })
+            },
+            ShowFormFileAvatar(){
+                this.$refs.inputFileAvatar.click()
             }
         }
     }
