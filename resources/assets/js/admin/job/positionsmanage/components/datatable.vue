@@ -1,7 +1,7 @@
 <template>
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Danh sách sinh viên</h5>
+            <h5 class="panel-title">Chức vụ</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -17,40 +17,54 @@
                 <th class="check-all">
                     <th-check-all :selected="false" @delete_selected="delete_selected" @setcheckAll="setCheckAllData"></th-check-all>
                 </th>
-                <th></th>
-                <th>Họ và tên</th>
-                <th>Khoa</th>
-                <th>Chuyên ngành</th>
-                <th>Khóa</th>
-                <th>Tốt nghiệp</th>
+                <th>Tên chức vụ</th>
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
             <tbody id="table_body">
 
-            <tr-table v-for="item in dataRows" :key="item.id_item" :item="item" :checkAll="checkAll" @request_delete_item="confirm_delete_item($event)"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></tr-table>
+            <tr-table v-for="item in dataRows" @showEdit="showEdit" :key="item.id_item" :item="item" :checkAll="checkAll" @request_delete_item="confirm_delete_item($event)"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></tr-table>
             </tbody>
         </table>
 
         <!-- modal push excel -->
-        <div id="modal-push-excel" class="modal fade">
+        <div id="modal-push-position" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
-                        <h5 class="modal-title">Thêm sinh viên bằng Excel</h5>
+                        <h5 class="modal-title">Nhập tên chức vụ</h5>
                     </div>
-
-                    <form v-on:submit.prevent="uploadExcelFile" class="form-inline" enctype="multipart/form-data">
+                    <form v-on:submit.prevent="submitPushPosition" class="form-inline" enctype="multipart/form-data">
 
                         <div class="modal-body">
-                            <input type="file"class="form-control" @change="setExcelFile($event)">
-                            <div class="pace-demo" v-if="ExcelFileuploading == true">
+                            <input type="text"class="form-control" v-model="add_name_position">
+                            <div class="pace-demo" v-if="addingPositon == true">
                                 <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
                             </div>
                         </div>
                         <div class="modal-footer text-center">
-                            <button type="submit" class="btn btn-primary">Tải file lên <i class="icon-plus22"></i></button>
-                            <button type="button" class="btn btn-info">Tải Excel mẫu <i class="glyphicon glyphicon-info-sign"></i></button>
+                            <button type="submit" class="btn btn-primary">Thêm mới <i class="icon-plus22"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="modal-edit-position" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content text-center">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sửa chức vụ</h5>
+                    </div>
+                    <form v-on:submit.prevent="submitEditPostion" class="form-inline" enctype="multipart/form-data">
+
+                        <div class="modal-body">
+                            <input type="text" required class="form-control" >
+                            <div class="pace-demo" v-if="addingPositon == true">
+                                <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-center">
+                            <button type="submit" class="btn btn-primary">Thêm mới <i class="icon-plus22"></i></button>
                         </div>
                     </form>
                 </div>
@@ -113,7 +127,7 @@
 
         },
         beforeMount(){
-            this.getStudents()
+            this.getPositions()
         },
         mounted(){
                 this.setDatatable()
@@ -146,7 +160,7 @@
                     }
                 });
                 this.table = $('#table').dataTable({
-                    columnDefs: [ { orderable: false, targets: [0,1,6] }],
+                    columnDefs: [ { orderable: false, targets: [0] }],
                     buttons: {
                         buttons: [
                             {
@@ -158,26 +172,10 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/student-manage/add-student','_blank');
+                                    $('#modal-push-position').modal('show')
 
                                 }
                             },
-                            {
-                                text: 'Thêm bằng Excel',
-                                className: 'btn bg-success',
-                                action: function(e, dt, node, config) {
-                                    $('#modal-push-excel').modal('show')
-
-                                }
-                            },
-                            {
-                                text: 'Tải xuống Excel',
-                                className: 'btn bg-purple',
-                                action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/student-manage/get-excel-student','_blank');
-
-                                }
-                            }
                         ]
                     }
                 });
@@ -212,13 +210,13 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-list-student',
+                axios.delete('/api/admin/job-manage/delete-list-position',
                     {
                         params: {
-                            list_id_student : vm.id_item_selected
+                            list_id_position : vm.id_item_selected
                         }
                     }).then(data => {
-                    vm.students = vm.students.filter(value =>{
+                    vm.positions = vm.positions.filter(value =>{
                         return vm.id_item_selected.indexOf(value.id) == -1
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -231,11 +229,12 @@
                     $('#modal_danger').modal('hide')
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' chức vụ',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
                 }).catch(err => {
+                    console.log(err)
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
                         text: 'Đã có lỗi từ serve',
@@ -252,63 +251,11 @@
             {
                 return oTableLocal.$('tr[will-delete="true"]');
             },
-            setExcelFile(e){
+            getPositions(){
                 var vm = this
-                var files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
-                vm.ExcelFileUpload = files[0]
-            },
-            uploadExcelFile(){
-                    var vm = this
-                    this.ExcelFileuploading = true
-                    var formData = new FormData()
-                    formData.append('ExcelFileUpload',vm.ExcelFileUpload)
-                    axios.post('/api/admin/student-manage/add-student-excel',formData).then(data => {
-                        vm.ExcelFileuploading = false
-                        if(data.data.error.length > 0 || data.data.error == null)
-                        {
-                            var html_err =''
-                            var err = data.data.error
-                            err.forEach(item => {
-                                html_err+='<br>'
-                                html_err+='code_student: '+item.item
-                                html_err+='<br>'
-                                html_err+='Message : '+item.message
-                            })
-                            new PNotify({
-                                title: 'Cảnh báo! Thêm thành công! Một số dữ liệu trong file bị lỗi',
-                                text: data.data.message + '<br> Lỗi tại các vị trí'+html_err,
-                                addclass: 'bg-warning',
-                                hide: false
-                            });
-                        }
-                        else {
-                            new PNotify({
-                                title: 'Ohh Yeah! Thành công!',
-                                text: data.data.message,
-                                addclass: 'bg-success'
-                            });
-
-                            setTimeout(function () {
-                                window.location.reload()
-                            },1000)
-                        }
-                    }).catch(err => {
-                        console.dir(err)
-                        new PNotify({
-                            title: 'Ohh! Có lỗi xảy ra rồi!',
-                            text: err.response.data.message,
-                            addclass: 'bg-danger'
-                        });
-                        this.ExcelFileuploading = false
-                    })
-            },
-            getStudents(){
-                var vm = this
-                axios.get('/api/admin/student-manage/get-list-student').then(data => {
+                axios.get('/api/admin/job-manage/get-list-position').then(data => {
                    vm.dataRows = data.data
-                    vm.students = data.data
+                    vm.positions = data.data
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
@@ -320,13 +267,13 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-student',
+                axios.delete('/api/admin/job-manage/delete-position',
                     {
                         params: {
                             id : id
                         }
                     }).then(data => {
-                    vm.students = vm.students.filter(value =>{
+                    vm.positions = vm.positions.filter(value =>{
                         return value.id !=id
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -348,6 +295,38 @@
                     });
                 })
 
+            },
+            showEdit(id_postion)
+            {
+                $('#modal-edit-position').modal('show')
+            },
+            submitPushPosition(){
+                var vm =this
+
+                axios.post('/api/admin/job-manage/add-position',{
+                    name_position:vm.add_name_position
+                }).then(data => {
+                    $('#modal-push-position').modal('hide')
+                    console.log(data)
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: data.data.message,
+                        addclass: 'bg-success'
+                    });
+                    vm.add_name_position= ''
+                    vm.getPositions()
+                }).catch(err => {
+                    console.dir(err)
+                    var err_html = ''
+                    err.response.data.name_position.forEach(value => {
+                        err_html+=value+'<br>'
+                    })
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: err_html,
+                        addclass: 'bg-danger'
+                    });
+                })
             }
         },
         data(){
@@ -355,10 +334,10 @@
                 checkAll: false,
                 table: '',
                 id_item_selected: [],
-                students: [],
-                ExcelFileuploading: false,
+                positions: [],
+                add_name_position: '',
+                addingPositon: false,
                 dataRows: [],
-                ExcelFileUpload: '',
                 deleting: false,
 
             }

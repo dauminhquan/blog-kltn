@@ -5,7 +5,7 @@
         <td class="check-item">
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
-        <td class="avatar-user"><img :src="item.avatar" alt=""></td>
+        <td class="avatar-user"><img :src="getAvatar(item.avatar_student)" alt=""></td>
         <td><a :href="infoStudent(item.code_student)">{{item.first_name_student + ' ' +item.last_name_student}}</a></td>
         <td>{{item.name_department}}</td>
         <td>{{item.name_branch}}</td>
@@ -19,7 +19,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li @click="request_delete"><a href="javascript:void(0)"><i class="glyphicon glyphicon-trash"></i> Xóa sinh viên</a></li>
-                        <li><a href="#"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
+                        <li @click="openInforStudent(item.code_student)"><a href="javascript:void(0)"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
                     </ul>
                 </li>
             </ul>
@@ -46,7 +46,9 @@
                 this.$emit('push_item_selected',id)
 
             },
-
+            getAvatar(url){
+              return window.location.origin+url
+            },
             pop_id_item(id){
                 this.willDelete = false
                 this.$emit('pop_item_selected',id)
@@ -59,6 +61,9 @@
             infoStudent(code_student)
             {
                 return window.location.origin+'/admin/student-manage/info-student?code_student='+code_student
+            },
+            openInforStudent(code_student){
+                window.open(window.location.origin+'/admin/student-manage/info-student?code_student='+code_student,'_blank')
             }
         }
     }

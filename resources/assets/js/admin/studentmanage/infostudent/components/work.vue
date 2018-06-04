@@ -18,31 +18,30 @@
                         <th>Thời gian bắt đầu</th>
                         <th>Thời gian kết thúc</th>
                         <th>Chức vụ</th>
-
                     </tr>
                     </thead>
                     <tbody>
 
-
-                    <tr>
-                        <td class="no-padding-right" style="width: 45px;">
-                            <a href="#">
-                                <img src="http://localhost:8000/assets/images/placeholder.jpg" height="60" class="" alt="">
+                    <tr v-for="work in work_student" :key="work.user_enterprise">
+                        <td class="no-padding-right avatar-user" style="width: 45px;">
+                            <a :href="openInfoEnterprise(work.user_enterprise)" target="_blank">
+                                <img :src="getAvatar(work.avatar_enterprise)" height="60" class="" alt="">
                             </a>
                         </td>
                         <td>
-                            <a href="#" class="text-semibold">Fathom Backpack</a>
-                            <div class="text-muted text-size-small">
+                            <a :href="openInfoEnterprise(work.user_enterprise)" target="_blank" class="text-semibold">{{work.name_enterprise}}</a>
+                            <div class="text-muted text-size-small" style="width: 200px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap">
                                 <span class="status-mark bg-grey position-left"></span>
-                                Processing
+                                {{work.introduce_enterprise}}
                             </div>
                         </td>
-                        <td>34cm x 29cm</td>
-                        <td>Orange</td>
+                        <td>{{work.time_start.date}}</td>
+                        <td>{{work.time_end}}</td>
                         <td>
-                            <a href="#">1237749</a>
+                            <a href="javascript:void(0)">{{work.position}}</a>
                         </td>
                     </tr>
+
 
                     </tbody>
                 </table>
@@ -52,3 +51,46 @@
 
     </div>
 </template>
+<script>
+    import axios from 'axios'
+    export default {
+        props: ['code_student'],
+        data() {
+            return {
+                work_student: []
+            }
+        },
+        methods: {
+            getWorkStudent()
+            {
+                var vm = this
+                axios.get('/api/admin/student-manage/get-work-student?code_student='+vm.code_student).then(data => {
+                    console.log(data)
+                    vm.work_student = data.data
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
+            getAvatar(url){
+                return window.location.origin+url
+            },
+            openInfoEnterprise(email_address_enterprise)
+            {
+                return window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+email_address_enterprise
+            }
+        },
+        mounted(){
+            this.getWorkStudent()
+        }
+    }
+</script>
+<style>
+    .avatar-user{
+
+    }
+    .avatar-user img{
+        border-radius: 50%;
+        width: 60px;
+    }
+
+</style>

@@ -52,4 +52,15 @@ class StudentManageController extends Controller
         $update_data_service = new UpdateDataService();
         return $update_data_service->UpdateStudent($request);
     }
+    public function update_avatar_student(Request $request)
+    {
+        $update_data_service = new UpdateDataService();
+        return $update_data_service->UpdateAvatarStudent($request);
+    }
+    public function get_work_student(Request $request)
+    {
+        $get_data_service = new GetDataService();
+        return $get_data_service->getWorkStudent($request);
+    }
+
 }

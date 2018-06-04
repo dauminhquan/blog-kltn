@@ -14,30 +14,28 @@
 
                     </div>
 
-                    <a href="#"  @click="ShowFormFileAvatar" class="display-inline-block content-group-sm">
+                    <a href="javascript:void(0)"  @click="ShowFormFileAvatar" class="display-inline-block content-group-sm">
 
-                        <img :src="avatar_user" class="img-circle img-responsive" alt="" style="width: 110px; height: 110px;">
+                        <img :src="GetAvatarWithUrlOrigin(avatar_user)" class="img-circle img-responsive" alt="" style="width: 110px; height: 110px;">
                     </a>
 
                     <ul class="list-inline list-inline-condensed no-margin-bottom">
-                        <li><input type="file" ref="inputFileAvatar" style="display: none"></li>
+                        <li><input type="file" @change="uploadAvatarFile" ref="inputFileAvatar" style="display: none"></li>
                     </ul>
                 </div>
 
                 <div class="panel no-border-top no-border-radius-top">
                     <ul class="navigation">
                         <li class="navigation-header">Navigation</li>
-                        <li class="active"><a href="#profile" data-toggle="tab"><i class="icon-files-empty"></i> Thông tin cá nhân</a></li>
+                        <li class="active"><a href="#profile" data-toggle="tab"><i class=" icon-info3"></i> Thông tin cá nhân</a></li>
 
 
-                        <li><a href="#work" data-toggle="tab"><i class="icon-files-empty"></i> Thông tin công việc</a></li>
+                        <li><a href="#work" data-toggle="tab"><i class=" icon-office"></i> Thông tin công việc</a></li>
 
                     </ul>
                 </div>
             </div>
             <!-- /user details -->
-
-
             <!-- Online users -->
             <div class="sidebar-category">
                 <div class="category-title">
@@ -119,6 +117,7 @@
         },
         data(){
             return {
+                file_avatar: new FormData(),
                 avatar_user : '',
                 user_name: '',
                 graduated:''
@@ -146,6 +145,25 @@
             },
             ShowFormFileAvatar(){
                 this.$refs.inputFileAvatar.click()
+            },
+            GetAvatarWithUrlOrigin(avatar){
+                return window.location.origin+avatar;
+            },
+            uploadAvatarFile(e)
+            {
+                var vm = this
+                vm.file_avatar.append('avatar',e.target.files[0])
+                vm.file_avatar.append('code_student',vm.code_student)
+                axios.post('/api/admin/student-manage/update-avatar-student',vm.file_avatar).then(data => {
+                        vm.avatar_user = data.data.url+'?'+new Date()
+                }).catch(err => {
+                    console.log(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi xảy ra từ server!',
+                        addclass: 'bg-danger'
+                    });
+                })
             }
         }
     }

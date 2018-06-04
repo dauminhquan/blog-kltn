@@ -13,54 +13,55 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 
-class StudentManageController extends Controller
+class EnterpriseManageController extends Controller
 {
     //
-    public function add_student_excel(ExcelFile $request)
+    public function add_enterprise_excel(ExcelFile $request)
     {
             $insert_excel_service = new InsertDataFromExcelService();
-           return $insert_excel_service->insertExcelStudents($request);
+           return $insert_excel_service->insertExcelEnterprises($request);
 
     }
 
-    public function add_student(Request $request)
+    public function add_enterprise(Request $request)
     {
         $insert_data_service = new InsertDataService();
-        return $insert_data_service->insertStudent($request);
+        return $insert_data_service->insertEnterprise($request);
     }
 
-    public function get_list_student()
+    public function get_list_enterprise()
     {
             $get_data_service = new GetDataService();
-            return $get_data_service->getStudents();
+            return $get_data_service->getEnterprise();
     }
 
-    public function delete_list_student(Request $request){
+    public function delete_list_enterprise(Request $request){
         $delete_data_service = new DeleteDataService();
-        return $delete_data_service->deleteListStudent($request);
+        return $delete_data_service->deleteListEnterprises($request);
     }
 
-    public function delete_student(Request $request)
+    public function delete_enterprise(Request $request)
     {
         $delete_data_service = new DeleteDataService();
-        return $delete_data_service->deleteStudent($request);
+        return $delete_data_service->deleteEnterprise($request);
     }
 
-    public function update_student(Request $request)
+    public function update_enterprise(Request $request)
     {
 
         $update_data_service = new UpdateDataService();
-        return $update_data_service->UpdateStudent($request);
+        return $update_data_service->UpdateEnterprise($request);
     }
-    public function update_avatar_student(Request $request)
+    public function update_avatar_enterprise(Request $request)
     {
         $update_data_service = new UpdateDataService();
-        return $update_data_service->UpdateAvatarStudent($request);
+        return $update_data_service->UpdateAvatarEnterprise($request);
     }
-    public function get_work_student(Request $request)
+    public function get_employee_enterprise(Request $request)
     {
+
         $get_data_service = new GetDataService();
-        return $get_data_service->getWorkStudent($request);
+        return $get_data_service->getEmployeesEnterprise($request);
     }
 
 }

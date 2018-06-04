@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Khoa:</label>
                                         <choose-info-select2 :required="true" :options="departments" v-model="code_department" data-placeholder="Chọn Khoa"  class="select">
@@ -92,6 +92,12 @@
                                         <choose-info-select2 :required="true" :options="courses" v-model="infoStudent.code_course" data-placeholder="Chọn Khóa"  class="select">
 
                                         </choose-info-select2>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>Tốt nghiệp:</label>
+                                        <div><input type="checkbox" v-model="infoStudent.graduated"></div>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +126,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Điền thông tin thêm về sinh viên</label>
-                                <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về sinh viên"></textarea>
+                                <textarea rows="5" cols="5" class="form-control" v-model="infoStudent.introduce_student" placeholder="Điền thông tin thêm về sinh viên"></textarea>
                             </div>
                         </fieldset>
                     </div>
@@ -193,6 +199,7 @@
         },
         data(){
             return {
+
                 code_department: '',
                 infoStudent:{
                     code_course: '',
@@ -208,6 +215,7 @@
                     code_student: '',
                     password: '',
                     rep_password: '',
+                    graduated: 0
                 },
                 departments:[
                 ],
@@ -261,7 +269,7 @@
                         vm.infoStudent.phone_number_student = data.data.info_student.phone_number_student
                         vm.infoStudent.salary = data.data.info_student.salary
                         vm.infoStudent.code_student = vm.code_student
-                        console.log(vm.infoStudent)
+                        vm.infoStudent.graduated = data.data.info_student.graduated
                     }).catch(err => {
 
                     })
@@ -315,7 +323,7 @@
                         console.log(data)
                         new PNotify({
                             title: 'Ohh Yeah! Thành công!',
-                            text: 'Update thông tin sinh viện thành công',
+                            text: 'Update thông tin sinh viên thành công',
                             addclass: 'bg-success'
                         });
                         // setTimeout(function () {

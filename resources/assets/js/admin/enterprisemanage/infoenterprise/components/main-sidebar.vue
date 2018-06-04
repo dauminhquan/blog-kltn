@@ -10,8 +10,6 @@
                             {{user_name}}
                         </h6>
 
-                        <span class="display-block" >{{graduated}}</span>
-
                     </div>
 
                     <a href="javascript:void(0)"  @click="ShowFormFileAvatar" class="display-inline-block content-group-sm">
@@ -27,11 +25,12 @@
                 <div class="panel no-border-top no-border-radius-top">
                     <ul class="navigation">
                         <li class="navigation-header">Navigation</li>
-                        <li class="active"><a href="#profile" data-toggle="tab"><i class=" icon-info3"></i> Thông tin cá nhân</a></li>
+                        <li class="active"><a href="#profile" data-toggle="tab"><i class=" icon-info3"></i> Thông tin doanh nghiệp</a></li>
 
 
-                        <li><a href="#work" data-toggle="tab"><i class=" icon-office"></i> Thông tin công việc</a></li>
-
+                        <li><a href="#employee" data-toggle="tab"><i class=" icon-office"></i> Danh sách nhân viên</a></li>
+                        <li><a href="#topics" data-toggle="tab"><i class=" icon-office"></i> Danh sách bài đăng tuyển dụng</a></li>
+                        <li><a href="#course" data-toggle="tab"><i class=" icon-office"></i> Danh sách khóa học</a></li>
                     </ul>
                 </div>
             </div>
@@ -111,7 +110,7 @@
 <script>
     import axios from 'axios'
     export default {
-        props : ['code_student'],
+        props : ['email_address_enterprise'],
         mounted(){
             this.getAvatarUser()
         },
@@ -120,24 +119,17 @@
                 file_avatar: new FormData(),
                 avatar_user : '',
                 user_name: '',
-                graduated:''
+
             }
         },
         methods:{
 
             getAvatarUser(){
                 var vm = this
-                axios.get('/api/request-info/get-option-student?code_student='+vm.code_student+'&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(data => {
+                axios.get('/api/request-info/get-option-enterprise?email_address_enterprise='+vm.email_address_enterprise+'&option[]=avatar_enterprise&option[]=name_enterprise').then(data => {
                     console.log(data)
-                    vm.avatar_user = data.data.avatar_student
-                    vm.user_name = data.data.first_name_student + ' ' +data.data.last_name_student
-                    if(data.data.graduated == 1)
-                    {
-                        vm.graduated = 'Đã tốt nghiệp'
-                    }
-                    else{
-                        vm.graduated = 'Chưa tốt nghiệp'
-                    }
+                    vm.avatar_user = data.data.avatar_enterprise
+                    vm.user_name = data.data.name_enterprise
 
                 }).catch(err => {
 
@@ -153,8 +145,8 @@
             {
                 var vm = this
                 vm.file_avatar.append('avatar',e.target.files[0])
-                vm.file_avatar.append('code_student',vm.code_student)
-                axios.post('/api/admin/student-manage/update-avatar-student',vm.file_avatar).then(data => {
+                vm.file_avatar.append('email_address_enterprise',vm.email_address_enterprise)
+                axios.post('/api/admin/enterprise-manage/update-avatar-enterprise',vm.file_avatar).then(data => {
                         vm.avatar_user = data.data.url+'?'+new Date()
                 }).catch(err => {
                     console.log(err)

@@ -1,7 +1,7 @@
 <template>
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Danh sách sinh viên</h5>
+            <h5 class="panel-title">Danh sách doanh nghiệp</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -18,11 +18,11 @@
                     <th-check-all :selected="false" @delete_selected="delete_selected" @setcheckAll="setCheckAllData"></th-check-all>
                 </th>
                 <th></th>
-                <th>Họ và tên</th>
-                <th>Khoa</th>
-                <th>Chuyên ngành</th>
-                <th>Khóa</th>
-                <th>Tốt nghiệp</th>
+                <th>Tên doanh nghiệp</th>
+                <th>Email</th>
+                <th>Thông tin</th>
+                <th>Địa chỉ</th>
+                <th>Ngày đăng ký</th>
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
@@ -37,7 +37,7 @@
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
-                        <h5 class="modal-title">Thêm sinh viên bằng Excel</h5>
+                        <h5 class="modal-title">Thêm doanh nghiệp bằng Excel</h5>
                     </div>
 
                     <form v-on:submit.prevent="uploadExcelFile" class="form-inline" enctype="multipart/form-data">
@@ -113,7 +113,7 @@
 
         },
         beforeMount(){
-            this.getStudents()
+            this.getEnterprise()
         },
         mounted(){
                 this.setDatatable()
@@ -158,7 +158,7 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/student-manage/add-student','_blank');
+                                    window.open(window.location.origin+'/admin/enterprise-manage/add-enterprise','_blank');
 
                                 }
                             },
@@ -174,7 +174,7 @@
                                 text: 'Tải xuống Excel',
                                 className: 'btn bg-purple',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/student-manage/get-excel-student','_blank');
+                                    window.open(window.location.origin+'/admin/enterprise-manage/get-excel-enterprise','_blank');
 
                                 }
                             }
@@ -212,13 +212,13 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-list-student',
+                axios.delete('/api/admin/enterprise-manage/delete-list-enterprise',
                     {
                         params: {
-                            list_id_student : vm.id_item_selected
+                            list_id_enterprise : vm.id_item_selected
                         }
                     }).then(data => {
-                    vm.students = vm.students.filter(value =>{
+                    vm.enterprises = vm.enterprises.filter(value =>{
                         return vm.id_item_selected.indexOf(value.id) == -1
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -231,7 +231,7 @@
                     $('#modal_danger').modal('hide')
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' doanh nghiệp',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
@@ -264,7 +264,7 @@
                     this.ExcelFileuploading = true
                     var formData = new FormData()
                     formData.append('ExcelFileUpload',vm.ExcelFileUpload)
-                    axios.post('/api/admin/student-manage/add-student-excel',formData).then(data => {
+                    axios.post('/api/admin/enterprise-manage/add-enterprise-excel',formData).then(data => {
                         vm.ExcelFileuploading = false
                         if(data.data.error.length > 0 || data.data.error == null)
                         {
@@ -272,7 +272,7 @@
                             var err = data.data.error
                             err.forEach(item => {
                                 html_err+='<br>'
-                                html_err+='code_student: '+item.item
+                                html_err+='email_address_enterprise: '+item.item
                                 html_err+='<br>'
                                 html_err+='Message : '+item.message
                             })
@@ -304,11 +304,11 @@
                         this.ExcelFileuploading = false
                     })
             },
-            getStudents(){
+            getEnterprise(){
                 var vm = this
-                axios.get('/api/admin/student-manage/get-list-student').then(data => {
+                axios.get('/api/admin/enterprise-manage/get-list-enterprise').then(data => {
                    vm.dataRows = data.data
-                    vm.students = data.data
+                    vm.enterprises = data.data
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
@@ -320,13 +320,13 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-student',
+                axios.delete('/api/admin/enterprise-manage/delete-enterprise',
                     {
                         params: {
                             id : id
                         }
                     }).then(data => {
-                    vm.students = vm.students.filter(value =>{
+                    vm.enterprises = vm.enterprises.filter(value =>{
                         return value.id !=id
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -336,7 +336,7 @@
                     };
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công sinh viên',
+                        text: 'Đã xóa thành công doanh nghiệp',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
@@ -355,7 +355,7 @@
                 checkAll: false,
                 table: '',
                 id_item_selected: [],
-                students: [],
+                enterprises: [],
                 ExcelFileuploading: false,
                 dataRows: [],
                 ExcelFileUpload: '',

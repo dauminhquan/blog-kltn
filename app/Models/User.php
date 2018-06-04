@@ -38,5 +38,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Student','id_user','id');
     }
+    public function enterprise()
+    {
+        return $this->hasOne('App\Models\Enterprise','id_user','id');
+    }
 
 }

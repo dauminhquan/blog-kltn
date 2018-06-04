@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\Enterprise;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -75,5 +76,59 @@ class InsertDataService
             ],200);
         });
 
+    }
+
+    public function insertEnterprise(Request $request)
+    {
+        $validate = Validator::make($request->all(),[
+
+
+            'name_enterprise' =>'required',
+            'address_enterprise' => 'required',
+            'name_president_enterprise' =>'required',
+            'phone_number_enterprise' => 'required',
+            'email_address_enterprise' => 'required|email|unique:users,user_name',
+            'password' => 'required',
+            'rep_password' => 'required|same:password'
+        ],[
+            'name_enterprise.required' => 'Không có tên doanh nghiệp',
+            'address_enterprise.required' => 'Không có địa chỉ doanh nghiệp',
+            'name_president_enterprise.required' => 'Không có tên tổng giám đốc',
+
+            'phone_number_enterprise.required' => 'Không có số điện thoại',
+            'email_address_enterprise.required' => 'Không có Email',
+            'email_address_enterprise.unique' => 'Email đã tồn tại',
+            'email_address_enterprise.email' => 'Không đúng định dạng Email',
+            'password.required' => 'Không có password',
+            'rep_password.required' => 'Không có nhập lại password',
+            'rep_password.same' => 'Nhập lại mật khẩu không đúng'
+        ]);
+        if($validate->fails())
+        {
+            return response()->json($validate->errors(),406);
+        }
+        return DB::transaction(function () use ($request) {
+            $user = new User();
+            $user->user_name = $request->email_address_enterprise;
+            $user->password = $request->password;
+            $user->authentication = true;
+            $user->type = 2;
+            $user->save();
+            $enterprise = new Enterprise();
+            $enterprise->id_user = $user->id;
+            $enterprise->name_enterprise = $request->name_enterprise;
+            $enterprise->address_enterprise = $request->address_enterprise;
+            $enterprise->name_president_enterprise = $request->name_president_enterprise;
+            $enterprise->phone_number_enterprise = $request->phone_number_enterprise;
+            if($request->has('introduce_enterprise'))
+            {
+                $enterprise->introduce_enterprise = $request->introduce_enterprise;
+            }
+            $enterprise->save();
+            return response()->json([
+                'message' => 'Thêm mới doanh nghiệp thành công'
+
+            ],200);
+        });
     }
 }

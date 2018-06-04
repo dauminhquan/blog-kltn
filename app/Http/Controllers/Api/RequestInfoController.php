@@ -40,7 +40,7 @@ class RequestInfoController extends Controller
         {
             if($request->has('email_address_student'))
             {
-                $user = User::where('user_name',$request->code_student)->first();
+                $user = User::where(DB::raw('user_name'),strtolower($request->code_student))->first();
                 if($user != null)
                 {
                     if(Student::where(DB::raw('LOWER(email_address_student)'),strtolower($request->email_address_student))->where('id_user','!=',$user->id)->count()>0)
@@ -84,10 +84,6 @@ class RequestInfoController extends Controller
         }
         return $message;
     }
-
-
-
-
     public function get_option_student(Request $request)
     {
         if($request->has('code_student') && $request->has('option'))
@@ -97,6 +93,8 @@ class RequestInfoController extends Controller
         }
     }
 
+
+
     public function get_student_with_code_student(Request $request)
     {
             if($request->has('code_student'))
@@ -104,5 +102,47 @@ class RequestInfoController extends Controller
                 $get_data_service = new GetDataService();
                 return $get_data_service->getStudentWithCodeStudent($request->code_student);
             }
+    }
+//
+
+
+// enterprise
+
+
+    public function get_option_enterprise(Request $request){
+
+        if($request->has('email_address_enterprise') && $request->has('option'))
+        {
+            $get_data_service = new GetDataService();
+            return $get_data_service->getOptionEnterprise($request->email_address_enterprise,$request->option);
+        }
+    }
+    public function check_exist_info_enterprise(Request $request)
+    {
+        $message =[];
+        if($request->has('email_address_enterprise'))
+        {
+
+            if(User::where(DB::raw('LOWER(user_name)'),strtolower($request->email_address_enterprise_check))->where(DB::raw('LOWER(user_name)'),'!=',strtolower($request->email_address_enterprise))->count()>0)
+            {
+                $message = [
+                    'email_address_enterprise' => 1
+                ];
+            }
+            else{
+                $message = [
+                    'email_address_enterprise' => 0
+                ];
+            }
+        }
+        return $message;
+    }
+    public function get_enterprise_with_email_address_enterprise(Request $request)
+    {
+        if($request->has('email_address_enterprise'))
+        {
+            $get_data_service = new GetDataService();
+            return $get_data_service->getEnterpriseWithEmailAddressEnterprise($request->email_address_enterprise);
+        }
     }
 }

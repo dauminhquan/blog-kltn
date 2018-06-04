@@ -5,7 +5,7 @@
         <div class="tab-content">
             <profile :active="true" :code_student="code_student" ></profile>
 
-            <work ></work>
+            <work :code_student="code_student"></work>
         </div>
         <!-- /tab content -->
     </div>

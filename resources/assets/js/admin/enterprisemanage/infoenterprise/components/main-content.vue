@@ -3,20 +3,20 @@
 
         <!-- Tab content -->
         <div class="tab-content">
-            <profile :active="true" :code_student="code_student" ></profile>
+            <profile :active="true" :email_address_enterprise="email_address_enterprise" ></profile>
 
-            <work :code_student="code_student"></work>
+            <employee :email_address_enterprise="email_address_enterprise"></employee>
         </div>
         <!-- /tab content -->
     </div>
 </template>
 <script>
     import profile from './profile.vue'
-    import work from './work.vue'
+    import employee from './employee.vue'
     export default {
         components: {
             'profile' : profile,
-            'work': work
+            'employee': employee
         },
         data(){
             return {
@@ -24,17 +24,8 @@
             }
         },
         mounted(){
-            // Styled file input
-            $(".file-styled").uniform({
-                fileButtonClass: 'action btn bg-warning'
-            });
 
-
-            // Styled checkboxes, radios
-            $(".styled").uniform({
-                radioClass: 'choice'
-            });
         },
-        props:["code_student"]
+        props:["email_address_enterprise"]
     }
 </script>

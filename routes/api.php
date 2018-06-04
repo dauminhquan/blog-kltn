@@ -30,6 +30,30 @@ Route::group(['namespace' => 'Api'],function(){
             Route::delete('/delete-student',['name' => 'delete.student','uses' => 'StudentManageController@delete_student']);
             Route::post('/add-student',['name' => 'add.student','uses' => 'StudentManageController@add_student']);
             Route::put('/update-student',['name' => 'add.student','uses' => 'StudentManageController@update_student']);
+            Route::post('/update-avatar-student',['name' => 'update.avatar.student','uses' => 'StudentManageController@update_avatar_student']);
+            Route::get('/get-work-student',['name' => 'get.work.student','uses' => 'StudentManageController@get_work_student']);
+        });
+        // quan ly doanh nghiẹp
+
+        Route::group(['prefix' => '/enterprise-manage','name' => 'enterprise.manage.'],function (){
+            //them sinh vien bang file excel
+            Route::post('/add-enterprise-excel',['name' => 'add.enterprise.excel','uses' => 'EnterpriseManageController@add_enterprise_excel']);
+            Route::get('/get-list-enterprise',['name' => 'get.list.enterprise','uses' => 'EnterpriseManageController@get_list_enterprise']);
+            Route::delete('/delete-list-enterprise',['name' => 'delete.list.enterprise','uses' => 'EnterpriseManageController@delete_list_enterprise']);
+            Route::delete('/delete-enterprise',['name' => 'delete.enterprise','uses' => 'EnterpriseManageController@delete_enterprise']);
+            Route::post('/add-enterprise',['name' => 'add.enterprise','uses' => 'EnterpriseManageController@add_enterprise']);
+            Route::put('/update-enterprise',['name' => 'add.enterprise','uses' => 'EnterpriseManageController@update_enterprise']);
+            Route::post('/update-avatar-enterprise',['name' => 'update.avatar.enterprise','uses' => 'EnterpriseManageController@update_avatar_enterprise']);
+            Route::get('/get-employees-enterprise',['name' => 'get.employee.enterprise','uses' => 'EnterpriseManageController@get_employee_enterprise']);
+        });
+
+        //job
+        Route::group(['prefix' => '/job-manage','name' => 'job.manage.'],function (){
+            //them sinh vien bang file excel
+            Route::get('/get-list-position',['name' => 'get.list.position','uses' => 'JobManageController@get_list_position']);
+            Route::post('/add-position',['name' => 'add.position','uses' => 'JobManageController@add_position']);
+
+            Route::delete('/delete-list-position',['name' => 'add.position','uses' => 'JobManageController@delete_list_position']);
 
         });
 
@@ -43,6 +67,16 @@ Route::group(['namespace' => 'Api'],function(){
         Route::post('check-exist-info-student','RequestInfoController@check_exist_info_student');
         Route::get('get-option-student','RequestInfoController@get_option_student');
         Route::get('get-info-student','RequestInfoController@get_student_with_code_student');
+
+
+
+        //enterprise
+
+        Route::get('get-option-enterprise','RequestInfoController@get_option_enterprise');
+        Route::post('check-exist-info-enterprise','RequestInfoController@check_exist_info_enterprise');
+        Route::get('get-info-enterprise','RequestInfoController@get_enterprise_with_email_address_enterprise');
+
+
     });
 });
 

@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\Enterprise;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,9 +45,10 @@ class DeleteDataService
     public  function deleteStudent(Request $request)
     {
         $validate =  Validator::make($request->all(),[
-            'id' => 'required'
+            'id' => 'required|exists:students,id'
         ],[
-            'id.required' => 'Danh sách sinh viên không tồn tại'
+            'id.required' => 'Id sinh viên không có',
+            'id.exists' => 'Sinh viên không tồn tại'
         ]);
         if($validate->fails())
         {
@@ -58,6 +60,52 @@ class DeleteDataService
             $id_user = $student->id_user;
             $student->delete();
             User::find($id_user)->delete();
+        }
+    }
+
+    public function deleteEnterprise(Request $request)
+    {
+        $validate =  Validator::make($request->all(),[
+            'id' => 'required|exists:enterprises,id'
+        ],[
+            'id.required' => 'Id doanh nghiệp không có',
+            'id.exists' => 'Doanh nghiệp không tồn tại'
+        ]);
+        if($validate->fails())
+        {
+            return response()->json([
+                'message' => $validate->errors()
+            ]);
+        }else{
+            $enterprise = Enterprise::find((int)$request->id);
+            $id_user = $enterprise->id_user;
+            $enterprise->delete();
+            User::find($id_user)->delete();
+        }
+    }
+    public function deleteListEnterprises(Request $request)
+    {
+        $validate =  Validator::make($request->all(),[
+            'list_id_enterprise' => 'required'
+        ],[
+            'list_id_enterprise.required' => 'Danh sách doanh nghiệp không tồn tại'
+        ]);
+        if($validate->fails())
+        {
+            return response()->json([
+                'message' => $validate->errors()
+            ]);
+        }
+        else{
+            $list_id_enterprise = $request->list_id_enterprise;
+            foreach ($list_id_enterprise as $item)
+            {
+                $enterprise = Enterprise::find((int)$item);
+                $id_user = $enterprise->id_user;
+                $enterprise->delete();
+                User::find($id_user)->delete();
+
+            }
         }
     }
 }

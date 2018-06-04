@@ -6,8 +6,8 @@
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Quản lý sinh viên</a></li>
-                <li class="active">Thông tin sinh viên <b>#1</b> </li>
+                <li><a href="form_inputs_basic.html">Quản lý doanh nghiệp</a></li>
+                <li class="active">Thông tin doanh nghiệp <b>#1</b> </li>
             </ul>
         </div>
 
@@ -15,14 +15,13 @@
 @endsection
 @section('page-content')
 
-    <main-sidebar code_student="{{$code_student}}"></main-sidebar>
-    <main-content code_student="{{$code_student}}"></main-content>
+    <main-sidebar email_address_enterprise="{{$email_address_enterprise}}"></main-sidebar>
+    <main-content email_address_enterprise="{{$email_address_enterprise}}"></main-content>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/student-manage/info-student.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/enterprise-manage/info-enterprise.js")}}"></script>
 @endsection
 @section('theme-asset')
     <script type="text/javascript" src="{{asset("assets/js/plugins/uploaders/dropzone.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/forms/selects/select2.min.js')}}"></script>
 @endsection

@@ -53,7 +53,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Email:</label>
-                                        <input type="email" placeholder="Email" required v-model="infoStudent.email_address_student" :class="classEmail">
+                                        <input type="email" placeholder="Email" @blur="checkExistEmail" required v-model="infoStudent.email_address_student" :class="classEmail">
                                         <span class="help-block text-danger" v-if="exist_email == true"><i class="icon-warning22"></i> Email đã tồn tại</span>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Điền mã sinh viên:</label>
-                                        <input type="text" v-model="infoStudent.code_student" required placeholder="Nhập mã sinh viên" :class="classCodeStudent">
+                                        <input type="text" v-model="infoStudent.code_student" @blur="checkExistCodeStudent" required placeholder="Nhập mã sinh viên" :class="classCodeStudent">
                                         <span class="help-block text-danger" v-if="exist_code_student == true"><i class="icon-warning22"></i> Tài khoản đã tồn tại</span>
                                     </div>
                                 </div>
@@ -279,11 +279,11 @@
                    })
                }
             },
-            checkExistEmail(value)
+            checkExistEmail()
             {
                 var vm = this
                 axios.post('/api/request-info/check-exist-info-student',{
-                    email_address_student : value
+                    email_address_student : vm.infoStudent.email_address_student
                 }).then(data => {
 
                     if(data.data[0].email_address_student == 1)
@@ -303,11 +303,11 @@
                     console.log(error)
                 })
             },
-            checkExistCodeStudent(value)
+            checkExistCodeStudent()
             {
                 var vm = this
                 axios.post('/api/request-info/check-exist-info-student',{
-                    code_student : value
+                    code_student : vm.infoStudent.code_student
                 }).then(data => {
 
                     if(data.data[0].code_student == 1)
@@ -359,20 +359,8 @@
                 },
                 deep: true
             },
-            getInforEmail:{
-                handler(newValue,oldValue)
-                {
-                    this.checkExistEmail(newValue)
-                },
-                deep : true
-            },
-            getInforCodeStudent:{
-                handler(newValue,oldValue)
-                {
-                    this.checkExistCodeStudent(newValue)
-                },
-                deep : true
-            },
+
+
             getPassword:{
                 handler(newValue)
                 {

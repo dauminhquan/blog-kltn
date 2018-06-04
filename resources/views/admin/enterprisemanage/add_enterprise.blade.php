@@ -6,8 +6,8 @@
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Quản lý sinh viên</a></li>
-                <li class="active">Thêm một sinh viên</li>
+                <li><a href="form_inputs_basic.html">Quản lý doanh nghiệp</a></li>
+                <li class="active">Thêm một doanh nghiệp</li>
             </ul>
         </div>
 
@@ -17,9 +17,8 @@
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/student-manage/add-student.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/enterprise-manage/add-enterprise.js")}}"></script>
 @endsection
 @section('theme-asset')
-    <script type="text/javascript" src="{{asset('assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/forms/selects/select2.min.js')}}"></script>
 @endsection

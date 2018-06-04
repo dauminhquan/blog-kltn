@@ -5,7 +5,7 @@
             <sidebar-search></sidebar-search>
             <location-selection></location-selection>
             <title-selection></title-selection>
-            <industry></industry>
+
             <company-selection></company-selection>
             <specific-skills></specific-skills>
             <date-posted></date-posted>
@@ -17,7 +17,7 @@
     import sidebar_search from './components/sidebar_search.vue'
     import location_selection from './components/localtion_selecttion.vue'
     import title_selection from './components/title_search.vue'
-    import industry from './components/industry'
+
     import company_selection from './components/company_search.vue'
     import specific_skills from './components/specific_skills.vue'
     import date_posted from './components/date_poste.vue'
@@ -28,7 +28,7 @@
             "sidebar-search" : sidebar_search,
             'location-selection' : location_selection,
             'title-selection' : title_selection,
-            'industry' : industry,
+
             'company-selection' : company_selection,
             'specific-skills' : specific_skills,
             'date-posted' : date_posted,

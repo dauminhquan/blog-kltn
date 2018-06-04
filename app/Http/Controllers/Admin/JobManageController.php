@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class JobController extends Controller
+class JobManageController extends Controller
 {
     public function list_job()
     {
@@ -13,7 +13,7 @@ class JobController extends Controller
     }
     public function positionsManage()
     {
-        return view('job.position');
+        return view('admin.job.position');
     }
 
 }

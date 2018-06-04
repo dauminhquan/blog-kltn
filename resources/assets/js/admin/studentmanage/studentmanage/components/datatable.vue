@@ -174,12 +174,7 @@
                                 text: 'Tải xuống Excel',
                                 className: 'btn bg-purple',
                                 action: function(e, dt, node, config) {
-                                    swal({
-                                        title: "Good job!",
-                                        text: "Custom button activated",
-                                        confirmButtonColor: "#66BB6A",
-                                        type: "success"
-                                    });
+                                    window.open(window.location.origin+'/admin/student-manage/get-excel-student','_blank');
 
                                 }
                             }
@@ -381,7 +376,8 @@
 </script>
 <style>
     .avatar-user{
-        width: 50px;
+        width: 45px;
+        height: 60px;
     }
     .avatar-user img{
         border-radius: 50%;

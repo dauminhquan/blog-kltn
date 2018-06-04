@@ -4,127 +4,82 @@
 
 
         <!-- 2 columns form -->
-        <form v-on:submit.prevent="submitAddStudent">
+        <form v-on:submit.prevent="submitAddEnterprise">
             <div class="panel panel-flat">
 
 
                 <div class="panel-body">
                     <div class="row">
                         <fieldset>
-                            <legend class="text-semibold"><i class="icon-reading position-left"></i>Điền thông tin sinh viên</legend>
+                            <legend class="text-semibold"><i class="icon-reading position-left"></i>Điền thông tin Doanh nghiệp</legend>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Họ:</label>
-                                        <input type="text" v-model="infoStudent.first_name_student" placeholder="Họ" required class="form-control">
+                                        <label>Tên doanh nghiệp:</label>
+                                        <input type="text" v-model="infoEnterprise.name_enterprise" placeholder="Tên doanh nghiệp" required class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Tên:</label>
-                                        <input type="text" placeholder="Tên" v-model="infoStudent.last_name_student" required class="form-control">
+                                        <label>Tên tổng giám đốc:</label>
+                                        <input type="text" placeholder="Tên tổng giám đốc" v-model="infoEnterprise.name_president_enterprise" required class="form-control">
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Avatar:</label>
-                                        <input type="file" class="file-styled" @change="setFileAvatar($e)" accept="image/*">
-                                        <span class="help-block">Chấp nhận file: gif, png, jpg. Kích cỡ tối đa 2Mb</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nhập mức lương</label>
-                                        <input type="text" placeholder="Nhập mức lương" required v-model="infoStudent.salary" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Địa chỉ</label>
-                                        <input type="text" placeholder="Địa chỉ" required v-model="infoStudent.address_student" class="form-control">
+                                        <input type="text" placeholder="Địa chỉ" required v-model="infoEnterprise.address_enterprise" class="form-control">
                                     </div>
                                 </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Số điện thoại #:</label>
+                                        <input type="text" v-model="infoEnterprise.phone_number_enterprise" required placeholder="+99-99-9999-9999" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Email:</label>
-                                        <input type="email" placeholder="Email" required v-model="infoStudent.email_address_student" :class="classEmail">
+                                        <input type="email" placeholder="Email" @blur="checkExistEmail" required v-model="infoEnterprise.email_address_enterprise" :class="classEmail">
                                         <span class="help-block text-danger" v-if="exist_email == true"><i class="icon-warning22"></i> Email đã tồn tại</span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Số điện thoại #:</label>
-                                        <input type="text" v-model="infoStudent.phone_number_student" required placeholder="+99-99-9999-9999" class="form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Khoa:</label>
-                                        <choose-info-select2 :required="true" :options="departments" v-model="code_department" data-placeholder="Chọn Khoa"  class="select">
-
-                                        </choose-info-select2>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Chuyên ngành:</label>
-                                        <choose-info-select2 :required="true" :readonly="true" :un-readonly="code_department" :options="branches" v-model="infoStudent.code_branch" data-placeholder="Chọn Ngành"  class="select">
-
-                                        </choose-info-select2>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Khóa:</label>
-                                        <choose-info-select2 :required="true" :options="courses" v-model="infoStudent.code_course" data-placeholder="Chọn Khóa"  class="select">
-
-                                        </choose-info-select2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Điền mã sinh viên:</label>
-                                        <input type="text" v-model="infoStudent.code_student" required placeholder="Nhập mã sinh viên" :class="classCodeStudent">
-                                        <span class="help-block text-danger" v-if="exist_code_student == true"><i class="icon-warning22"></i> Tài khoản đã tồn tại</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Mật khẩu:</label>
-                                        <input type="password" v-model="infoStudent.password" required placeholder="Nhập mật khẩu" :class="classPassword">
+                                        <input type="password" v-model="infoEnterprise.password" required placeholder="Nhập mật khẩu" :class="classPassword">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Nhập lại mật khẩu:</label>
-                                        <input type="password" v-model="infoStudent.rep_password" required placeholder="Nhập lại mật khẩu" :class="classOldPassword">
+                                        <input type="password" v-model="infoEnterprise.rep_password" required placeholder="Nhập lại mật khẩu" :class="classOldPassword">
                                     </div>
                                 </div>
 
 
                             </div>
                             <div class="form-group">
-                                <label>Điền thông tin thêm về sinh viên</label>
-                                <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về sinh viên"></textarea>
+                                <label>Điền thông tin về doanh nghiệp</label>
+                                <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
                             </div>
                         </fieldset>
                     </div>
 
                     <div class="text-right">
-                        <button type="submit" class="btn btn-primary">Thêm mới sinh viên <i class="icon-arrow-right14 position-right"></i></button>
+                        <button type="submit" class="btn btn-primary">Thêm mới doanh nghiệp <i class="icon-arrow-right14 position-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -134,140 +89,61 @@
     </div>
 </template>
 <script>
-    import choose_info_select2 from './choose-info-select2'
     import axios from 'axios'
     export default {
         computed: {
             getInforEmail(){
-                return this.infoStudent.email_address_student
-            },
-            getInforCodeStudent(){
-                return this.infoStudent.code_student
+                return this.infoEnterprise.email_address_enterprise
             },
             getPassword(){
-                return this.infoStudent.password
+                return this.infoEnterprise.password
             },
             getRepPassword(){
-                return this.infoStudent.rep_password
+                return this.infoEnterprise.rep_password
             }
         },
         components: {
-            'choose-info-select2': choose_info_select2
+
         },
         mounted(){
 
-            $(".file-styled").uniform({
-                fileButtonClass: 'action btn bg-pink-400'
-            });
-            // lấy danh sách khóa học
-            this.getCourses();
-            this.getDepartments();
         },
         data(){
             return {
                 code_department: '',
-                infoStudent:{
-                    code_course: '',
-                    code_branch: '',
-                    first_name_student:'',
-                    last_name_student:'',
-                    address_student:'',
-                    phone_number_student: '',
-                    email_address_student: '',
-                    introduce_student:'',
-                    avatar_student:'',
-                    salary:'',
-                    code_student: '',
+                infoEnterprise:{
+
+                    name_enterprise:'',
+                    address_enterprise:'',
+                    name_president_enterprise:'',
+                    phone_number_enterprise: '',
+                    introduce_enterprise: '',
+                    avatar_enterprise:'',
+                    email_address_enterprise: '',
                     password: '',
                     rep_password: ''
                 },
-                departments:[
-                ],
-                branches: [
-
-                ],
-                courses : [
-                   
-                ],
-
                 exist_email: false,
-                exist_code_student: false,
                 classEmail : ['form-control'],
-                classCodeStudent : ['form-control'],
                 classPassword : ['form-control'],
                 classOldPassword : ['form-control'],
             }
         },
         methods:{
-            setFileAvatar(e){
-                this.infoStudent.avatar_student = e.target.files[0]
-            },
-            getCourses()
-            {
-                var vm = this
-                axios.get('/api/request-info/get-courses').then(data => {
-                    var courses = data.data
-                    vm.courses = [{id:'',text:''}]
-                    courses.forEach(item => {
 
-                        vm.courses.push({
-                            id: item.code_course,
-                            text: item.name_course
-                        })
-                    })
-                }).catch(err =>{
-                    console.log(err)
-                })
-            },
-            getDepartments()
-            {
-                var vm = this
-                axios.get('/api/request-info/get-departments').then(data => {
-                    var courses = data.data
-                    vm.departments = [{id:'',text:''}]
-                    courses.forEach(item => {
-
-                        vm.departments.push({
-                            id: item.code_department,
-                            text: item.name_department
-                        })
-                    })
-                }).catch(err =>{
-                    console.log(err)
-                })
-            },
-            getBranches(code_department)
-            {
-                var vm = this
-                vm.branches = [{
-                    id: '',
-                    text: ''
-                }]
-                axios.get('/api/request-info/get-branches/'+code_department).then(data => {
-                    var branches = data.data;
-
-                    branches.forEach(item => {
-                        vm.branches.push({
-                            id: item.code_branch,
-                            text: item.name_branch
-                        })
-                    })
-                }).catch(error => {
-
-                })
-            },
-            submitAddStudent(){
+         
+            submitAddEnterprise(){
                 var vm =this
-               if(vm.exist_email == false && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password)
+               if(vm.exist_email == false && vm.infoEnterprise.password == vm.infoEnterprise.rep_password)
                {
-                   axios.post('/api/admin/student-manage/add-student',vm.infoStudent).then(data => {
+                   axios.post('/api/admin/enterprise-manage/add-enterprise',vm.infoEnterprise).then(data => {
                        new PNotify({
                            title: 'Ohh Yeah! Thành công!',
-                           text: 'Thêm mới sinh viên thành công',
+                           text: 'Thêm mới doanh nghiệp thành công',
                            addclass: 'bg-success'
                        });
                        setTimeout(function () {
-                           window.location.href = window.location.origin+'/admin/student-manage'
+                           window.location.href = window.location.origin+'/admin/enterprise-manage'
                        },2000)
                    }).catch(err => {
                        console.log(err)
@@ -279,14 +155,14 @@
                    })
                }
             },
-            checkExistEmail(value)
+            checkExistEmail()
             {
                 var vm = this
-                axios.post('/api/request-info/check-exist-info-student',{
-                    email_address_student : value
+                axios.post('/api/request-info/check-exist-info-enterprise',{
+                    email_address_enterprise : vm.infoEnterprise.email_address_enterprise
                 }).then(data => {
 
-                    if(data.data[0].email_address_student == 1)
+                    if(data.data.email_address_enterprise == 1)
                     {
                         vm.exist_email = true
                         vm.classEmail.push('border-danger')
@@ -297,30 +173,6 @@
                         if(index > -1)
                         {
                             vm.classEmail.splice(index,1)
-                        }
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
-            },
-            checkExistCodeStudent(value)
-            {
-                var vm = this
-                axios.post('/api/request-info/check-exist-info-student',{
-                    code_student : value
-                }).then(data => {
-
-                    if(data.data[0].code_student == 1)
-                    {
-                        vm.exist_code_student = true
-                        vm.classCodeStudent.push('border-danger')
-                    }
-                    else{
-                        vm.exist_code_student = false
-                        var index = vm.classCodeStudent.indexOf('border-danger')
-                        if(index > -1)
-                        {
-                            vm.classCodeStudent.splice(index,1)
                         }
                     }
                 }).catch(error => {
@@ -352,32 +204,14 @@
             }
         },
         watch: {
-            code_department: {
-                handler(newValue){
-                    // console.log(newValue)
-                    this.getBranches(newValue)
-                },
-                deep: true
-            },
-            getInforEmail:{
-                handler(newValue,oldValue)
-                {
-                    this.checkExistEmail(newValue)
-                },
-                deep : true
-            },
-            getInforCodeStudent:{
-                handler(newValue,oldValue)
-                {
-                    this.checkExistCodeStudent(newValue)
-                },
-                deep : true
-            },
+
+
+
             getPassword:{
                 handler(newValue)
                 {
                     this.classPassword = this.upsetDrangerClass(this.classPassword)
-                    if(newValue != this.infoStudent.rep_password)
+                    if(newValue != this.infoEnterprise.rep_password)
                     {
                         if(!this.checkHasDrangerClass(this.classOldPassword))
                         {
@@ -397,7 +231,7 @@
             getRepPassword:{
                 handler(newValue)
                 {
-                    if(newValue != this.infoStudent.password)
+                    if(newValue != this.infoEnterprise.password)
                     {
                         if(!this.checkHasDrangerClass(this.classOldPassword))
                         {

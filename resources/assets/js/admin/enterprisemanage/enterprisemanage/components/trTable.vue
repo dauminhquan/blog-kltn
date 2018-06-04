@@ -5,12 +5,12 @@
         <td class="check-item">
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
-        <td class="avatar-user"><img :src="getAvatar(item.avatar_student)" alt=""></td>
-        <td><a :href="infoStudent(item.code_student)">{{item.first_name_student + ' ' +item.last_name_student}}</a></td>
-        <td>{{item.name_department}}</td>
-        <td>{{item.name_branch}}</td>
-        <td>{{item.name_course}}</td>
-        <td><span class="label label-default" v-if="item.graduated == 1">Đã tốt nghiệp</span> <span v-else class="label label-success" >Chưa tốt nghiệp</span> </td>
+        <td class="avatar-user"><img :src="getAvatar(item.avatar_enterprise)" alt=""></td>
+        <td><a :href="infoEnterprise(item.user_enterprise)">{{item.name_enterprise}}</a></td>
+        <td>{{item.user_enterprise}}</td>
+        <td>{{item.introduce_enterprise}}</td>
+        <td>{{item.address_enterprise}}</td>
+        <td>{{item.created_at}}</td>
         <td class="text-center">
             <ul class="icons-list">
                 <li class="dropdown">
@@ -18,8 +18,8 @@
                         <i class="icon-menu9"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li @click="request_delete"><a href="javascript:void(0)"><i class="glyphicon glyphicon-trash"></i> Xóa sinh viên</a></li>
-                        <li @click="openInforStudent(item.code_student)"><a href="javascript:void(0)"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
+                        <li @click="request_delete"><a href="javascript:void(0)"><i class="glyphicon glyphicon-trash"></i> Xóa doanh nghiệp</a></li>
+                        <li @click="openInforEnterprise(item.user_enterprise)"><a href="javascript:void(0)"><i class="icon-info22"></i> Thông tin chi tiết</a></li>
                     </ul>
                 </li>
             </ul>
@@ -58,12 +58,12 @@
                 var vm = this
                 vm.$emit('request_delete_item',vm.item.id)
             },
-            infoStudent(code_student)
+            infoEnterprise(user_enterprise)
             {
-                return window.location.origin+'/admin/student-manage/info-student?code_student='+code_student
+                return window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+user_enterprise
             },
-            openInforStudent(code_student){
-                window.open(window.location.origin+'/admin/student-manage/info-student?code_student='+code_student,'_blank')
+            openInforEnterprise(user_enterprise){
+                window.open(window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+user_enterprise,'_blank')
             }
         }
     }
