@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-calendar3 position-left"></i>
-                Date posted
+                Ngày đăng
             </div>
         </div>
 

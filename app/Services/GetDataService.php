@@ -13,6 +13,7 @@ use App\Models\Course;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Enterprise;
+use App\Models\Post;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -251,5 +252,13 @@ class GetDataService
                 ];
             }
             return $employees;
+        }
+
+
+        //job
+
+        public function getListJob(){
+            return Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post','posts.city','posts.location'
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.avatar_enterprise')->paginate(1);
         }
 }

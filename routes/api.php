@@ -52,8 +52,18 @@ Route::group(['namespace' => 'Api'],function(){
             //them sinh vien bang file excel
             Route::get('/get-list-position',['name' => 'get.list.position','uses' => 'JobManageController@get_list_position']);
             Route::post('/add-position',['name' => 'add.position','uses' => 'JobManageController@add_position']);
+            Route::delete('/delete-list-position',['name' => 'delete.list.position','uses' => 'JobManageController@delete_list_position']);
+            Route::delete('/delete-position',['name' => 'delete.position','uses' => 'JobManageController@delete_position']);
+            Route::put('/edit-position',['name' => 'edit.position','uses' => 'JobManageController@edit_position']);
+            
+            
+            //skill
 
-            Route::delete('/delete-list-position',['name' => 'add.position','uses' => 'JobManageController@delete_list_position']);
+            Route::get('/get-list-skill',['name' => 'get.list.skill','uses' => 'JobManageController@get_list_skill']);
+            Route::post('/add-skill',['name' => 'add.skill','uses' => 'JobManageController@add_skill']);
+            Route::delete('/delete-list-skill',['name' => 'delete.list.skill','uses' => 'JobManageController@delete_list_skill']);
+            Route::delete('/delete-skill',['name' => 'delete.skill','uses' => 'JobManageController@delete_skill']);
+            Route::put('/edit-skill',['name' => 'edit.skill','uses' => 'JobManageController@edit_skill']);
 
         });
 
@@ -75,6 +85,15 @@ Route::group(['namespace' => 'Api'],function(){
         Route::get('get-option-enterprise','RequestInfoController@get_option_enterprise');
         Route::post('check-exist-info-enterprise','RequestInfoController@check_exist_info_enterprise');
         Route::get('get-info-enterprise','RequestInfoController@get_enterprise_with_email_address_enterprise');
+
+
+    });
+
+    Route::group(['prefix' => '/job','name' => 'get.job.','namespace' => 'Job'],function (){
+        Route::get('get-list-job','JobController@get_list_job');
+
+        //enterprise
+
 
 
     });

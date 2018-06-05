@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-history position-left"></i>
-                Latest searches
+                Lần tìm kiếm cuối cùng
             </div>
         </div>
 

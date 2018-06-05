@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin'],funct
     });
     Route::group(['prefix' => 'job-manage','as' => 'job.manage.'],function (){
         Route::get('/position',['name' => "position","uses" => 'JobManageController@positionsManage']);
+        Route::get('/skill',['name' => "skill","uses" => 'JobManageController@skillsManage']);
     });
 
 });

@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-briefcase3 position-left"></i>
-                Company
+               Công ty
             </div>
 
             <div class="heading-elements not-collapsible">

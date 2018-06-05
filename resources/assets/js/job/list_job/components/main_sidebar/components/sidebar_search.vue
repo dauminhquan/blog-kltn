@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-search4 text-size-base position-left"></i>
-                Filter
+                Tìm kiếm
             </div>
         </div>
 
@@ -11,7 +11,7 @@
             <form action="#">
                 <div class="form-group">
                     <div class="has-feedback has-feedback-left">
-                        <input type="search" class="form-control" placeholder="Job title or keywords">
+                        <input type="search" class="form-control" placeholder="Nhập từ khóa">
                         <div class="form-control-feedback">
                             <i class="icon-reading text-size-large text-muted"></i>
                         </div>
@@ -20,7 +20,7 @@
 
                 <div class="form-group">
                     <div class="has-feedback has-feedback-left">
-                        <input type="search" class="form-control" placeholder="Location">
+                        <input type="search" class="form-control" placeholder="Nhập vị trí">
                         <div class="form-control-feedback">
                             <i class="icon-pin-alt text-size-large text-muted"></i>
                         </div>

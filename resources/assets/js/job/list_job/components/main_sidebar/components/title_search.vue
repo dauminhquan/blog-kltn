@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-menu7 position-left"></i>
-                Job title
+                Vị trí công việc
             </div>
 
             <div class="heading-elements not-collapsible">

@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
-        <cards-layout></cards-layout>
-        <pagination></pagination>
+        <cards-layout @set_total_page="total_page = $event" :current_page="current_page"></cards-layout>
+        <pagination @set_current_page="current_page = $event" :current_page="current_page" :total_page="total_page"></pagination>
     </div>
 </template>
 <script>
@@ -11,6 +11,12 @@
         components: {
             'cards-layout' : cards_layout,
             'pagination' : pagination
+        },
+        data(){
+            return {
+                current_page: 1,
+                total_page: null
+            }
         }
     }
 </script>

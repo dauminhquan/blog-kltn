@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-stars position-left"></i>
-                Specific skills
+                Kỹ năng
             </div>
 
             <div class="heading-elements not-collapsible">

@@ -37,6 +37,8 @@ mix.js('resources/assets/js/admin/enterprisemanage/infoenterprise/infoenterprise
 //job
 mix.js('resources/assets/js/admin/job/positionsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/position.js');
 
+mix.js('resources/assets/js/admin/job/skillsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/skill.js');
+
 
 
 // !-- admin

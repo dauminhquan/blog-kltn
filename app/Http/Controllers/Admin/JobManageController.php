@@ -15,5 +15,9 @@ class JobManageController extends Controller
     {
         return view('admin.job.position');
     }
+    public function skillsManage()
+    {
+        return view('admin.job.skill');
+    }
 
 }

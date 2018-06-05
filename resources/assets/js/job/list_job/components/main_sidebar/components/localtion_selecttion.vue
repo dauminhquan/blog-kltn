@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-pin-alt position-left"></i>
-                Location
+                Vị trí địa lý
             </div>
 
             <div class="heading-elements not-collapsible">

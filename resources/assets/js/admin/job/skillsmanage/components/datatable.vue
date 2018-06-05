@@ -1,7 +1,7 @@
 <template>
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Chức vụ</h5>
+            <h5 class="panel-title">Kỹ năng</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -17,7 +17,7 @@
                 <th class="check-all">
                     <th-check-all :selected="false" @delete_selected="delete_selected" @setcheckAll="setCheckAllData"></th-check-all>
                 </th>
-                <th>Tên chức vụ</th>
+                <th>Tên kỹ năng</th>
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
@@ -28,17 +28,17 @@
         </table>
 
         <!-- modal push excel -->
-        <div id="modal-push-position" class="modal fade">
+        <div id="modal-push-skill" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
-                        <h5 class="modal-title">Nhập tên chức vụ</h5>
+                        <h5 class="modal-title">Nhập kỹ năng</h5>
                     </div>
-                    <form v-on:submit.prevent="submitPushPosition" class="form-inline" enctype="multipart/form-data">
+                    <form v-on:submit.prevent="submitPushSkill" class="form-inline" enctype="multipart/form-data">
 
                         <div class="modal-body">
-                            <input type="text"class="form-control" v-model="add_name_position">
-                            <div class="pace-demo" v-if="addingPositon == true">
+                            <input type="text"class="form-control" v-model="add_name_skill">
+                            <div class="pace-demo" v-if="addingSkill == true">
                                 <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
                             </div>
                         </div>
@@ -49,17 +49,17 @@
                 </div>
             </div>
         </div>
-        <div id="modal-edit-position" class="modal fade">
+        <div id="modal-edit-skill" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
-                        <h5 class="modal-title">Sửa chức vụ</h5>
+                        <h5 class="modal-title">Sửa kỹ năng</h5>
                     </div>
-                    <form v-on:submit.prevent="submitEditPostion" class="form-inline" enctype="multipart/form-data">
+                    <form v-on:submit.prevent="submitEditSkill" class="form-inline" enctype="multipart/form-data">
 
                         <div class="modal-body">
-                            <input type="text" required class="form-control" v-model="item_position_edit.name_position">
-                            <div class="pace-demo" v-if="addingPositon == true">
+                            <input type="text" required class="form-control" v-model="item_skill_edit.name_skill">
+                            <div class="pace-demo" v-if="addingSkill == true">
                                 <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
 
         },
         beforeMount(){
-            this.getPositions()
+            this.getSkills()
         },
         mounted(){
                 this.setDatatable()
@@ -172,7 +172,7 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    $('#modal-push-position').modal('show')
+                                    $('#modal-push-skill').modal('show')
 
                                 }
                             },
@@ -210,13 +210,13 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/job-manage/delete-list-position',
+                axios.delete('/api/admin/job-manage/delete-list-skill',
                     {
                         params: {
-                            list_id_position : vm.id_item_selected
+                            list_id_skill : vm.id_item_selected
                         }
                     }).then(data => {
-                    vm.positions = vm.positions.filter(value =>{
+                    vm.skills = vm.skills.filter(value =>{
                         return vm.id_item_selected.indexOf(value.id) == -1
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -251,11 +251,11 @@
             {
                 return oTableLocal.$('tr[will-delete="true"]');
             },
-            getPositions(){
+            getSkills(){
                 var vm = this
-                axios.get('/api/admin/job-manage/get-list-position').then(data => {
+                axios.get('/api/admin/job-manage/get-list-skill').then(data => {
                    vm.dataRows = data.data
-                    vm.positions = data.data
+                    vm.skills = data.data
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
@@ -267,13 +267,13 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/job-manage/delete-position',
+                axios.delete('/api/admin/job-manage/delete-skill',
                     {
                         params: {
                             id : id
                         }
                     }).then(data => {
-                    vm.positions = vm.positions.filter(value =>{
+                    vm.skills = vm.skills.filter(value =>{
                         return value.id !=id
                     })
                     var rows_selected = vm.fnGetSelected(vm.table)
@@ -297,35 +297,35 @@
                 })
 
             },
-            showEdit(id_postion)
+            showEdit(name_skill)
             {
                 var vm = this
-                var item_position = vm.positions.filter(item => {
-                    return item.id == id_postion
+                var item_skill = vm.skills.filter(item => {
+                    return item.id == name_skill
                 })[0]
-                vm.item_position_edit.id = item_position.id
-                vm.item_position_edit.name_position = item_position.name_position
-                $('#modal-edit-position').modal('show')
+                vm.item_skill_edit.id = item_skill.id
+                vm.item_skill_edit.name_skill = item_skill.name_skill
+                $('#modal-edit-skill').modal('show')
             },
-            submitPushPosition(){
+            submitPushSkill(){
                 var vm =this
 
-                axios.post('/api/admin/job-manage/add-position',{
-                    name_position:vm.add_name_position
+                axios.post('/api/admin/job-manage/add-skill',{
+                    name_skill:vm.add_name_skill
                 }).then(data => {
-                    $('#modal-push-position').modal('hide')
+                    $('#modal-push-skill').modal('hide')
                     console.log(data)
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: data.data.message,
                         addclass: 'bg-success'
                     });
-                    vm.add_name_position= ''
-                    vm.getPositions()
+                    vm.add_name_skill= ''
+                    vm.getSkills()
                 }).catch(err => {
                     console.dir(err)
                     var err_html = ''
-                    err.response.data.name_position.forEach(value => {
+                    err.response.data.name_skill.forEach(value => {
                         err_html+=value+'<br>'
                     })
                     new PNotify({
@@ -335,9 +335,9 @@
                     });
                 })
             },
-            submitEditPostion(){
+            submitEditSkill(){
                 var vm = this
-                if(vm.item_position_edit.id == '')
+                if(vm.item_skill_edit.id == '')
                 {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi! Chức vụ chưa được xác định',
@@ -346,18 +346,18 @@
                     });
                 }
                 else{
-                    axios.put('/api/admin/job-manage/edit-position',vm.item_position_edit).then(data => {
+                    axios.put('/api/admin/job-manage/edit-skill',vm.item_skill_edit).then(data => {
                         new PNotify({
                             title: 'Ohh Yeah! Thành công!',
                             text: data.data.message,
                             addclass: 'bg-success'
                         });
-                        this.getPositions()
-                        $('#modal-edit-position').modal('hide')
+                        this.getSkills()
+                        $('#modal-edit-skill').modal('hide')
                     }).catch(err => {
                         console.dir(err)
                         var err_html = ''
-                        err.response.data.name_position.forEach(value => {
+                        err.response.data.name_skill.forEach(value => {
                             err_html+=value+'<br>'
                         })
                         new PNotify({
@@ -374,13 +374,13 @@
                 checkAll: false,
                 table: '',
                 id_item_selected: [],
-                item_position_edit: {
+                item_skill_edit: {
                     id: '',
-                    name_position: ''
+                    name_skill: ''
                 },
-                positions: [],
-                add_name_position: '',
-                addingPositon: false,
+                skills: [],
+                add_name_skill: '',
+                addingSkill: false,
                 dataRows: [],
                 deleting: false,
 
