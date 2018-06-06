@@ -13192,7 +13192,951 @@ module.exports = function spread(callback) {
 /* 32 */,
 /* 33 */,
 /* 34 */,
-/* 35 */,
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Store */
+/* unused harmony export install */
+/* unused harmony export mapState */
+/* unused harmony export mapMutations */
+/* unused harmony export mapGetters */
+/* unused harmony export mapActions */
+/* unused harmony export createNamespacedHelpers */
+/**
+ * vuex v3.0.1
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+var applyMixin = function (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+};
+
+var devtoolHook =
+  typeof window !== 'undefined' &&
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  this._children = Object.create(null);
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = { namespaced: { configurable: true } };
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors$1 );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if (true) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  if (!parent.getChild(key).runtime) { return }
+
+  parent.removeChild(key);
+};
+
+function update (path, targetModule, newModule) {
+  if (true) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if (true) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if (true) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "Store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  var state = options.state; if ( state === void 0 ) state = {};
+  if (typeof state === 'function') {
+    state = state() || {};
+  }
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  if (Vue.config.devtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors = { state: { configurable: true } };
+
+prototypeAccessors.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors.state.set = function (v) {
+  if (true) {
+    assert(false, "Use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+    "development" !== 'production' &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
+
+  return entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload)
+};
+
+Store.prototype.subscribe = function subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn) {
+  return genericSubscribe(fn, this._actionSubscribers)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if (true) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors );
+
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    computed[key] = function () { return fn(store); };
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ("development" !== 'production' && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ("development" !== 'production' && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  var gettersProxy = {};
+
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
+
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
+    });
+  });
+
+  return gettersProxy
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload, cb) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload, cb);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if (true) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if (true) {
+      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.length
+    ? path.reduce(function (state, key) { return state[key]; }, state)
+    : state
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if (true) {
+    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if (true) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if ("development" !== 'production' && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+function normalizeMap (map) {
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if ("development" !== 'production' && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+var index_esm = {
+  Store: Store,
+  install: install,
+  version: '3.0.1',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (index_esm);
+
+
+/***/ }),
 /* 36 */,
 /* 37 */,
 /* 38 */,
@@ -13383,10 +14327,11 @@ var app = new Vue({
         'main-sidebar': __WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_main_sidebar_vue___default.a,
         'main-content': __WEBPACK_IMPORTED_MODULE_1__components_main_content_main_content_vue___default.a
     },
-    mounted: function mounted() {
-        $(".styled, .multiselect-container input").uniform({
-            radioClass: 'choice'
-        });
+    mounted: function mounted() {},
+    updated: function updated() {},
+
+    methods: {
+        search: function search() {}
     }
 });
 
@@ -13457,6 +14402,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_date_poste_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_date_poste_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_latest_searches_vue__ = __webpack_require__(217);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_latest_searches_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_latest_searches_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Store__ = __webpack_require__(235);
 //
 //
 //
@@ -13483,6 +14429,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    store: __WEBPACK_IMPORTED_MODULE_7__Store__["a" /* default */],
+    computed: {
+        get_key_query: function get_key_query() {
+            return this.$store.state.key_query;
+        },
+        get_locals_selected: function get_locals_selected() {
+            return this.locals_selected;
+        },
+        get_positions_selected: function get_positions_selected() {
+            return this.positions_selected;
+        },
+        get_enterprises_selected: function get_enterprises_selected() {
+            return this.enterprises_selected;
+        },
+        get_skills_selected: function get_skills_selected() {
+            return this.skills_selected;
+        },
+        get_dates_selected: function get_dates_selected() {
+            return this.dates_selected;
+        },
+        get_keyword: function get_keyword() {
+            return this.keyword;
+        },
+        get_types_job_selected: function get_types_job_selected() {
+            return this.types_job_selected;
+        }
+    },
     components: {
         "sidebar-search": __WEBPACK_IMPORTED_MODULE_0__components_sidebar_search_vue___default.a,
         'location-selection': __WEBPACK_IMPORTED_MODULE_1__components_localtion_selecttion_vue___default.a,
@@ -13492,6 +14465,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'specific-skills': __WEBPACK_IMPORTED_MODULE_4__components_specific_skills_vue___default.a,
         'date-posted': __WEBPACK_IMPORTED_MODULE_5__components_date_poste_vue___default.a,
         'latest-searches': __WEBPACK_IMPORTED_MODULE_6__components_latest_searches_vue___default.a
+    },
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            types_job_selected: [],
+            locals_selected: [],
+            positions_selected: [],
+            enterprises_selected: [],
+            skills_selected: [],
+            dates_selected: [],
+            keyword: '',
+            key_query: {
+                eventSearch: false
+            }
+        };
+    },
+
+    methods: {
+        search: function search() {
+
+            var vm = this;
+            vm.key_query.eventSearch = vm.key_query.eventSearch == true ? false : true;
+            vm.$store.commit('updateKeyQuery', vm.key_query);
+        }
+    },
+    watch: {
+        get_locals_selected: {
+            handler: function handler(newValue) {
+                this.key_query.locals_selected = newValue;
+            },
+
+            deep: true
+        },
+        get_positions_selected: {
+            handler: function handler(newValue) {
+                this.key_query.positions_selected = newValue;
+            },
+
+            deep: true
+        },
+        get_enterprises_selected: {
+            handler: function handler(newValue) {
+                this.key_query.enterprises_selected = newValue;
+            },
+
+            deep: true
+        },
+        get_skills_selected: {
+            handler: function handler(newValue) {
+                this.key_query.skills_selected = newValue;
+            },
+
+            deep: true
+        },
+        get_dates_selected: {
+            handler: function handler(newValue) {
+                this.key_query.dates_selected = newValue;
+            },
+
+            deep: true
+        },
+        get_keyword: {
+            handler: function handler(newValue) {
+                this.key_query.keyword = newValue;
+            },
+
+            deep: true
+        },
+        get_types_job_selected: {
+            handler: function handler(newValue) {
+                this.key_query.types_job_selected = newValue;
+            },
+
+            deep: true
+        }
     }
 });
 
@@ -13502,7 +14550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(229)
 /* template */
 var __vue_template__ = __webpack_require__(206)
 /* template functional */
@@ -13550,101 +14598,122 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "panel panel-white" }, [
+    _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title text-semibold" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn bg-blue btn-block",
+            attrs: { type: "button" },
+            on: { click: _vm.search }
+          },
+          [
+            _c("i", {
+              staticClass: "icon-search4 text-size-base position-left"
+            }),
+            _vm._v("\n                Tìm kiếm công việc\n            ")
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "panel-body" }, [
+      _c("form", { attrs: { action: "#" } }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "has-feedback has-feedback-left" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.keyword,
+                  expression: "keyword"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "search", placeholder: "Nhập từ khóa" },
+              domProps: { value: _vm.keyword },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.keyword = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          _vm._l(_vm.types_job, function(type_job) {
+            return _c("div", { key: type_job.id, staticClass: "checkbox" }, [
+              _c("label", { staticClass: "display-block" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.types_job_selected,
+                      expression: "types_job_selected"
+                    }
+                  ],
+                  staticClass: "styled",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    value: type_job.id,
+                    checked: Array.isArray(_vm.types_job_selected)
+                      ? _vm._i(_vm.types_job_selected, type_job.id) > -1
+                      : _vm.types_job_selected
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.types_job_selected,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = type_job.id,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            (_vm.types_job_selected = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.types_job_selected = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.types_job_selected = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(type_job.name_job_type) +
+                    "\n                    "
+                )
+              ])
+            ])
+          })
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel panel-white" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("div", { staticClass: "panel-title text-semibold" }, [
-          _c("i", { staticClass: "icon-search4 text-size-base position-left" }),
-          _vm._v("\n            Tìm kiếm\n        ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "panel-body" }, [
-        _c("form", { attrs: { action: "#" } }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "has-feedback has-feedback-left" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "search", placeholder: "Nhập từ khóa" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-control-feedback" }, [
-                _c("i", {
-                  staticClass: "icon-reading text-size-large text-muted"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "has-feedback has-feedback-left" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "search", placeholder: "Nhập vị trí" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-control-feedback" }, [
-                _c("i", {
-                  staticClass: "icon-pin-alt text-size-large text-muted"
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", { staticClass: "display-block" }, [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Full time\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", { staticClass: "display-block" }, [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Part time\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", { staticClass: "display-block" }, [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v("\n                        Remote\n                    ")
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn bg-blue btn-block", attrs: { type: "submit" } },
-            [
-              _c("i", {
-                staticClass: "icon-search4 text-size-base position-left"
-              }),
-              _vm._v("\n                Find jobs\n            ")
-            ]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "form-control-feedback" }, [
+      _c("i", { staticClass: "icon-reading text-size-large text-muted" })
     ])
   }
 ]
@@ -13664,7 +14733,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(230)
 /* template */
 var __vue_template__ = __webpack_require__(208)
 /* template functional */
@@ -13712,101 +14781,104 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "panel panel-white" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("form", { attrs: { action: "#" } }, [
+      _c("div", { staticClass: "panel-body" }, [
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          _vm._l(_vm.locals, function(local, index) {
+            return index < _vm.max_show
+              ? _c("div", { staticClass: "checkbox no-margin-top" }, [
+                  _c("label", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.locals_selected,
+                          expression: "locals_selected"
+                        }
+                      ],
+                      staticClass: "styled",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        value: local,
+                        checked: Array.isArray(_vm.locals_selected)
+                          ? _vm._i(_vm.locals_selected, local) > -1
+                          : _vm.locals_selected
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.locals_selected,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = local,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                (_vm.locals_selected = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.locals_selected = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.locals_selected = $$c
+                          }
+                        }
+                      }
+                    }),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(local) +
+                        "\n                    "
+                    )
+                  ])
+                ])
+              : _vm._e()
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-footer no-padding" }, [
+        _vm.max_show < _vm.locals.length
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default btn-block no-border",
+                attrs: { href: "javascript:void(0)" },
+                on: {
+                  click: function($event) {
+                    _vm.max_show = _vm.locals.length
+                  }
+                }
+              },
+              [_vm._v("Xem tất cả vị trí")]
+            )
+          : _vm._e()
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel panel-white" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("div", { staticClass: "panel-title text-semibold" }, [
-          _c("i", { staticClass: "icon-pin-alt position-left" }),
-          _vm._v("\n            Vị trí địa lý\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "heading-elements not-collapsible" }, [
-          _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
-            _vm._v("+ Add")
-          ])
-        ])
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title text-semibold" }, [
+        _c("i", { staticClass: "icon-pin-alt position-left" }),
+        _vm._v("\n            Vị trí địa lý\n        ")
       ]),
       _vm._v(" "),
-      _c("form", { attrs: { action: "#" } }, [
-        _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "checkbox no-margin-top" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Amsterdam, North Holland Province, Netherlands\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Koog aan de Zaan, North Holland Province, Netherlands\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Amsterdam Binnenstad en Oostelijk Havengebied, North Holland Province, Netherlands\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Hoofddorp, North Holland Province, Netherlands\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox no-margin-bottom" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Alkmaar, North Holland Province, Netherlands\n                    "
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-footer no-padding" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-default btn-block no-border",
-              attrs: { href: "#" }
-            },
-            [_vm._v("All locations")]
-          )
+      _c("div", { staticClass: "heading-elements not-collapsible" }, [
+        _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
+          _vm._v("+ Add")
         ])
       ])
     ])
@@ -13828,7 +14900,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(231)
 /* template */
 var __vue_template__ = __webpack_require__(210)
 /* template functional */
@@ -13876,146 +14948,108 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "panel panel-white" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("form", { attrs: { action: "#" } }, [
+      _c("div", { staticClass: "panel-body" }, [
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          _vm._l(_vm.positions, function(position, index) {
+            return index < _vm.max_show
+              ? _c(
+                  "div",
+                  { key: position.id, staticClass: "checkbox no-margin-top" },
+                  [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.positions_selected,
+                            expression: "positions_selected"
+                          }
+                        ],
+                        staticClass: "styled",
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: position.id,
+                          checked: Array.isArray(_vm.positions_selected)
+                            ? _vm._i(_vm.positions_selected, position.id) > -1
+                            : _vm.positions_selected
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.positions_selected,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = position.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.positions_selected = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.positions_selected = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.positions_selected = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(position.name_position) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e()
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-footer no-padding" }, [
+        _vm.max_show < _vm.positions.length
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default btn-block no-border",
+                attrs: { href: "javascript:void(0)" },
+                on: {
+                  click: function($event) {
+                    _vm.max_show = _vm.positions.length
+                  }
+                }
+              },
+              [_vm._v("Xem tất cả vị trí")]
+            )
+          : _vm._e()
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel panel-white" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("div", { staticClass: "panel-title text-semibold" }, [
-          _c("i", { staticClass: "icon-menu7 position-left" }),
-          _vm._v("\n            Vị trí công việc\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "heading-elements not-collapsible" }, [
-          _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
-            _vm._v("+ Add")
-          ])
-        ])
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title text-semibold" }, [
+        _c("i", { staticClass: "icon-menu7 position-left" }),
+        _vm._v("\n            Vị trí công việc\n        ")
       ]),
       _vm._v(" "),
-      _c("form", { attrs: { action: "#" } }, [
-        _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "checkbox no-margin-top" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Developer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (38)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Front end designer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (43)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        UX designer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (74)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Software engineer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (25)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Full stack designer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (12)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Motion designer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (53)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox no-margin-bottom" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        PHP developer\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (19)")
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-footer no-padding" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-default btn-block no-border",
-              attrs: { href: "#" }
-            },
-            [_vm._v("All job titles")]
-          )
+      _c("div", { staticClass: "heading-elements not-collapsible" }, [
+        _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
+          _vm._v("+ Add")
         ])
       ])
     ])
@@ -14037,7 +15071,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(232)
 /* template */
 var __vue_template__ = __webpack_require__(212)
 /* template functional */
@@ -14085,146 +15119,109 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "panel panel-white" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("form", { attrs: { action: "#" } }, [
+      _c("div", { staticClass: "panel-body" }, [
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          _vm._l(_vm.enterprises, function(enterprise, index) {
+            return index < _vm.max_show
+              ? _c(
+                  "div",
+                  { key: enterprise.id, staticClass: "checkbox no-margin-top" },
+                  [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.enterprises_selected,
+                            expression: "enterprises_selected"
+                          }
+                        ],
+                        staticClass: "styled",
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: enterprise.id,
+                          checked: Array.isArray(_vm.enterprises_selected)
+                            ? _vm._i(_vm.enterprises_selected, enterprise.id) >
+                              -1
+                            : _vm.enterprises_selected
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.enterprises_selected,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = enterprise.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.enterprises_selected = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.enterprises_selected = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.enterprises_selected = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(enterprise.name_enterprise) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e()
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-footer no-padding" }, [
+        _vm.max_show < _vm.enterprises.length
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default btn-block no-border",
+                attrs: { href: "javascript:void(0)" },
+                on: {
+                  click: function($event) {
+                    _vm.max_show = _vm.enterprises.length
+                  }
+                }
+              },
+              [_vm._v("Xem tất cả doanh nghiệp")]
+            )
+          : _vm._e()
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel panel-white" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("div", { staticClass: "panel-title text-semibold" }, [
-          _c("i", { staticClass: "icon-briefcase3 position-left" }),
-          _vm._v("\n           Công ty\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "heading-elements not-collapsible" }, [
-          _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
-            _vm._v("+ Add")
-          ])
-        ])
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title text-semibold" }, [
+        _c("i", { staticClass: "icon-briefcase3 position-left" }),
+        _vm._v("\n           Doanh nghiệp\n        ")
       ]),
       _vm._v(" "),
-      _c("form", { attrs: { action: "#" } }, [
-        _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "checkbox no-margin-top" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Amazon\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (43)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        The North Face\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (124)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Transfer Wise\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (67)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        ING Bank\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (37)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Facebook\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (28)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Dell\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (67)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox no-margin-bottom" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Microsoft\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (57)")
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-footer no-padding" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-default btn-block no-border",
-              attrs: { href: "#" }
-            },
-            [_vm._v("All companies")]
-          )
+      _c("div", { staticClass: "heading-elements not-collapsible" }, [
+        _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
+          _vm._v("+ Add")
         ])
       ])
     ])
@@ -14246,7 +15243,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(233)
 /* template */
 var __vue_template__ = __webpack_require__(214)
 /* template functional */
@@ -14294,146 +15291,108 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "panel panel-white" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("form", { attrs: { action: "#" } }, [
+      _c("div", { staticClass: "panel-body" }, [
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          _vm._l(_vm.skills, function(skill, index) {
+            return index < _vm.max_show
+              ? _c(
+                  "div",
+                  { key: skill.id, staticClass: "checkbox no-margin-top" },
+                  [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.skills_selected,
+                            expression: "skills_selected"
+                          }
+                        ],
+                        staticClass: "styled",
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: skill.id,
+                          checked: Array.isArray(_vm.skills_selected)
+                            ? _vm._i(_vm.skills_selected, skill.id) > -1
+                            : _vm.skills_selected
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.skills_selected,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = skill.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.skills_selected = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.skills_selected = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.skills_selected = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(skill.name_skill) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e()
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-footer no-padding" }, [
+        _vm.max_show < _vm.skills.length
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-default btn-block no-border",
+                attrs: { href: "javascript:void(0)" },
+                on: {
+                  click: function($event) {
+                    _vm.max_show = _vm.skills.length
+                  }
+                }
+              },
+              [_vm._v("Xem tất cả kỹ năng")]
+            )
+          : _vm._e()
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel panel-white" }, [
-      _c("div", { staticClass: "panel-heading" }, [
-        _c("div", { staticClass: "panel-title text-semibold" }, [
-          _c("i", { staticClass: "icon-stars position-left" }),
-          _vm._v("\n            Kỹ năng\n        ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "heading-elements not-collapsible" }, [
-          _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
-            _vm._v("+ Add")
-          ])
-        ])
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title text-semibold" }, [
+        _c("i", { staticClass: "icon-stars position-left" }),
+        _vm._v("\n            Kỹ năng\n        ")
       ]),
       _vm._v(" "),
-      _c("form", { attrs: { action: "#" } }, [
-        _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "checkbox no-margin-top" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        JavaScript\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (53)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        HTML5, SCSS/SASS\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (36)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Wireframing\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (21)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Scrum\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (8)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Grunt/gulp/bower\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (68)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        Node.js\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (32)")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "checkbox no-margin-bottom" }, [
-              _c("label", [
-                _c("input", {
-                  staticClass: "styled",
-                  attrs: { type: "checkbox" }
-                }),
-                _vm._v(
-                  "\n                        AngularJS\n                        "
-                ),
-                _c("span", { staticClass: "text-muted text-size-small" }, [
-                  _vm._v(" (94)")
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-footer no-padding" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-default btn-block no-border",
-              attrs: { href: "#" }
-            },
-            [_vm._v("All skills")]
-          )
+      _c("div", { staticClass: "heading-elements not-collapsible" }, [
+        _c("a", { staticClass: "heading-text", attrs: { href: "#" } }, [
+          _vm._v("+ Add")
         ])
       ])
     ])
@@ -14455,7 +15414,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(234)
 /* template */
 var __vue_template__ = __webpack_require__(216)
 /* template functional */
@@ -14528,7 +15487,7 @@ var staticRenderFns = [
                   attrs: { type: "radio", name: "when_posted" }
                 }),
                 _vm._v(
-                  "\n                        Today\n                        "
+                  "\n                        Hôm nay\n                        "
                 ),
                 _c("span", { staticClass: "text-muted text-size-small" }, [
                   _vm._v(" (632)")
@@ -14543,7 +15502,7 @@ var staticRenderFns = [
                   attrs: { type: "radio", name: "when_posted" }
                 }),
                 _vm._v(
-                  "\n                        Yesterday\n                        "
+                  "\n                        Hôm qua\n                        "
                 ),
                 _c("span", { staticClass: "text-muted text-size-small" }, [
                   _vm._v(" (431)")
@@ -14558,7 +15517,7 @@ var staticRenderFns = [
                   attrs: { type: "radio", name: "when_posted" }
                 }),
                 _vm._v(
-                  "\n                        Last week\n                        "
+                  "\n                        Tuần trước\n                        "
                 ),
                 _c("span", { staticClass: "text-muted text-size-small" }, [
                   _vm._v(" (31)")
@@ -14573,7 +15532,7 @@ var staticRenderFns = [
                   attrs: { type: "radio", name: "when_posted" }
                 }),
                 _vm._v(
-                  "\n                        Last month\n                        "
+                  "\n                        Tháng trước\n                        "
                 ),
                 _c("span", { staticClass: "text-muted text-size-small" }, [
                   _vm._v(" (124)")
@@ -14588,7 +15547,7 @@ var staticRenderFns = [
                   attrs: { type: "radio", name: "when_posted" }
                 }),
                 _vm._v(
-                  "\n                        Any time\n                    "
+                  "\n                        Bất kỳ lúc nào\n                    "
                 )
               ])
             ])
@@ -14741,17 +15700,57 @@ var render = function() {
         "div",
         { staticClass: "sidebar-content" },
         [
-          _c("sidebar-search"),
+          _c("sidebar-search", {
+            on: {
+              search: _vm.search,
+              change_keyword: function($event) {
+                _vm.keyword = $event
+              },
+              change_types_job_selected: function($event) {
+                _vm.types_job_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("location-selection"),
+          _c("location-selection", {
+            on: {
+              change_locals_selected: function($event) {
+                _vm.locals_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("title-selection"),
+          _c("title-selection", {
+            on: {
+              change_positions_selected: function($event) {
+                _vm.positions_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("company-selection"),
+          _c("company-selection", {
+            on: {
+              change_enterprises_selected: function($event) {
+                _vm.enterprises_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("specific-skills"),
+          _c("specific-skills", {
+            on: {
+              change_skills_selected: function($event) {
+                _vm.skills_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("date-posted"),
+          _c("date-posted", {
+            on: {
+              change_dates_selected: function($event) {
+                _vm.dates_selected = $event
+              }
+            }
+          }),
           _vm._v(" "),
           _c("latest-searches")
         ],
@@ -14779,7 +15778,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(221)
 /* template */
-var __vue_template__ = __webpack_require__(227)
+var __vue_template__ = __webpack_require__(228)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14836,7 +15835,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['updateData'],
     components: {
         'cards-layout': __WEBPACK_IMPORTED_MODULE_0__components_cards_layout_vue___default.a,
         'pagination': __WEBPACK_IMPORTED_MODULE_1__components_pagination_vue___default.a
@@ -14904,6 +15905,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Store__ = __webpack_require__(235);
 //
 //
 //
@@ -14936,17 +15938,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-
-    computed: {},
+    store: __WEBPACK_IMPORTED_MODULE_1__Store__["a" /* default */],
+    computed: {
+        get_key_query: function get_key_query() {
+            return this.$store.getters.getKeyQuery;
+        },
+        get_key_query_eventSearch: function get_key_query_eventSearch() {
+            return this.$store.getters.getKeyQueryEventSearch;
+        },
+        get_search: function get_search() {
+            return this.$store.getters.getSearch;
+        }
+    },
 
     props: ['current_page'],
 
     data: function data() {
         return {
-            posts: []
+            posts: [],
+            key_query: {}
         };
     },
     beforeMount: function beforeMount() {},
@@ -14959,9 +15973,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getPosts: function getPosts() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-job?page=' + vm.current_page).then(function (data) {
+
+            var key_query = vm.get_key_query;
+            var query = {
+                params: {
+                    page: vm.current_page
+
+                }
+            };
+            if (key_query.keyword != undefined && key_query.keyword != '') {
+                query.params.keyword = key_query.keyword;
+            }
+            if (key_query.types_job_selected != undefined && key_query.types_job_selected.length > 0) {
+                query.params.types_job_selected = key_query.types_job_selected;
+            }
+            if (key_query.locals_selected != undefined && key_query.locals_selected.length > 0) {
+                query.params.locals_selected = key_query.locals_selected;
+            }
+            if (key_query.positions_selected != undefined && key_query.positions_selected.length > 0) {
+                query.params.positions_selected = key_query.positions_selected;
+            }
+            if (key_query.enterprises_selected != undefined && key_query.enterprises_selected.length > 0) {
+                query.params.enterprises_selected = key_query.enterprises_selected;
+            }
+            if (key_query.skills_selected != undefined && key_query.skills_selected.length > 0) {
+                query.params.skills_selected = key_query.skills_selected;
+            }
+            if (key_query.dates_selected != undefined && key_query.dates_selected.length > 0) {
+                query.params.dates_selected = key_query.dates_selected;
+            }
+
+            console.log(query);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-job', query).then(function (data) {
                 vm.posts = data.data.data;
-                vm.$emit('set_total_page', parseInt(data.data.total / 2) + 1);
+                vm.$emit('set_total_page', parseInt(data.data.total / 20) + 1);
             }).catch(function (err) {
                 console.log(err);
             });
@@ -14973,6 +16018,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         current_page: function current_page() {
             this.getPosts();
+        },
+
+        get_key_query_eventSearch: {
+            handler: function handler(newVal, oldVal) {
+
+                this.getPosts();
+            },
+
+            deep: true
+        },
+        get_search: {
+            handler: function handler(newVal) {
+                console.log(newVal);
+            },
+            deep: true
         }
     }
 });
@@ -15076,9 +16136,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(228)
+var __vue_script__ = __webpack_require__(226)
 /* template */
-var __vue_template__ = __webpack_require__(226)
+var __vue_template__ = __webpack_require__(227)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -15118,6 +16178,58 @@ module.exports = Component.exports
 
 /***/ }),
 /* 226 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        checkPre: function checkPre() {
+            if (this.current_page == 1) {
+                return 'disabled';
+            }
+        },
+        checkNext: function checkNext() {
+            if (this.current_page == this.total_page) {
+                return 'disabled';
+            }
+        }
+    },
+    props: ['total_page', 'current_page'],
+    methods: {
+        checkActive: function checkActive(page) {
+            if (page == this.current_page) {
+                return 'active';
+            }
+        },
+        select_page: function select_page(page) {
+            this.$emit('set_current_page', page);
+        },
+        downPage: function downPage() {
+            if (this.current_page > 1) {
+                this.$emit('set_current_page', this.current_page - 1);
+            }
+        },
+        upPage: function upPage() {
+            if (this.current_page < this.total_page) {
+                this.$emit('set_current_page', this.current_page + 1);
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -15184,7 +16296,7 @@ if (false) {
 }
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -15196,7 +16308,7 @@ var render = function() {
     { staticClass: "content-wrapper" },
     [
       _c("cards-layout", {
-        attrs: { current_page: _vm.current_page },
+        attrs: { updateData: _vm.updateData, current_page: _vm.current_page },
         on: {
           set_total_page: function($event) {
             _vm.total_page = $event
@@ -15227,11 +16339,37 @@ if (false) {
 }
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15242,37 +16380,562 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
-        checkPre: function checkPre() {
-            if (this.current_page == 1) {
-                return 'disabled';
-            }
+        get_types_job_selected: function get_types_job_selected() {
+            return this.types_job_selected;
         },
-        checkNext: function checkNext() {
-            if (this.current_page == this.total_page) {
-                return 'disabled';
-            }
+        get_keyword: function get_keyword() {
+            return this.keyword;
         }
     },
-    props: ['total_page', 'current_page'],
+    props: [],
+    data: function data() {
+        return {
+
+            types_job: [],
+            types_job_selected: [],
+            keyword: ''
+        };
+    },
+
     methods: {
-        checkActive: function checkActive(page) {
-            if (page == this.current_page) {
-                return 'active';
-            }
+        getTypesJob: function getTypesJob() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-type-job').then(function (data) {
+                vm.types_job = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+            });
         },
-        select_page: function select_page(page) {
-            this.$emit('set_current_page', page);
+        search: function search() {
+            this.$emit('search');
+        }
+    },
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        this.getTypesJob();
+    },
+
+    watch: {
+        get_types_job_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_types_job_selected', newValue);
+            },
+
+            deep: true
         },
-        downPage: function downPage() {
-            this.$emit('set_current_page', this.page - 1);
-        },
-        upPage: function upPage() {
-            this.$emit('set_current_page', this.page + 1);
+        get_keyword: {
+            handler: function handler(newValue) {
+                this.$emit('change_keyword', newValue);
+            },
+
+            deep: true
         }
     }
 });
+
+/***/ }),
+/* 230 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        get_locals_selected: function get_locals_selected() {
+            return this.locals_selected;
+        }
+    },
+    props: [],
+    data: function data() {
+        return {
+
+            locals: ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Tĩnh", "Hải Dương", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái", "Phú Yên", "Cần Thơ", "Đà Nẵng", "Hải Phòng", "Hà Nội", "TP HCM"],
+            locals_selected: [],
+            max_show: 10
+        };
+    },
+
+    methods: {},
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        // this.getTypesJob()
+
+    },
+
+    watch: {
+        get_locals_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_locals_selected', newValue);
+            },
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+/* 231 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        get_positions_selected: function get_positions_selected() {
+            return this.positions_selected;
+        }
+    },
+    props: [],
+    data: function data() {
+        return {
+
+            positions: [],
+            positions_selected: [],
+            max_show: 10
+        };
+    },
+
+    methods: {
+        getPositions: function getPositions() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-position').then(function (data) {
+                vm.positions = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+            });
+        }
+    },
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        this.getPositions();
+    },
+
+    watch: {
+        get_positions_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_positions_selected', newValue);
+            },
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+/* 232 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        get_enterprises_selected: function get_enterprises_selected() {
+            return this.enterprises_selected;
+        }
+    },
+    props: [],
+    data: function data() {
+        return {
+
+            enterprises: [],
+            enterprises_selected: [],
+            max_show: 10
+        };
+    },
+
+    methods: {
+        getCompanies: function getCompanies() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-enterprise').then(function (data) {
+                vm.enterprises = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+            });
+        }
+    },
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        this.getCompanies();
+    },
+
+    watch: {
+        get_enterprises_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_enterprises_selected', newValue);
+            },
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+/* 233 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        get_skills_selected: function get_skills_selected() {
+            return this.skills_selected;
+        }
+    },
+    props: [],
+    data: function data() {
+        return {
+
+            skills: [],
+            skills_selected: [],
+            max_show: 10
+        };
+    },
+
+    methods: {
+        getSkills: function getSkills() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/job/get-list-skill').then(function (data) {
+                vm.skills = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+            });
+        }
+    },
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        this.getSkills();
+    },
+
+    watch: {
+        get_skills_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_skills_selected', newValue);
+            },
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+/* 234 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        get_dates_selected: function get_dates_selected() {
+            return this.dates_selected;
+        }
+    },
+    props: [],
+    data: function data() {
+        return {
+
+            dates: [],
+            dates_selected: []
+        };
+    },
+
+    methods: {
+        // getTypesJob()
+        // {
+        //     // var vm = this
+        //     // axios.get('/api/job/get-list-dat').then(data => {
+        //     //     vm.dates = data.data
+        //     // }).catch(err => {
+        //     //     console.dir(err)
+        //     // })
+        // }
+    },
+
+    beforeUpdate: function beforeUpdate() {},
+    updated: function updated() {
+        $(".styled, .multiselect-container input").uniform({
+            radioClass: 'choice'
+        });
+    },
+    mounted: function mounted() {
+        // this.getTypesJob()
+
+    },
+
+    watch: {
+        get_dates_selected: {
+            handler: function handler(newValue) {
+                this.$emit('change_dates_selected', newValue);
+            },
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+/* 235 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(35);
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+    state: {
+        key_query: {}
+    },
+    mutations: {
+        updateKeyQuery: function updateKeyQuery(state, key_query) {
+            state.key_query = key_query;
+        }
+    },
+    getters: {
+        getKeyQueryEventSearch: function getKeyQueryEventSearch(state) {
+            return state.key_query.eventSearch;
+        },
+        getKeyQuery: function getKeyQuery(state) {
+            return state.key_query;
+        }
+    }
+}));
 
 /***/ })
 /******/ ]);

@@ -87,15 +87,21 @@ Route::group(['namespace' => 'Api'],function(){
         Route::get('get-info-enterprise','RequestInfoController@get_enterprise_with_email_address_enterprise');
 
 
-    });
+    }); //dùng cho admin
 
     Route::group(['prefix' => '/job','name' => 'get.job.','namespace' => 'Job'],function (){
-        Route::get('get-list-job','JobController@get_list_job');
+        Route::get('get-list-job','JobController@get_list_job')->name('list_job');
+        Route::get('get-list-type-job','JobController@get_list_type_job')->name('list_type_job');
+        Route::get('get-list-position','JobController@get_list_position')->name('get_list_position ');
+        Route::get('get-list-enterprise','JobController@get_list_enterprise')->name('get_list_enterprise');
+        Route::get('get-list-skill','JobController@get_list_skill')->name('get_list_skill');
 
         //enterprise
 
 
 
     });
+
+
 });
 

@@ -8,8 +8,14 @@ const app = new Vue({
         'main-content' : main_content
     },
     mounted(){
-        $(".styled, .multiselect-container input").uniform({
-            radioClass: 'choice'
-        });
-    }
+
+    },
+    updated(){
+
+    },
+    methods: {
+        search(){
+
+        },
+    },
 })

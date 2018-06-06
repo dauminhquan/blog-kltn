@@ -32,10 +32,19 @@
 </template>
 <script>
     import axios from 'axios'
+    import store from './../../../Store'
     export default {
-
+        store,
         computed: {
-
+            get_key_query(){
+                return this.$store.getters.getKeyQuery
+            },
+            get_key_query_eventSearch(){
+                return this.$store.getters.getKeyQueryEventSearch
+            },
+            get_search(){
+                return this.$store.getters.getSearch
+            }
         },
 
         props: ['current_page'],
@@ -48,6 +57,7 @@
                 posts: [
 
                 ],
+                key_query: {}
             }
         },
 
@@ -64,9 +74,47 @@
         methods:{
             getPosts(){
                 var vm = this
-                axios.get('/api/job/get-list-job?page='+vm.current_page).then(data => {
+
+                var key_query = vm.get_key_query
+                var query = {
+                    params: {
+                        page:vm.current_page,
+
+                    }
+                }
+                if(key_query.keyword != undefined && key_query.keyword != '')
+                {
+                    query.params.keyword = key_query.keyword
+                }
+                if(key_query.types_job_selected != undefined && key_query.types_job_selected.length >0)
+                {
+                    query.params.types_job_selected = key_query.types_job_selected
+                }
+                if(key_query.locals_selected != undefined && key_query.locals_selected.length >0)
+                {
+                    query.params.locals_selected = key_query.locals_selected
+                }
+                if(key_query.positions_selected != undefined && key_query.positions_selected.length >0 )
+                {
+                    query.params.positions_selected = key_query.positions_selected
+                }
+                if(  key_query.enterprises_selected != undefined && key_query.enterprises_selected.length >0)
+                {
+                    query.params.enterprises_selected = key_query.enterprises_selected
+                }
+                if(key_query.skills_selected != undefined && key_query.skills_selected.length >0)
+                {
+                    query.params.skills_selected = key_query.skills_selected
+                }
+                if(key_query.dates_selected != undefined && key_query.dates_selected.length >0)
+                {
+                    query.params.dates_selected = key_query.dates_selected
+                }
+
+                console.log(query)
+                axios.get('/api/job/get-list-job',query).then(data => {
                     vm.posts = data.data.data
-                    vm.$emit('set_total_page',parseInt(data.data.total/2)+1)
+                    vm.$emit('set_total_page',parseInt(data.data.total/20)+1)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -79,6 +127,19 @@
         watch:{
             current_page(){
                 this.getPosts()
+            },
+            get_key_query_eventSearch:{
+                handler(newVal,oldVal){
+
+                     this.getPosts()
+                },
+                deep:true
+            },
+            get_search:{
+                handler(newVal)
+                {
+                    console.log(newVal)
+                },deep:true
             }
         }
     }

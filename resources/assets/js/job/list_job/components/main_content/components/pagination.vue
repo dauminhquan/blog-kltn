@@ -38,10 +38,17 @@
               this.$emit('set_current_page',page)
             },
             downPage(){
-                this.$emit('set_current_page',this.page - 1)
+               if(this.current_page > 1)
+               {
+                   this.$emit('set_current_page',this.current_page - 1)
+               }
+
             },
             upPage(){
-                this.$emit('set_current_page',this.page + 1)
+              if(this.current_page < this.total_page)
+              {
+                  this.$emit('set_current_page',this.current_page + 1)
+              }
             }
 
         },

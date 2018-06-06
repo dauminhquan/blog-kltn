@@ -14,67 +14,73 @@
         <form action="#">
             <div class="panel-body">
                 <div class="form-group">
-                    <div class="checkbox no-margin-top">
+                    <div class="checkbox no-margin-top" v-for="(position,index) in positions" :key="position.id" v-if="index < max_show">
                         <label>
-                            <input type="checkbox" class="styled">
-                            Developer
-                            <span class="text-muted text-size-small">&nbsp;(38)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Front end designer
-                            <span class="text-muted text-size-small">&nbsp;(43)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            UX designer
-                            <span class="text-muted text-size-small">&nbsp;(74)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Software engineer
-                            <span class="text-muted text-size-small">&nbsp;(25)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Full stack designer
-                            <span class="text-muted text-size-small">&nbsp;(12)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Motion designer
-                            <span class="text-muted text-size-small">&nbsp;(53)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox no-margin-bottom">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            PHP developer
-                            <span class="text-muted text-size-small">&nbsp;(19)</span>
+                            <input type="checkbox" class="styled" v-model="positions_selected" :value="position.id">
+                            {{position.name_position}}
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="panel-footer no-padding">
-                <a href="#" class="btn btn-default btn-block no-border">All job titles</a>
+                <a href="javascript:void(0)" class="btn btn-default btn-block no-border" @click="max_show = positions.length" v-if="max_show < positions.length">Xem tất cả vị trí</a>
             </div>
         </form>
     </div>
 </template>
+
+<script>
+    import axios from 'axios'
+    export default {
+        computed:{
+            get_positions_selected(){
+                return this.positions_selected
+            }
+        },
+        props: [],
+        data(){
+            return {
+
+                positions : [],
+                positions_selected: [],
+                max_show:10
+            }
+        },
+        methods:{
+            getPositions()
+            {
+                var vm = this
+                axios.get('/api/job/get-list-position').then(data => {
+                    vm.positions = data.data
+                }).catch(err => {
+                    console.dir(err)
+                })
+            }
+        },
+
+
+        beforeUpdate(){
+
+        },
+        updated(){
+            $(".styled, .multiselect-container input").uniform({
+                radioClass: 'choice'
+            });
+        },
+
+        mounted(){
+            this.getPositions()
+
+        }
+        ,
+        watch:{
+            get_positions_selected: {
+                handler(newValue){
+                    this.$emit('change_positions_selected',newValue)
+                },
+                deep: true
+            }
+        }
+    }
+</script>

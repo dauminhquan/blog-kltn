@@ -2,8 +2,10 @@
     <div class="panel panel-white">
         <div class="panel-heading">
             <div class="panel-title text-semibold">
-                <i class="icon-search4 text-size-base position-left"></i>
-                Tìm kiếm
+                <button type="button" @click="search" class="btn bg-blue btn-block">
+                    <i class="icon-search4 text-size-base position-left"></i>
+                    Tìm kiếm công việc
+                </button>
             </div>
         </div>
 
@@ -11,50 +13,87 @@
             <form action="#">
                 <div class="form-group">
                     <div class="has-feedback has-feedback-left">
-                        <input type="search" class="form-control" placeholder="Nhập từ khóa">
+                        <input type="search" class="form-control" v-model="keyword" placeholder="Nhập từ khóa">
                         <div class="form-control-feedback">
                             <i class="icon-reading text-size-large text-muted"></i>
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <div class="has-feedback has-feedback-left">
-                        <input type="search" class="form-control" placeholder="Nhập vị trí">
-                        <div class="form-control-feedback">
-                            <i class="icon-pin-alt text-size-large text-muted"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox">
+                    <div class="checkbox" v-for="type_job in types_job" :key="type_job.id">
                         <label class="display-block">
-                            <input type="checkbox" class="styled">
-                            Full time
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label class="display-block">
-                            <input type="checkbox" class="styled">
-                            Part time
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label class="display-block">
-                            <input type="checkbox" class="styled">
-                            Remote
+                            <input type="checkbox" :value="type_job.id" class="styled" v-model="types_job_selected">
+                            {{type_job.name_job_type}}
                         </label>
                     </div>
                 </div>
-
-                <button type="submit" class="btn bg-blue btn-block">
-                    <i class="icon-search4 text-size-base position-left"></i>
-                    Find jobs
-                </button>
             </form>
         </div>
     </div>
 </template>
+<script>
+    import axios from 'axios'
+    export default {
+        computed:{
+            get_types_job_selected(){
+                return this.types_job_selected
+            },
+            get_keyword(){
+                return this.keyword
+            }
+        },
+        props: [],
+        data(){
+            return {
+
+                types_job : [],
+                types_job_selected: [],
+                keyword: ''
+            }
+        },
+        methods:{
+          getTypesJob()
+          {
+              var vm = this
+              axios.get('/api/job/get-list-type-job').then(data => {
+                    vm.types_job = data.data
+              }).catch(err => {
+                    console.dir(err)
+              })
+          },
+            search(){
+              this.$emit('search')
+            }
+        },
+
+
+        beforeUpdate(){
+
+        },
+        updated(){
+            $(".styled, .multiselect-container input").uniform({
+                radioClass: 'choice'
+            });
+        },
+
+        mounted(){
+            this.getTypesJob()
+
+        }
+        ,
+        watch:{
+            get_types_job_selected: {
+                handler(newValue){
+                    this.$emit('change_types_job_selected',newValue)
+                },
+                deep: true
+            },
+            get_keyword:{
+                handler(newValue){
+                    this.$emit('change_keyword',newValue)
+                },
+                deep: true
+            }
+        }
+    }
+</script>

@@ -9,12 +9,16 @@
 namespace App\Services;
 
 
+use App\Models\Company;
 use App\Models\Course;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Enterprise;
+use App\Models\Position;
 use App\Models\Post;
+use App\Models\Skill;
 use App\Models\Student;
+use App\Models\TypeJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -259,6 +263,23 @@ class GetDataService
 
         public function getListJob(){
             return Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post','posts.city','posts.location'
-            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.avatar_enterprise')->paginate(1);
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.avatar_enterprise')->paginate(20);
         }
+
+        public function getListTypeJob()
+        {
+                return TypeJob::all('id','name_job_type');
+        }
+
+        public function getListPosition(){
+            return Position::all('id','name_position');
+        }
+        public function getListEnterprise()
+        {
+            return Enterprise::all('id','name_enterprise');
+        }
+    public function getListSkill()
+    {
+        return Skill::all('id','name_skill');
+    }
 }

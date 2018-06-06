@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="panel-title text-semibold">
                 <i class="icon-briefcase3 position-left"></i>
-               Công ty
+               Doanh nghiệp
             </div>
 
             <div class="heading-elements not-collapsible">
@@ -14,67 +14,73 @@
         <form action="#">
             <div class="panel-body">
                 <div class="form-group">
-                    <div class="checkbox no-margin-top">
+                    <div class="checkbox no-margin-top" v-for="(enterprise,index) in enterprises" :key="enterprise.id" v-if="index < max_show">
                         <label>
-                            <input type="checkbox" class="styled">
-                            Amazon
-                            <span class="text-muted text-size-small">&nbsp;(43)</span>
+                            <input type="checkbox" class="styled" v-model="enterprises_selected" :value="enterprise.id">
+                            {{enterprise.name_enterprise}}
                         </label>
                     </div>
 
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            The North Face
-                            <span class="text-muted text-size-small">&nbsp;(124)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Transfer Wise
-                            <span class="text-muted text-size-small">&nbsp;(67)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            ING Bank
-                            <span class="text-muted text-size-small">&nbsp;(37)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Facebook
-                            <span class="text-muted text-size-small">&nbsp;(28)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Dell
-                            <span class="text-muted text-size-small">&nbsp;(67)</span>
-                        </label>
-                    </div>
-
-                    <div class="checkbox no-margin-bottom">
-                        <label>
-                            <input type="checkbox" class="styled">
-                            Microsoft
-                            <span class="text-muted text-size-small">&nbsp;(57)</span>
-                        </label>
-                    </div>
                 </div>
             </div>
 
             <div class="panel-footer no-padding">
-                <a href="#" class="btn btn-default btn-block no-border">All companies</a>
+                <a href="javascript:void(0)" class="btn btn-default btn-block no-border" @click="max_show = enterprises.length" v-if="max_show < enterprises.length">Xem tất cả doanh nghiệp</a>
             </div>
         </form>
     </div>
 </template>
+<script>
+    import axios from 'axios'
+    export default {
+        computed:{
+            get_enterprises_selected(){
+                return this.enterprises_selected
+            }
+        },
+        props: [],
+        data(){
+            return {
+
+                enterprises : [],
+                enterprises_selected: [],
+                max_show: 10
+            }
+        },
+        methods:{
+            getCompanies()
+            {
+                var vm = this
+                axios.get('/api/job/get-list-enterprise').then(data => {
+                    vm.enterprises = data.data
+                }).catch(err => {
+                    console.dir(err)
+                })
+            }
+        },
+
+
+        beforeUpdate(){
+
+        },
+        updated(){
+            $(".styled, .multiselect-container input").uniform({
+                radioClass: 'choice'
+            });
+        },
+
+        mounted(){
+            this.getCompanies()
+
+        }
+        ,
+        watch:{
+            get_enterprises_selected: {
+                handler(newValue){
+                    this.$emit('change_enterprises_selected',newValue)
+                },
+                deep: true
+            }
+        }
+    }
+</script>
