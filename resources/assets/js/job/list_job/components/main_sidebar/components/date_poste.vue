@@ -5,45 +5,50 @@
                 <i class="icon-calendar3 position-left"></i>
                 Ngày đăng
             </div>
+            <div class="heading-elements not-collapsible">
+                <a href="#" class="heading-text">+ Add</a>
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
         </div>
         <form action="#">
             <div class="panel-body">
                 <div class="form-group">
                     <div class="radio no-margin-top">
                         <label>
-                            <input type="radio" name="when_posted" class="styled">
+                            <input type="radio" name="when_posted" value="0" class="styled" v-model="dates_selected">
                             Hôm nay
-                            <span class="text-muted text-size-small">&nbsp;(632)</span>
+
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="when_posted" class="styled">
+                            <input type="radio" name="when_posted" value="1" class="styled" v-model="dates_selected">
                             Hôm qua
-                            <span class="text-muted text-size-small">&nbsp;(431)</span>
+
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="when_posted" class="styled">
+                            <input type="radio" name="when_posted" value="2" class="styled" v-model="dates_selected">
                             Tuần trước
-                            <span class="text-muted text-size-small">&nbsp;(31)</span>
+
                         </label>
                     </div>
 
                     <div class="radio">
                         <label>
-                            <input type="radio" name="when_posted" class="styled">
+                            <input type="radio" name="when_posted" class="styled" value="3" v-model="dates_selected">
                             Tháng trước
-                            <span class="text-muted text-size-small">&nbsp;(124)</span>
                         </label>
                     </div>
 
                     <div class="radio no-margin-bottom">
                         <label>
-                            <input type="radio" name="when_posted" class="styled">
+                            <input type="radio" name="when_posted" class="styled" value="4" v-model="dates_selected">
                             Bất kỳ lúc nào
                         </label>
                     </div>

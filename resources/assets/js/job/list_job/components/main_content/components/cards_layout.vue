@@ -7,18 +7,18 @@
         <ul class="media-list">
             <li v-for="post in posts"  class="media panel-body stack-media-on-mobile">
                 <div class="media-left">
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <img :src="post.avatar_enterprise" class="img-rounded img-lg" alt="">
                     </a>
                 </div>
 
                 <div class="media-body">
                     <h6 class="media-heading text-semibold">
-                        <a href="#">{{post.title_post}}</a>
+                        <a href="javascript:void(0)" @click="getDetailJob(post.id)">{{post.title_post}}</a>
                     </h6>
                     <ul class="list-inline list-inline-separate text-muted mb-10">
                         <li><a href="#" class="text-muted">{{post.name_enterprise}}</a></li>
-                        <li>{{post.city + ', '+post.location }}</li>
+                        <li>{{post.address_enterprise}}</li>
                     </ul>
                     {{post.description_post}}
                 </div>
@@ -122,6 +122,15 @@
             CheckNew(date)
             {
                return Math.abs(new Date() - new Date(date))/1000/60/60
+            },
+            getDetailJob(id)
+            {
+                var vm = this
+                axios.get('/api/job/detail/'+id).then(data => {
+                    vm.$store.commit('setDetail',data.data)
+                }).catch(err => {
+                    console.dir(err)
+                })
             }
         },
         watch:{
@@ -140,7 +149,8 @@
                 {
                     console.log(newVal)
                 },deep:true
-            }
+            },
+
         }
     }
 </script>

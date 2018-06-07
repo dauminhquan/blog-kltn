@@ -8,6 +8,9 @@
 
             <div class="heading-elements not-collapsible">
                 <a href="#" class="heading-text">+ Add</a>
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
             </div>
         </div>
 

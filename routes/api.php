@@ -67,6 +67,15 @@ Route::group(['namespace' => 'Api'],function(){
 
         });
 
+
+        //post
+        Route::group(['prefix' => '/post-manage','name' => 'post.manage.'],function (){
+            //them sinh vien bang file excel
+
+            Route::get('/get-list-post',['name' => 'get.list.post','uses' => 'PostsManageController@get_list_post']);
+
+        });
+
     });
 
 
@@ -95,6 +104,10 @@ Route::group(['namespace' => 'Api'],function(){
         Route::get('get-list-position','JobController@get_list_position')->name('get_list_position ');
         Route::get('get-list-enterprise','JobController@get_list_enterprise')->name('get_list_enterprise');
         Route::get('get-list-skill','JobController@get_list_skill')->name('get_list_skill');
+        Route::get('detail/{id}','JobController@detail')->name('detail');
+        Route::get('similar-job/{id}','JobController@get_similar_job')->name('similar.job');
+
+
 
         //enterprise
 
@@ -102,6 +115,7 @@ Route::group(['namespace' => 'Api'],function(){
 
     });
 
+    Route::post('login',['uses' => 'Auth\AuthController@login']);
 
 });
 

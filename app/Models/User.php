@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +42,10 @@ class User extends Authenticatable
     public function enterprise()
     {
         return $this->hasOne('App\Models\Enterprise','id_user','id');
+    }
+    public function token_api()
+    {
+        return $this->hasOne('App\Models\OauthAccessTokens','user_id','id');
     }
 
 }

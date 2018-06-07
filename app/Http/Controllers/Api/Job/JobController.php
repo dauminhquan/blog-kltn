@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 
 class JobController extends Controller
 {
-    public function get_list_job()
+    public function get_list_job(Request $request)
     {
         $get_data_service = new GetDataService();
-        return $get_data_service->getListJob();
+        return $get_data_service->getListJob($request);
     }
 
     public function get_list_type_job()
@@ -35,5 +35,15 @@ class JobController extends Controller
     {
         $get_data_service = new GetDataService();
         return $get_data_service->getListSkill();
+    }
+    public function detail($id)
+    {
+        $get_data_service = new GetDataService();
+        return $get_data_service->getDetailJob($id);
+    }
+    public function get_similar_job($id)
+    {
+        $get_data_service = new GetDataService();
+        return $get_data_service->getSimilarJob($id);
     }
 }

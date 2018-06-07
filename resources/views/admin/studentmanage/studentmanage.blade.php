@@ -6,7 +6,7 @@
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Quản lý sinh viên</a></li>
+                <li><a href="{{route('admin.student.manage.index')}}">Quản lý sinh viên</a></li>
                 <li class="active">Danh sách sinh viên</li>
             </ul>
         </div>

@@ -5,6 +5,11 @@
                 <i class="icon-history position-left"></i>
                 Lần tìm kiếm cuối cùng
             </div>
+            <div class="heading-elements not-collapsible">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="list-group no-border">

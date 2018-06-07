@@ -17,83 +17,75 @@
             <div class="panel-body">
                 <!-- 2 columns form -->
                 <form v-on:submit.prevent="submitUpdateEnterprise">
-                    <div class="panel panel-flat">
-
-
-                        <div class="panel-body">
+                    <div class="row">
+                        <fieldset>
                             <div class="row">
-                                <fieldset>
-                                    <legend class="text-semibold"><i class="icon-reading position-left"></i>Điền thông tin Doanh nghiệp</legend>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Tên doanh nghiệp:</label>
-                                                <input type="text" v-model="infoEnterprise.name_enterprise" placeholder="Tên doanh nghiệp" required class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Tên tổng giám đốc:</label>
-                                                <input type="text" placeholder="Tên tổng giám đốc" v-model="infoEnterprise.name_president_enterprise" required class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Địa chỉ</label>
-                                                <input type="text" placeholder="Địa chỉ" required v-model="infoEnterprise.address_enterprise" class="form-control">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Số điện thoại #:</label>
-                                                <input type="text" v-model="infoEnterprise.phone_number_enterprise" required placeholder="+99-99-9999-9999" class="form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Email:</label>
-                                                <input type="email" placeholder="Email" disabled  :value="email_address_enterprise" :class="classEmail">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Mật khẩu:</label>
-                                                <input type="password" v-model="infoEnterprise.password"  placeholder="Nhập mật khẩu" :class="classPassword">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Nhập lại mật khẩu:</label>
-                                                <input type="password" v-model="infoEnterprise.rep_password"  placeholder="Nhập lại mật khẩu" :class="classOldPassword">
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Điền thông tin về doanh nghiệp</label>
-                                        <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
+                                        <label>Tên doanh nghiệp:</label>
+                                        <input type="text" v-model="infoEnterprise.name_enterprise" placeholder="Tên doanh nghiệp" required class="form-control">
                                     </div>
-                                </fieldset>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tên tổng giám đốc:</label>
+                                        <input type="text" placeholder="Tên tổng giám đốc" v-model="infoEnterprise.name_president_enterprise" required class="form-control">
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Thêm mới doanh nghiệp <i class="icon-arrow-right14 position-right"></i></button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <input type="text" placeholder="Địa chỉ" required v-model="infoEnterprise.address_enterprise" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Số điện thoại #:</label>
+                                        <input type="text" v-model="infoEnterprise.phone_number_enterprise" required placeholder="+99-99-9999-9999" class="form-control">
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <input type="email" placeholder="Email" disabled  :value="email_address_enterprise" :class="classEmail">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mật khẩu:</label>
+                                        <input type="password" v-model="infoEnterprise.password"  placeholder="Nhập mật khẩu" :class="classPassword">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nhập lại mật khẩu:</label>
+                                        <input type="password" v-model="infoEnterprise.rep_password"  placeholder="Nhập lại mật khẩu" :class="classOldPassword">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <label>Điền thông tin về doanh nghiệp</label>
+                                <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Lưu doanh nghiệp <i class="icon-arrow-right14 position-right"></i></button>
                     </div>
                 </form>
                 <!-- /2 columns form -->

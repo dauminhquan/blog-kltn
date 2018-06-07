@@ -11,5 +11,9 @@ class JobController extends Controller
     {
         return view('job.list_job');
     }
+    public function job_detail($id)
+    {
+        return view('job.job_detail');
+    }
 
 }

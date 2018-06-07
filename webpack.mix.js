@@ -49,3 +49,10 @@ mix.js('resources/assets/js/admin/job/skillsmanage/positionsmanage.js', 'public/
 
 mix.js('resources/assets/js/job/list_job/list_job.js', 'public/assets/js/build/pages/job/list-job/list-job.js');
 
+
+mix.js('resources/assets/js/job/list_job/job_detail.js', 'public/assets/js/build/pages/job/list-job/job-detail.js');
+
+
+//auth
+mix.js('resources/assets/js/auth/login.js', 'public/assets/js/build/pages/auth/login.js');
+

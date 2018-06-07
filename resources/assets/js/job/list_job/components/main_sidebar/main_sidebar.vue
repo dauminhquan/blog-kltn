@@ -83,6 +83,7 @@
 
                 var vm = this
                 vm.key_query.eventSearch= vm.key_query.eventSearch == true?false:true
+                vm.$store.commit('setDetail',{})
                 vm.$store.commit('updateKeyQuery',vm.key_query)
             }
         },
@@ -128,7 +129,14 @@
                     this.key_query.types_job_selected = newValue
                 },
                 deep: true
+            },
+            get_dates_selected:{
+                handler(newValue){
+                    this.key_query.dates_selected = newValue
+                },
+                deep: true
             }
+
         }
     }
 </script>

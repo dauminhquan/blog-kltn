@@ -22,6 +22,11 @@
     <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/enterprise-manage/info-enterprise.js")}}"></script>
 @endsection
 @section('theme-asset')
+    <script type="text/javascript" src="{{asset('assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset("assets/js/plugins/uploaders/dropzone.min.js")}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/forms/selects/select2.min.js')}}"></script>
+@endsection
+@section("mobile-panel-left")
+
+    <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
 @endsection

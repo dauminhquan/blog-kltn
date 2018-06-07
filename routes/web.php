@@ -25,27 +25,31 @@ Route::get('/list-job',function (){
 
 Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin'],function (){
    Route::group(['prefix' => 'student-manage','as' => 'student.manage.'],function (){
-      Route::get('/',['name' => "index","uses" => 'StudentManageController@studentManage']);
-       Route::get('/add-student',['name' => "add.student","uses" => 'StudentManageController@addStudent']);
-       Route::get('/info-student',['name' => "info.student","uses" => 'StudentManageController@infoStudent']);
-       Route::get('/get-excel-student',['name' => "get.excel.student","uses" => 'StudentManageController@get_excel_info_student']);
+      Route::get('/',['as' => "index","uses" => 'StudentManageController@studentManage']);
+       Route::get('/add-student',['as' => "add.student","uses" => 'StudentManageController@addStudent']);
+       Route::get('/info-student',['as' => "info.student","uses" => 'StudentManageController@infoStudent']);
+       Route::get('/get-excel-student',['as' => "get.excel.student","uses" => 'StudentManageController@get_excel_info_student']);
    });
 
 
     Route::group(['prefix' => 'enterprise-manage','as' => 'enterprise.manage.'],function (){
-        Route::get('/',['name' => "index","uses" => 'EnterpriseManageController@enterpriseManage']);
-        Route::get('/add-enterprise',['name' => "add.enterprise","uses" => 'EnterpriseManageController@addEnterprise']);
-        Route::get('/info-enterprise',['name' => "info.enterprise","uses" => 'EnterpriseManageController@infoEnterprise']);
-        Route::get('/get-excel-enterprise',['name' => "get.excel.student","uses" => 'EnterpriseManageController@get_excel_info_enterprise']);
+        Route::get('/',['as' => "index","uses" => 'EnterpriseManageController@enterpriseManage']);
+        Route::get('/add-enterprise',['as' => "add.enterprise","uses" => 'EnterpriseManageController@addEnterprise']);
+        Route::get('/info-enterprise',['as' => "info.enterprise","uses" => 'EnterpriseManageController@infoEnterprise']);
+        Route::get('/get-excel-enterprise',['as' => "get.excel.student","uses" => 'EnterpriseManageController@get_excel_info_enterprise']);
     });
     Route::group(['prefix' => 'job-manage','as' => 'job.manage.'],function (){
-        Route::get('/position',['name' => "position","uses" => 'JobManageController@positionsManage']);
-        Route::get('/skill',['name' => "skill","uses" => 'JobManageController@skillsManage']);
+        Route::get('/position',['as' => "position","uses" => 'JobManageController@positionsManage']);
+        Route::get('/skill',['as' => "skill","uses" => 'JobManageController@skillsManage']);
     });
 
 });
 
 
 Route::group(['prefix' => 'job','as' => 'job.','namespace' => 'Job'],function (){
-    Route::get('list-job',['name' => 'list.job','uses' =>'JobController@list_job']);
+    Route::get('list-job',['as' => 'list.job','uses' =>'JobController@list_job']);
+    Route::get('job-detail/{id}',['as' => 'job.detail','uses' =>'JobController@job_detail']);
+});
+Route::group(['as' => 'auth'],function (){
+   Route::get('login',['as' => 'login','uses' => 'Auth\LoginController@login']);
 });
