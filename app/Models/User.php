@@ -45,7 +45,7 @@ class User extends Authenticatable
     }
     public function token_api()
     {
-        return $this->hasOne('App\Models\OauthAccessTokens','user_id','id');
+        return $this->hasMany('App\Models\OauthAccessTokens','user_id','id');
     }
 
 }

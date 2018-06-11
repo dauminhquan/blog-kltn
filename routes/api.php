@@ -98,6 +98,12 @@ Route::group(['namespace' => 'Api'],function(){
 
     }); //dùng cho admin
 
+    Route::group(['prefix' => '/enterprise','name'=>'api.enterprise'],function (){
+       Route::group(['prefix' => 'post-manage', 'name' => 'postmanage','namespace' => 'Enterprise'],function(){
+           Route::get('/get-list-post',['name' => 'get.lit.post','uses' => 'PostManageController@get_list_post']);
+       });
+    });
+
     Route::group(['prefix' => '/job','name' => 'get.job.','namespace' => 'Job'],function (){
         Route::get('get-list-job','JobController@get_list_job')->name('list_job');
         Route::get('get-list-type-job','JobController@get_list_type_job')->name('list_type_job');

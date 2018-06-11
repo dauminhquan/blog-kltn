@@ -31,17 +31,24 @@ class AuthController extends Controller
 
             $token = $user->token_api;
 
+// chi duoc phep toi da 10 token
+            //qua 10 thi xoa thang be nhat
+            if(count($token) ==10)
+            {
+                $user->token_api;
+            }
+
+
             if($token == null)
             {
-
                 $token = $user->createToken('DauQuan')->accessToken;
             }
             else{
 
                 $token->delete();
-                $token = $user->createToken('DauQuan')->accessToken;
-            }
 
+            }
+            $token = $user->createToken('DauQuan')->accessToken;
             return response()->json([
                 'message' => 'Login Thành công',
                 'token' => $token

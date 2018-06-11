@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 
 class GetDataService
 {
+    //-- admin
     public function getStudents()
     {
         $student = new Student();
@@ -258,8 +259,35 @@ class GetDataService
         return $employees;
     }
 
+    //!--admin
+
+    //enterprise
+
+    public function getListPost()
+    {
+//        $id_enterprise = Auth::user()->enterprise->id;
+        $id_enterprise = 1;
+
+        $posts = Post::where('id_enterprise',$id_enterprise)->orderBy('posts.created_at','DESC')->get();
+
+        $list_post = [];
+        if(count($posts) > 0)
+        {
+            foreach ($posts as $post)
+            {
+                $post->positions = $post->postions;
+
+                $list_post[] = $post;
+            }
+        }
+        return $list_post;
+    }
+
+    //!--enterprise
 
     //job
+
+
 
     public function getListJob(Request $request)
     {
@@ -365,10 +393,10 @@ class GetDataService
         if($request->has('get-all'))
         {
             return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
-                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
+                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise','posts.created_at')->distinct()->orderBy('posts.created_at','desc')->get();
         }
         return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
-            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->paginate(20);
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise','posts.created_at')->distinct()->orderBy('posts.created_at','desc')->paginate(20);
     }
 
     public function getListTypeJob()
@@ -411,7 +439,7 @@ class GetDataService
         $positions = $post->positions()->select('positions.id')->get();
 
         $similar = Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post'
-            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->where('posts.id','!=',$post->id);
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise','posts.created_at')->where('posts.id','!=',$post->id);
 
         if($skills != null && gettype($skills) == 'array' && count($skills) > 0)
         {
