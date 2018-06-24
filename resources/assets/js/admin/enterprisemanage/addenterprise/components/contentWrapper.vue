@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Điền thông tin về doanh nghiệp</label>
-                                <textarea rows="5" cols="5" class="form-control" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
+                                <textarea rows="5" cols="5" class="form-control" v-model="infoEnterprise.introduce_enterprise" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
                             </div>
                         </fieldset>
                     </div>

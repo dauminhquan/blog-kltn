@@ -35,7 +35,11 @@
 
     <div class="navbar-collapse collapse" id="navbar-mobile">
         <ul class="nav navbar-nav">
-
+            <li>
+                <a class="sidebar-control sidebar-main-hide hidden-xs">
+                    <i class="icon-paragraph-justify3"></i>
+                </a>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-people"></i>

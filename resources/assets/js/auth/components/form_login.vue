@@ -32,7 +32,9 @@
 </template>
 <script>
     import axios from 'axios'
-    import cokie from 'vue-cookie'
+    import cookie from 'vue-cookie'
+    import vue from 'vue'
+    vue.use(cookie)
     export default {
 
         methods:{
@@ -43,6 +45,9 @@
             login(){
                 var vm = this
                     axios.post('/api/login',vm.infoLogin).then(data => {
+                        this.$cookie.set('token',data.data.token,{
+                            expires: 1
+                        })
                         console.log(data)
                     }).catch(err => {
                         console.log(err)

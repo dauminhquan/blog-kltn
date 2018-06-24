@@ -19,19 +19,34 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api'],function(){
 
 
-    Route::group(["prefix" => '/admin','name' => 'api.admin.','namespace' =>'Admin'],function (){
+    Route::group(["prefix" => '/admin','name' => 'api.admin.','namespace' =>'Admin' ],function (){
 
         // quan ly sinh vien
         Route::group(['prefix' => '/student-manage','name' => 'student.manage.'],function (){
             //them sinh vien bang file excel
             Route::post('/add-student-excel',['name' => 'add.student.excel','uses' => 'StudentManageController@add_student_excel']);
+            Route::post('/add-work-student-excel',['name' => 'add.work.student.excel','uses' => 'StudentManageController@add_work_student_excel']);
+
+            Route::post('/add-work-student',['name' => 'add.work.student.excel','uses' => 'StudentManageController@add_work_student']);
+
+
+
             Route::get('/get-list-student',['name' => 'get.list.student','uses' => 'StudentManageController@get_list_student']);
             Route::delete('/delete-list-student',['name' => 'delete.list.student','uses' => 'StudentManageController@delete_list_student']);
             Route::delete('/delete-student',['name' => 'delete.student','uses' => 'StudentManageController@delete_student']);
             Route::post('/add-student',['name' => 'add.student','uses' => 'StudentManageController@add_student']);
             Route::put('/update-student',['name' => 'add.student','uses' => 'StudentManageController@update_student']);
             Route::post('/update-avatar-student',['name' => 'update.avatar.student','uses' => 'StudentManageController@update_avatar_student']);
+
             Route::get('/get-work-student',['name' => 'get.work.student','uses' => 'StudentManageController@get_work_student']);
+            Route::post('/update-work-student/{id}',['name' => 'update.work.student','uses' => 'StudentManageController@update_work_student']);
+            Route::delete('/delete-work-student/{id}',['name' => 'delete.work.student','uses' => 'StudentManageController@delete_work_student']);
+
+            Route::get('/get-list-enterprise',['name' => 'get.list.enterprise','uses' => 'StudentManageController@get_list_enterprise']);
+
+
+
+
         });
         // quan ly doanh nghiẹp
 
@@ -49,7 +64,7 @@ Route::group(['namespace' => 'Api'],function(){
 
         //job
         Route::group(['prefix' => '/job-manage','name' => 'job.manage.'],function (){
-            //them sinh vien bang file excel
+            //
             Route::get('/get-list-position',['name' => 'get.list.position','uses' => 'JobManageController@get_list_position']);
             Route::post('/add-position',['name' => 'add.position','uses' => 'JobManageController@add_position']);
             Route::delete('/delete-list-position',['name' => 'delete.list.position','uses' => 'JobManageController@delete_list_position']);
@@ -87,6 +102,7 @@ Route::group(['namespace' => 'Api'],function(){
         Route::get('get-option-student','RequestInfoController@get_option_student');
         Route::get('get-info-student','RequestInfoController@get_student_with_code_student');
 
+        Route::get('get-list-salary','RequestInfoController@get_list_salary');
 
 
         //enterprise
@@ -97,6 +113,12 @@ Route::group(['namespace' => 'Api'],function(){
 
 
     }); //dùng cho admin
+
+    //enterprise
+
+    Route::group(['prefix' => '/enterprise','name' => 'enterprise','namespace' => 'Enterprise'],function (){
+       Route::resource('post','PostController')->except(['create','edit']);
+    });
 
     Route::group(['prefix' => '/job','name' => 'get.job.','namespace' => 'Job'],function (){
         Route::get('get-list-job','JobController@get_list_job')->name('list_job');
@@ -116,6 +138,6 @@ Route::group(['namespace' => 'Api'],function(){
     });
 
     Route::post('login',['uses' => 'Auth\AuthController@login']);
-
+    Route::post('logout',['uses' => 'Auth\AuthController@logout'])->middleware('auth:api');
 });
 

@@ -103,6 +103,11 @@ class RequestInfoController extends Controller
                 return $get_data_service->getStudentWithCodeStudent($request->code_student);
             }
     }
+    public function get_list_salary()
+    {
+        $get_data_service = new GetDataService();
+        return $get_data_service->getSalary();
+    }
 //
 
 
@@ -122,18 +127,34 @@ class RequestInfoController extends Controller
         $message =[];
         if($request->has('email_address_enterprise'))
         {
-
-            if(User::where(DB::raw('LOWER(user_name)'),strtolower($request->email_address_enterprise_check))->where(DB::raw('LOWER(user_name)'),'!=',strtolower($request->email_address_enterprise))->count()>0)
+            if($request->has('email_address_enterprise_check'))
             {
-                $message = [
-                    'email_address_enterprise' => 1
-                ];
+                if(User::where(DB::raw('LOWER(user_name)'),strtolower($request->email_address_enterprise_check))->where(DB::raw('LOWER(user_name)'),'!=',strtolower($request->email_address_enterprise))->count()>0)
+                {
+                    $message = [
+                        'email_address_enterprise' => 1
+                    ];
+                }
+                else{
+                    $message = [
+                        'email_address_enterprise' => 0
+                    ];
+                }
             }
             else{
-                $message = [
-                    'email_address_enterprise' => 0
-                ];
+                if(User::where(DB::raw('LOWER(user_name)'),'==',strtolower($request->email_address_enterprise))->count()>0)
+                {
+                    $message = [
+                        'email_address_enterprise' => 1
+                    ];
+                }
+                else{
+                    $message = [
+                        'email_address_enterprise' => 0
+                    ];
+                }
             }
+
         }
         return $message;
     }

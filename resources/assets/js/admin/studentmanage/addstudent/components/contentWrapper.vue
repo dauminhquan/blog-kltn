@@ -27,22 +27,9 @@
                                         <input type="text" placeholder="Tên" v-model="infoStudent.last_name_student" required class="form-control">
                                     </div>
                                 </div>
+
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Avatar:</label>
-                                        <input type="file" class="file-styled" @change="setFileAvatar($e)" accept="image/*">
-                                        <span class="help-block">Chấp nhận file: gif, png, jpg. Kích cỡ tối đa 2Mb</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nhập mức lương</label>
-                                        <input type="text" placeholder="Nhập mức lương" required v-model="infoStudent.salary" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -149,7 +136,8 @@
             },
             getRepPassword(){
                 return this.infoStudent.rep_password
-            }
+            },
+
         },
         components: {
             'choose-info-select2': choose_info_select2
@@ -162,6 +150,7 @@
             // lấy danh sách khóa học
             this.getCourses();
             this.getDepartments();
+
         },
         data(){
             return {
@@ -175,8 +164,7 @@
                     phone_number_student: '',
                     email_address_student: '',
                     introduce_student:'',
-                    avatar_student:'',
-                    salary:'',
+
                     code_student: '',
                     password: '',
                     rep_password: ''
@@ -189,6 +177,7 @@
                 courses : [
                    
                 ],
+                salaries: [],
 
                 exist_email: false,
                 exist_code_student: false,
@@ -256,6 +245,7 @@
 
                 })
             },
+
             submitAddStudent(){
                 var vm =this
                if(vm.exist_email == false && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password)

@@ -1,12 +1,12 @@
 <template>
-    <select :required="required" :data-placeholder="dataPlaceholder" class="select">
+    <select :required="required" :multiple="multiple" :data-placeholder="dataPlaceholder" class="select">
         <option></option>
         <!--<option v-for="option in options">{{option.name}}</option>-->
     </select>
 </template>
 <script>
     export default {
-        props: ['options','readonly','unReadonly', 'value','data-placeholder','required'],
+        props: ['options','readonly','unReadonly', 'value','data-placeholder','required','multiple'],
         updated(){
 
         },

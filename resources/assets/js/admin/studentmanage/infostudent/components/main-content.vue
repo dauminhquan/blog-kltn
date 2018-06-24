@@ -24,16 +24,9 @@
             }
         },
         mounted(){
-            // Styled file input
-            $(".file-styled").uniform({
-                fileButtonClass: 'action btn bg-warning'
-            });
 
 
-            // Styled checkboxes, radios
-            $(".styled").uniform({
-                radioClass: 'choice'
-            });
+
         },
         props:["code_student"]
     }

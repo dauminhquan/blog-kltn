@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Enterprise;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EnterpriseManageController extends Controller
 {
@@ -27,10 +29,26 @@ class EnterpriseManageController extends Controller
 
     }
     public function get_excel_info_enterprise(){
-        $info_student = Student::join('users',"users.id","students.id_user")->select('students.*',DB::raw('users.user_name as code_student'))->get();
-        return response()->download(Excel::create('student-excel', function($excel) use($info_student) {
-            $excel->sheet('Sheetname', function($sheet) use($info_student) {
-                $sheet->fromArray($info_student);
+        $info_enterprise = Enterprise::join('users',"users.id","enterprises.id_user")->select('enterprises.*',DB::raw('users.user_name as email_address_enterprise'))->get();
+        return response()->download(Excel::create('enterprise-excel', function($excel) use($info_enterprise) {
+            $excel->sheet('enterprise', function($sheet) use($info_enterprise) {
+                $sheet->fromArray($info_enterprise);
+            });
+        })->export('xls'));
+    }
+    public function get_excel_example_info_enterprise(){
+        return response()->download(Excel::create('example-enterprise-excel', function($excel) {
+            $excel->sheet('enterprise', function($sheet) {
+                $sheet->fromArray([
+                    'email_address_enterprise',
+                    'password',
+                    'name_enterprise',
+                    'address_enterprise',
+                    'name_president_enterprise',
+                    'phone_number_enterprise',
+                    'avatar_enterprise',
+                    'introduce_enterprise'
+                ]);
             });
         })->export('xls'));
     }

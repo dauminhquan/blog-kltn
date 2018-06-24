@@ -39,10 +39,18 @@ mix.js('resources/assets/js/admin/job/positionsmanage/positionsmanage.js', 'publ
 
 mix.js('resources/assets/js/admin/job/skillsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/skill.js');
 
+mix.js('resources/assets/js/admin/job/jobsmanage/jobsmanage.js', 'public/assets/js/build/pages/admin/job/job.js');
+
 
 
 // !-- admin
+// -- enterprise
+mix.js('resources/assets/js/enterprise/postsmanage/newpost/newpost.js', 'public/assets/js/build/pages/enterprise/post-manage/new-post.js');
 
+
+
+
+//!-- enterprise
 //dung chung
 
 //job

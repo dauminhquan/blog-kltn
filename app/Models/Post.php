@@ -9,7 +9,6 @@ class Post extends Model
     //
     protected $table = 'posts';
 
-
     public function enterprise()
     {
         return $this->belongsTo('App\Models\Enterprise','id_enterprise','id');
@@ -26,7 +25,8 @@ class Post extends Model
     {
         return $this->belongsToMany('App\Models\TypeJob','post_type','id_post','id_job_type','id','id');
     }
-    public function locations(){
-        return $this->belongsTo('App\Models\PostLocation','id','id_post');
+    public function cities(){
+        return $this->belongsTo('App\Models\PostCity','id','id_post');
     }
+
 }

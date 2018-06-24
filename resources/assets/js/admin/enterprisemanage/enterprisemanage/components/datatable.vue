@@ -50,7 +50,7 @@
                         </div>
                         <div class="modal-footer text-center">
                             <button type="submit" class="btn btn-primary">Tải file lên <i class="icon-plus22"></i></button>
-                            <button type="button" class="btn btn-info">Tải Excel mẫu <i class="glyphicon glyphicon-info-sign"></i></button>
+                            <a href="/admin/enterprise-manage/get-excel-example-enterprise" target="_blank" type="button" class="btn btn-info">Tải Excel mẫu <i class="glyphicon glyphicon-info-sign"></i></a>
                         </div>
                     </form>
                 </div>
@@ -376,12 +376,12 @@
 </script>
 <style>
     .avatar-user{
-        width: 45px;
-        height: 60px;
+        width: 100px;
+
     }
     .avatar-user img{
         border-radius: 50%;
-        width: 50px;
+        width: 100%;
     }
     .check-all{
         width: 200px

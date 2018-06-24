@@ -4,12 +4,14 @@
     "/assets/js/build/pages/admin/student-manage/student-manage.js": "/assets/js/build/pages/admin/student-manage/student-manage.js",
     "/assets/js/build/pages/admin/job/skill.js": "/assets/js/build/pages/admin/job/skill.js",
     "/assets/js/build/pages/admin/job/position.js": "/assets/js/build/pages/admin/job/position.js",
+    "/assets/js/build/pages/admin/job/job.js": "/assets/js/build/pages/admin/job/job.js",
     "/assets/js/build/pages/admin/enterprise-manage/enterprise-manage.js": "/assets/js/build/pages/admin/enterprise-manage/enterprise-manage.js",
     "/assets/js/build/pages/admin/student-manage/info-student.js": "/assets/js/build/pages/admin/student-manage/info-student.js",
     "/assets/js/build/pages/admin/enterprise-manage/info-enterprise.js": "/assets/js/build/pages/admin/enterprise-manage/info-enterprise.js",
+    "/assets/js/build/pages/enterprise/post-manage/new-post.js": "/assets/js/build/pages/enterprise/post-manage/new-post.js",
+    "/assets/js/build/pages/auth/login.js": "/assets/js/build/pages/auth/login.js",
     "/assets/js/build/pages/admin/student-manage/add-student.js": "/assets/js/build/pages/admin/student-manage/add-student.js",
     "/assets/js/build/pages/admin/enterprise-manage/add-enterprise.js": "/assets/js/build/pages/admin/enterprise-manage/add-enterprise.js",
     "/assets/js/build/list-job-theme.js": "/assets/js/build/list-job-theme.js",
-    "/assets/js/build/datatable-theme.js": "/assets/js/build/datatable-theme.js",
-    "/assets/js/build/pages/auth/login.js": "/assets/js/build/pages/auth/login.js"
+    "/assets/js/build/datatable-theme.js": "/assets/js/build/datatable-theme.js"
 }

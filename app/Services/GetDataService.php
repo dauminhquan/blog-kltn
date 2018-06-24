@@ -16,6 +16,7 @@ use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Position;
 use App\Models\Post;
+use App\Models\Salary;
 use App\Models\Skill;
 use App\Models\Student;
 use App\Models\TypeJob;
@@ -146,10 +147,19 @@ class GetDataService
         $enter = [];
         foreach ($work_student as $item)
         {
+            $id_employee = $item->id;
             $userEnterprise = $item->userEnterprise;
             $user_enterprise = $userEnterprise->user_name;
-            $time_start_work = $item->updated_at;
-            $time_end_work = $item->deleted_at;
+            $time_start_work = date('d/m/Y',strtotime($item->started_at));
+            $time_end_work = date('d/m/Y',strtotime($item->dropped_at));
+            if($item->id_salary != null)
+            {
+                $salary = $item->salary->about;
+            }
+            else{
+                $salary = null;
+            }
+            $id_salary = $item->id_salary;
             $position = $item->position;
             $name_enterprise = $userEnterprise->enterprise->name_enterprise;
             $avatar_enterprise = $userEnterprise->enterprise->avatar_enterprise;
@@ -161,13 +171,19 @@ class GetDataService
                 'name_enterprise' => $name_enterprise,
                 'avatar_enterprise' => $avatar_enterprise,
                 'introduce_enterprise' => $introduce_enterprise,
-                'position' => $position
+                'position' => $position,
+                'salary' => $salary,
+                'id' => $id_employee,
+                'id_salary' => $id_salary
             ];
         }
         return $enter;
 
     }
 
+    public function getSalary(){
+        return Salary::get();
+    }
     // enterprise
 
 
@@ -199,7 +215,6 @@ class GetDataService
     }
     public function getEnterprise()
     {
-
         return Enterprise::join('users',"users.id","enterprises.id_user")->select('enterprises.*',DB::raw('users.user_name as user_enterprise'))->get();
     }
     public function getEnterpriseWithEmailAddressEnterprise($email_address_enterprise)
@@ -236,8 +251,8 @@ class GetDataService
             $userStudent = $item->userStudent;
 
             $code_student = $item->code_student;
-            $time_start_work = $item->updated_at;
-            $time_end_work = $item->deleted_at;
+            $time_start_work = $item->started_at;
+            $time_end_work = $item->dropped_at;
             $position = $item->position;
             $first_name_student = $userStudent->student->first_name_student;
             $last_name_student = $userStudent->student->last_name_student;
@@ -266,14 +281,14 @@ class GetDataService
 
         $posts=  Post::join('enterprises','enterprises.id','posts.id_enterprise');
 
-        if($request->has('locals_selected'))
+        if($request->has('cities_selected'))
         {
-            $posts = $posts->join('post_location','post_location.id_post','posts.id');
-            if(gettype($request->locals_selected) =='array' && count($request->locals_selected) > 0)
+            $posts = $posts->join('post_city','post_city.id_post','posts.id');
+            if(gettype($request->cities_selected) =='array' && count($request->cities_selected) > 0)
             {
-                foreach ($request->locals_selected as $item)
+                foreach ($request->cities_selected as $item)
                 {
-                    $posts = $posts->orWhere('post_location.city',$item);
+                    $posts = $posts->orWhere('post_city.city',$item);
                 }
             }
 
@@ -305,7 +320,7 @@ class GetDataService
         if($request->has('enterprises_selected'))
         {
 
-            if(gettype($request->enterprises_selected) =='array' && count($request->skills_selected) > 0)
+            if(gettype($request->enterprises_selected) =='array' && count($request->enterprises_selected) > 0)
             {
                 foreach ($request->enterprises_selected as $item)
                 {
@@ -362,8 +377,10 @@ class GetDataService
             }
             return [];
         }
-        if($request->has('get-all'))
+        if($request->has('get_all'))
         {
+            dd($posts->select('posts.id','posts.id_enterprise','posts.title_post'
+                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->toSql());
             return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
                 ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
         }
@@ -400,8 +417,9 @@ class GetDataService
         $detail['skills'] = $detail['info']->skills()->select('name_skill')->get();
 
         $detail['types'] = $detail['info']->types()->select('name_job_type')->get();
+        $detail['cities'] = $detail['info']->cities()->select('city')->get();
 
-        $detail['locations'] = $detail['info']->locations()->get();
+        $detail['locations'] = $detail['info']->location;
 
         $detail['positions'] = $detail['info']->positions()->select('name_position')->get();
 

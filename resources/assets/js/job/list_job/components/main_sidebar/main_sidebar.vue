@@ -3,7 +3,7 @@
     <div class="sidebar sidebar-main sidebar-default sidebar-separate">
         <div class="sidebar-content">
             <sidebar-search @search="search" @change_keyword="keyword = $event" @change_types_job_selected="types_job_selected = $event"></sidebar-search>
-            <location-selection  @change_locals_selected="locals_selected = $event"></location-selection>
+            <location-selection  @change_cities_selected="cities_selected = $event"></location-selection>
             <title-selection @change_positions_selected="positions_selected = $event"></title-selection>
 
             <company-selection  @change_enterprises_selected="enterprises_selected = $event"></company-selection>
@@ -29,8 +29,8 @@
             get_key_query(){
                 return this.$store.state.key_query
             },
-            get_locals_selected(){
-                return this.locals_selected
+            get_cities_selected(){
+                return this.cities_selected
             },
             get_positions_selected(){
                 return this.positions_selected
@@ -67,7 +67,7 @@
         data(){
             return {
                 types_job_selected:[],
-                locals_selected: [],
+                cities_selected: [],
                 positions_selected: [],
                 enterprises_selected: [],
                 skills_selected: [],
@@ -88,9 +88,9 @@
             }
         },
         watch:{
-            get_locals_selected: {
+            get_cities_selected: {
                 handler(newValue){
-                    this.key_query.locals_selected= newValue
+                    this.key_query.cities_selected= newValue
                 },
                 deep: true
             },

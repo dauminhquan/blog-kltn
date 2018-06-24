@@ -53,6 +53,8 @@
                 var vm = this
                 axios.get('/api/job/detail/'+id).then(data => {
                     vm.$store.commit('setDetail',data.data)
+                    document.body.scrollTop = 10; // For Safari
+                    document.documentElement.scrollTop = 10; // For Chrome, Firefox, IE and Opera
                 }).catch(err => {
                     console.dir(err)
                 })

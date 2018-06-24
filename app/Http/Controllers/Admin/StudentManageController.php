@@ -33,8 +33,44 @@ class StudentManageController extends Controller
     public function get_excel_info_student(){
         $info_student = Student::join('users',"users.id","students.id_user")->select('students.*',DB::raw('users.user_name as code_student'))->get();
         return response()->download(Excel::create('student-excel', function($excel) use($info_student) {
-            $excel->sheet('Sheetname', function($sheet) use($info_student) {
+            $excel->sheet('student', function($sheet) use($info_student) {
                 $sheet->fromArray($info_student);
+            });
+        })->export('xls'));
+    }
+    public function get_excel_example_info_student(){
+
+
+        return response()->download(Excel::create('example-student-excel', function($excel) {
+            $excel->sheet('student', function($sheet) {
+                $sheet->fromArray([
+                    'first_name_student',
+                    'last_name_student',
+                    'address_student',
+                    'phone_number_student',
+                    'email_address_student',
+                    'introduce_student',
+                    'avatar_student',
+                    'graduated',
+                    'code_branch',
+                    'code_course',
+                    'code_student',
+                    'password'
+                ]);
+            });
+        })->export('xls'));
+    }
+    public function get_excel_example_work_student(){
+        return response()->download(Excel::create('work-example-student-excel', function($excel) {
+            $excel->sheet('work', function($sheet) {
+                $sheet->fromArray([
+                    'email_address_enterprise',
+                    'code_student',
+                    'started_at',
+                    'propped_at',
+                    'id_salary',
+                    'position',
+                ]);
             });
         })->export('xls'));
     }

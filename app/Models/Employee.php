@@ -18,4 +18,8 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Models\User','code_student','user_name');
     }
+    public function salary()
+    {
+        return $this->belongsTo('App\Models\Salary','id_salary','id');
+    }
 }

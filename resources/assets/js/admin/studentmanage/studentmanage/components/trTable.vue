@@ -5,8 +5,16 @@
         <td class="check-item">
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
-        <td class="avatar-user"><img :src="getAvatar(item.avatar_student)" alt=""></td>
-        <td><a :href="infoStudent(item.code_student)">{{item.first_name_student + ' ' +item.last_name_student}}</a></td>
+        <td class="avatar-user">
+            <img :src="getAvatar(item.avatar_student)" alt="">
+            <div class="text-grey text-size-small" style="width: 100%;text-align: center;padding-top:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap">
+
+                {{item.code_student}}
+            </div>
+        </td>
+        <td><a :href="infoStudent(item.code_student)">{{item.first_name_student + ' ' +item.last_name_student}}</a>
+
+        </td>
         <td>{{item.name_department}}</td>
         <td>{{item.name_branch}}</td>
         <td>{{item.name_course}}</td>

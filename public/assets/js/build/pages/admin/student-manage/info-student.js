@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 145);
+/******/ 	return __webpack_require__(__webpack_require__.s = 147);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(6);
 var isBuffer = __webpack_require__(15);
 
 /*global toString:true*/
@@ -533,10 +533,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(7);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(7);
   }
   return adapter;
 }
@@ -811,6 +811,274 @@ process.umask = function() { return 0; };
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(18);
+var buildURL = __webpack_require__(20);
+var parseHeaders = __webpack_require__(21);
+var isURLSameOrigin = __webpack_require__(22);
+var createError = __webpack_require__(8);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(23);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(24);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(19);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11776,274 +12044,6 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(12).setImmediate))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(18);
-var buildURL = __webpack_require__(20);
-var parseHeaders = __webpack_require__(21);
-var isURLSameOrigin = __webpack_require__(22);
-var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(23);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(24);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(19);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12314,7 +12314,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(6);
 var Axios = __webpack_require__(16);
 var defaults = __webpack_require__(3);
 
@@ -12349,9 +12349,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(11);
+axios.Cancel = __webpack_require__(10);
 axios.CancelToken = __webpack_require__(30);
-axios.isCancel = __webpack_require__(10);
+axios.isCancel = __webpack_require__(9);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -12504,7 +12504,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -12937,7 +12937,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(27);
-var isCancel = __webpack_require__(10);
+var isCancel = __webpack_require__(9);
 var defaults = __webpack_require__(3);
 var isAbsoluteURL = __webpack_require__(28);
 var combineURLs = __webpack_require__(29);
@@ -13097,7 +13097,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(11);
+var Cancel = __webpack_require__(10);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -13642,23 +13642,25 @@ module.exports = function listToStyles (parentId, list) {
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */
+/* 145 */,
+/* 146 */,
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(146);
+module.exports = __webpack_require__(148);
 
 
 /***/ }),
-/* 146 */
+/* 148 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue__ = __webpack_require__(149);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_main_content__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_main_content__ = __webpack_require__(152);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_main_content___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_main_content__);
-window.Vue = __webpack_require__(6);
+window.Vue = __webpack_require__(11);
 
 
 var app = new Vue({
@@ -13671,15 +13673,15 @@ var app = new Vue({
 });
 
 /***/ }),
-/* 147 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(148)
+var __vue_script__ = __webpack_require__(150)
 /* template */
-var __vue_template__ = __webpack_require__(149)
+var __vue_template__ = __webpack_require__(151)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13718,7 +13720,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13890,7 +13892,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -14209,15 +14211,15 @@ if (false) {
 }
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(151)
+var __vue_script__ = __webpack_require__(153)
 /* template */
-var __vue_template__ = __webpack_require__(163)
+var __vue_template__ = __webpack_require__(165)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14256,14 +14258,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__profile_vue__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__profile_vue__ = __webpack_require__(154);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__profile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__work_vue__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__work_vue__ = __webpack_require__(160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__work_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__work_vue__);
 //
 //
@@ -14288,31 +14290,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {};
     },
-    mounted: function mounted() {
-        // Styled file input
-        $(".file-styled").uniform({
-            fileButtonClass: 'action btn bg-warning'
-        });
-
-        // Styled checkboxes, radios
-        $(".styled").uniform({
-            radioClass: 'choice'
-        });
-    },
+    mounted: function mounted() {},
 
     props: ["code_student"]
 });
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(153)
+var __vue_script__ = __webpack_require__(155)
 /* template */
-var __vue_template__ = __webpack_require__(157)
+var __vue_template__ = __webpack_require__(159)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14351,23 +14343,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue__ = __webpack_require__(156);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -14542,9 +14526,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getCourses();
         this.getDepartments();
         this.getInforStudent();
-        $(".file-styled").uniform({
-            fileButtonClass: 'action btn bg-pink-400'
-        });
+
         // lấy danh sách khóa học
     },
     created: function created() {},
@@ -14562,7 +14544,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 email_address_student: '',
                 introduce_student: '',
                 avatar_student: '',
-                salary: '',
+
                 code_student: '',
                 password: '',
                 rep_password: '',
@@ -14612,7 +14594,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 vm.infoStudent.introduce_student = data.data.info_student.introduce_student;
                 vm.infoStudent.last_name_student = data.data.info_student.last_name_student;
                 vm.infoStudent.phone_number_student = data.data.info_student.phone_number_student;
-                vm.infoStudent.salary = data.data.info_student.salary;
+
                 vm.infoStudent.code_student = vm.code_student;
                 vm.infoStudent.graduated = data.data.info_student.graduated;
             }).catch(function (err) {});
@@ -14774,15 +14756,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(155)
+var __vue_script__ = __webpack_require__(157)
 /* template */
-var __vue_template__ = __webpack_require__(156)
+var __vue_template__ = __webpack_require__(158)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14821,7 +14803,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14834,7 +14816,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['options', 'readonly', 'unReadonly', 'value', 'data-placeholder', 'required'],
+    props: ['options', 'readonly', 'unReadonly', 'value', 'data-placeholder', 'required', 'multiple'],
     updated: function updated() {},
 
     mounted: function mounted() {
@@ -14879,7 +14861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -14890,7 +14872,11 @@ var render = function() {
     "select",
     {
       staticClass: "select",
-      attrs: { required: _vm.required, "data-placeholder": _vm.dataPlaceholder }
+      attrs: {
+        required: _vm.required,
+        multiple: _vm.multiple,
+        "data-placeholder": _vm.dataPlaceholder
+      }
     },
     [_c("option")]
   )
@@ -14906,7 +14892,7 @@ if (false) {
 }
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -14935,7 +14921,7 @@ var render = function() {
               _c("div", { staticClass: "row" }, [
                 _c("fieldset", [
                   _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [_vm._v("Họ:")]),
                         _vm._v(" "),
@@ -14973,7 +14959,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [_vm._v("Tên:")]),
                         _vm._v(" "),
@@ -15003,42 +14989,6 @@ var render = function() {
                               _vm.$set(
                                 _vm.infoStudent,
                                 "last_name_student",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Nhập mức lương")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.infoStudent.salary,
-                              expression: "infoStudent.salary"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Nhập mức lương",
-                            required: ""
-                          },
-                          domProps: { value: _vm.infoStudent.salary },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.infoStudent,
-                                "salary",
                                 $event.target.value
                               )
                             }
@@ -15454,8 +15404,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "panel-heading" }, [
       _c("h6", { staticClass: "panel-title" }, [
-        _vm._v("Thông tin cá nhân sinh viên "),
-        _c("b", [_vm._v("#1")])
+        _vm._v("Thông tin cá nhân sinh viên ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "heading-elements" }, [
@@ -15500,19 +15449,19 @@ if (false) {
 }
 
 /***/ }),
-/* 158 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(159)
+  __webpack_require__(161)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(161)
+var __vue_script__ = __webpack_require__(163)
 /* template */
-var __vue_template__ = __webpack_require__(162)
+var __vue_template__ = __webpack_require__(164)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -15551,13 +15500,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(160);
+var content = __webpack_require__(162);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -15577,7 +15526,7 @@ if(false) {
 }
 
 /***/ }),
-/* 160 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(32)(false);
@@ -15585,13 +15534,13 @@ exports = module.exports = __webpack_require__(32)(false);
 
 
 // module
-exports.push([module.i, "\n.avatar-user{\n}\n.avatar-user img{\n    border-radius: 50%;\n    width: 60px;\n}\n\n", ""]);
+exports.push([module.i, "\n.avatar-user{\n}\n.avatar-user img{\n    border-radius: 50%;\n    width: 60px;\n}\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 161 */
+/* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15651,13 +15600,197 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['code_student'],
     data: function data() {
         return {
-            work_student: []
+            work_student: [],
+            newSalary: '',
+            editingWork: false,
+            ExcelFileuploading: false,
+            idEmployee: '',
+            ExcelFileUpload: '',
+            listSalary: [],
+            work: {
+                position: '',
+                id_salary: '',
+                started_at: '',
+                dropped_at: ''
+            },
+            addingWork: false,
+            newWork: {
+                position: '',
+                id_salary: '',
+                started_at: '',
+                dropped_at: '',
+                code_student: '',
+                email_address_enterprise: ''
+            },
+            listEnterprise: []
         };
     },
 
@@ -15676,15 +15809,217 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         openInfoEnterprise: function openInfoEnterprise(email_address_enterprise) {
             return window.location.origin + '/admin/enterprise-manage/info-enterprise?user_enterprise=' + email_address_enterprise;
+        },
+        showModalExcel: function showModalExcel() {
+            $('#modal-push-excel').modal('show');
+        },
+        showModalEditWork: function showModalEditWork(id) {
+            var vm = this;
+            vm.idEmployee = id;
+            var work = vm.work_student.find(function (value) {
+                return value.id == id;
+            });
+
+            var arrDate = work.time_start.split('');
+            var year = arrDate[6] + arrDate[7] + arrDate[8] + arrDate[9];
+            var date = arrDate[0] + arrDate[1];
+            var mounth = arrDate[3] + arrDate[4];
+
+            vm.work.started_at = year + '-' + mounth + '-' + date;
+
+            if (work.time_end != null && work.time_end != undefined) {
+                arrDate = work.time_end.split('');
+                year = arrDate[6] + arrDate[7] + arrDate[8] + arrDate[9];
+                date = arrDate[0] + arrDate[1];
+                mounth = arrDate[3] + arrDate[4];
+                vm.work.dropped_at = year + '-' + mounth + '-' + date;
+            } else {
+                vm.work.dropped_at = '';
+            }
+
+            vm.work.position = work.position;
+            vm.work.id_salary = work.id_salary;
+            $('#modal-update-work').modal('show');
+        },
+        UpdateWork: function UpdateWork() {
+            var _this = this;
+
+            var vm = this;
+            vm.editingWork = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/update-work-student/' + vm.idEmployee, vm.work).then(function (data) {
+                new PNotify({
+                    title: 'Ohh Yeah! Thành công!',
+                    text: data.data.message,
+                    addclass: 'bg-success'
+                });
+                vm.editingWork = false;
+                $('#modal-update-work').modal('hide');
+
+                vm.getWorkStudent();
+            }).catch(function (err) {
+                console.dir(err);
+                var htmlErr = '';
+                if (typeof err.response.data.message == 'array') {
+                    err.response.data.message.forEach(function (key, item) {
+                        html += key + ': ';
+                        item.forEach(function (value) {
+                            html += value + ', ';
+                        });
+                        html += '<br/>';
+                    });
+                }
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: htmlErr == '' ? htmlErr : 'Lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+                _this.editingWork = false;
+                $('#modal-update-work').modal('hide');
+            });
+        },
+        AddWork: function AddWork() {
+            var vm = this;
+            vm.newWork.code_student = vm.code_student;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/add-work-student', vm.newWork).then(function (data) {
+                new PNotify({
+                    title: 'Ohh Yeah! Thành công!',
+                    text: 'Thêm mới thành công',
+                    addclass: 'bg-success'
+
+                });
+                vm.getWorkStudent();
+                $('#modal-add-work').modal('hide');
+            }).catch(function (err) {
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+                $('#modal-add-work').modal('hide');
+            });
+        },
+        getEnterprise: function getEnterprise() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/admin/student-manage/get-list-enterprise').then(function (data) {
+                vm.listEnterprise = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+            });
+        },
+        submitDelete: function submitDelete() {
+
+            var vm = this;
+            vm.editingWork = true;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/api/admin/student-manage/delete-work-student/' + vm.idEmployee, vm.work).then(function (data) {
+                vm.work_student = vm.work_student.filter(function (item) {
+                    return item.id != vm.idEmployee;
+                });
+                vm.idEmployee = '';
+                vm.editingWork = false;
+                new PNotify({
+                    title: 'Ohh Yeah! Thành công!',
+                    text: 'Xóa thành công',
+                    addclass: 'bg-success'
+                });
+                $('#modal-update-work').modal('hide');
+            }).catch(function (err) {
+                console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+                $('#modal-update-work').modal('hide');
+            });
+        },
+        setExcelFile: function setExcelFile(e) {
+            var vm = this;
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            vm.ExcelFileUpload = files[0];
+        },
+        showModalAddWork: function showModalAddWork() {
+            $('#modal-add-work').modal('show');
+        },
+        uploadExcelFile: function uploadExcelFile() {
+            var _this2 = this;
+
+            var vm = this;
+            this.ExcelFileuploading = true;
+            var formData = new FormData();
+            formData.append('ExcelFileUpload', vm.ExcelFileUpload);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/add-work-student-excel', formData).then(function (data) {
+                vm.ExcelFileuploading = false;
+                if (data.data.error.length > 0 || data.data.error == null) {
+                    var html_err = '';
+                    var err = data.data.error;
+                    err.forEach(function (item) {
+                        html_err += '<br>';
+                        html_err += 'Tên lỗi: ' + item.item;
+                        html_err += '<br>';
+                        html_err += 'Message : ' + item.message;
+                    });
+                    new PNotify({
+                        title: 'Cảnh báo! Thêm thành công! Một số dữ liệu trong file bị lỗi',
+                        text: data.data.message + '<br> Lỗi tại các vị trí' + html_err,
+                        addclass: 'bg-warning',
+                        hide: false
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: data.data.message,
+                        addclass: 'bg-success'
+                    });
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            }).catch(function (err) {
+                console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: err.response.data.message,
+                    addclass: 'bg-danger'
+                });
+                _this2.ExcelFileuploading = false;
+            });
+        },
+        getSalary: function getSalary() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/request-info/get-list-salary').then(function (data) {
+                vm.listSalary = data.data;
+            }).catch(function (err) {
+                console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra!',
+                    text: 'Lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+            });
+        },
+        showSalary: function showSalary(salary) {
+            if (salary == null || salary == undefined) {
+                return '...';
+            }
+            return salary;
         }
     },
     mounted: function mounted() {
+        this.getSalary();
+        this.getEnterprise();
         this.getWorkStudent();
     }
 });
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -15693,16 +16028,46 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "tab-pane fade", attrs: { id: "work" } }, [
     _c("div", { staticClass: "panel panel-flat" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "panel-heading" }, [
+        _c("h6", { staticClass: "panel-title" }, [
+          _vm._v("Thông tin về công việc")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "heading-elements" }, [
+          _c("ul", { staticClass: "icons-list" }, [
+            _c("li", [
+              _c(
+                "button",
+                {
+                  staticClass: "right btn btn-default",
+                  on: { click: _vm.showModalExcel }
+                },
+                [_vm._v("Nhập Excel")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "button",
+                {
+                  staticClass: "right btn btn-success",
+                  on: { click: _vm.showModalAddWork }
+                },
+                [_vm._v("Thêm một việc")]
+              )
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "table-responsive" }, [
         _c("table", { staticClass: "table" }, [
-          _vm._m(1),
+          _vm._m(0),
           _vm._v(" "),
           _c(
             "tbody",
             _vm._l(_vm.work_student, function(work) {
-              return _c("tr", { key: work.user_enterprise }, [
+              return _c("tr", { key: work.id }, [
                 _c(
                   "td",
                   {
@@ -15768,17 +16133,525 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(work.time_start.date))]),
+                _c("td", [_vm._v(_vm._s(work.time_start))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(work.time_end))]),
                 _vm._v(" "),
                 _c("td", [
-                  _c("a", { attrs: { href: "javascript:void(0)" } }, [
-                    _vm._v(_vm._s(work.position))
-                  ])
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "javascript:void(0)",
+                        "data-toggle": "tooltip",
+                        title: "Nhấn để sửa mức lương"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.showModalEditWork(work.id)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.showSalary(work.salary)))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(work.position) +
+                      "\n                    "
+                  )
                 ])
               ])
             })
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "modal-push-excel" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content text-center" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                staticClass: "form-inline",
+                attrs: { enctype: "multipart/form-data" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.uploadExcelFile($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "file" },
+                    on: {
+                      change: function($event) {
+                        _vm.setExcelFile($event)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.ExcelFileuploading == true
+                    ? _c("div", { staticClass: "pace-demo" }, [_vm._m(2)])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _vm._m(3)
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "modal-update-work" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { enctype: "multipart/form-data" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.UpdateWork($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [
+                          _vm._v("Thời gian bắt đầu")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.work.started_at,
+                              expression: "work.started_at"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", required: "" },
+                          domProps: { value: _vm.work.started_at },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.work,
+                                "started_at",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [
+                          _vm._v(
+                            "\n                                        Thời gian kết thúc\n                                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.work.dropped_at,
+                              expression: "work.dropped_at"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date" },
+                          domProps: { value: _vm.work.dropped_at },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.work,
+                                "dropped_at",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [_vm._v("Vị trí")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.work.position,
+                              expression: "work.position"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", required: "" },
+                          domProps: { value: _vm.work.position },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.work,
+                                "position",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [
+                          _vm._v("Mức lương")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.work.id_salary,
+                                expression: "work.id_salary"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.work,
+                                  "id_salary",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.listSalary, function(salary) {
+                            return _c(
+                              "option",
+                              {
+                                key: salary.id,
+                                domProps: { value: salary.id }
+                              },
+                              [_vm._v(_vm._s(salary.about))]
+                            )
+                          })
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.editingWork == true
+                    ? _c("div", { staticClass: "pace-demo" }, [_vm._m(5)])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button" },
+                      on: { click: _vm.submitDelete }
+                    },
+                    [_vm._v("Xóa "), _c("i", { staticClass: "icon-trash" })]
+                  )
+                ])
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal fade", attrs: { id: "modal-add-work" } }, [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(7),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              attrs: { enctype: "multipart/form-data" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.AddWork($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Tên doanh nghiệp")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newWork.email_address_enterprise,
+                              expression: "newWork.email_address_enterprise"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", required: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.newWork,
+                                "email_address_enterprise",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.listEnterprise, function(enterprise) {
+                          return _c(
+                            "option",
+                            {
+                              key: enterprise.email_address_enterprise,
+                              domProps: { value: enterprise.user_enterprise }
+                            },
+                            [_vm._v(_vm._s(enterprise.name_enterprise))]
+                          )
+                        })
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Thời gian bắt đầu")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newWork.started_at,
+                            expression: "newWork.started_at"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date", required: "" },
+                        domProps: { value: _vm.newWork.started_at },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newWork,
+                              "started_at",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v(
+                          "\n                                        Thời gian kết thúc\n                                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newWork.dropped_at,
+                            expression: "newWork.dropped_at"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date" },
+                        domProps: { value: _vm.newWork.dropped_at },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newWork,
+                              "dropped_at",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Vị trí")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newWork.position,
+                            expression: "newWork.position"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", required: "" },
+                        domProps: { value: _vm.newWork.position },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newWork,
+                              "position",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Mức lương")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newWork.id_salary,
+                              expression: "newWork.id_salary"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.newWork,
+                                "id_salary",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.listSalary, function(salary) {
+                          return _c(
+                            "option",
+                            { key: salary.id, domProps: { value: salary.id } },
+                            [_vm._v(_vm._s(salary.about))]
+                          )
+                        })
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.addingWork == true
+                  ? _c("div", { staticClass: "pace-demo" }, [_vm._m(8)])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._m(9)
+            ]
           )
         ])
       ])
@@ -15786,16 +16659,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-heading" }, [
-      _c("h6", { staticClass: "panel-title" }, [
-        _vm._v("Thông tin về công việc")
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -15808,8 +16671,124 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Thời gian kết thúc")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Chức vụ")])
+        _c("th", [_vm._v("Mức lương")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Vị trí")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [
+        _vm._v("Thêm công việc bằng Excel")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "theme_xbox_xs" }, [
+      _c("div", {
+        staticClass: "pace_progress",
+        attrs: { "data-progress-text": "60%", "data-progress": "60" }
+      }),
+      _c("div", { staticClass: "pace_activity" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer text-center" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Tải file lên "), _c("i", { staticClass: "icon-plus22" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-info",
+          attrs: {
+            href: "/admin/student-manage/get-excel-example-work-student",
+            target: "_blank"
+          }
+        },
+        [
+          _vm._v("Tải Excel mẫu "),
+          _c("i", { staticClass: "glyphicon glyphicon-info-sign" })
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Nhập mức lương ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "theme_xbox_xs" }, [
+      _c("div", {
+        staticClass: "pace_progress",
+        attrs: { "data-progress-text": "60%", "data-progress": "60" }
+      }),
+      _c("div", { staticClass: "pace_activity" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-success", attrs: { type: "submit" } },
+      [_vm._v("Lưu "), _c("i", { staticClass: "glyphicon glyphicon-save" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Nhập mức lương ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "theme_xbox_xs" }, [
+      _c("div", {
+        staticClass: "pace_progress",
+        attrs: { "data-progress-text": "60%", "data-progress": "60" }
+      }),
+      _c("div", { staticClass: "pace_activity" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [
+          _vm._v("Thêm mới "),
+          _c("i", { staticClass: "glyphicon glyphicon-save" })
+        ]
+      )
     ])
   }
 ]
@@ -15823,7 +16802,7 @@ if (false) {
 }
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

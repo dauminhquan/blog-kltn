@@ -4,7 +4,7 @@
         <!-- Profile info -->
         <div class="panel panel-flat">
             <div class="panel-heading">
-                <h6 class="panel-title">Thông tin cá nhân sinh viên <b>#1</b> </h6>
+                <h6 class="panel-title">Thông tin cá nhân sinh viên </h6>
                 <div class="heading-elements">
                     <ul class="icons-list">
                         <li><a data-action="collapse"></a></li>
@@ -17,32 +17,24 @@
             <div class="panel-body">
                 <!-- 2 columns form -->
                 <form v-on:submit.prevent="submitUpdateStudent">
-
-
-
                     <div class="row">
                         <fieldset>
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Họ:</label>
                                         <input type="text" v-model="infoStudent.first_name_student" placeholder="Họ" required class="form-control">
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Tên:</label>
                                         <input type="text" placeholder="Tên" v-model="infoStudent.last_name_student" required class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Nhập mức lương</label>
-                                        <input type="text" placeholder="Nhập mức lương" required v-model="infoStudent.salary" class="form-control">
-                                    </div>
-                                </div>
+
                             </div>
 
                             <div class="row">
@@ -189,9 +181,7 @@
             this.getCourses();
             this.getDepartments();
             this.getInforStudent()
-            $(".file-styled").uniform({
-                fileButtonClass: 'action btn bg-pink-400'
-            });
+
             // lấy danh sách khóa học
 
         },
@@ -211,7 +201,7 @@
                     email_address_student: '',
                     introduce_student:'',
                     avatar_student: '',
-                    salary:'',
+
                     code_student: '',
                     password: '',
                     rep_password: '',
@@ -267,7 +257,7 @@
                         vm.infoStudent.introduce_student = data.data.info_student.introduce_student
                         vm.infoStudent.last_name_student = data.data.info_student.last_name_student
                         vm.infoStudent.phone_number_student = data.data.info_student.phone_number_student
-                        vm.infoStudent.salary = data.data.info_student.salary
+
                         vm.infoStudent.code_student = vm.code_student
                         vm.infoStudent.graduated = data.data.info_student.graduated
                     }).catch(err => {

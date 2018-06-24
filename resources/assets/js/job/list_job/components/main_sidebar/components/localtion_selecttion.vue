@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <div class="checkbox no-margin-top" v-for="(local,index) in locals" v-if="index < max_show">
                         <label>
-                            <input type="checkbox" class="styled" v-model="locals_selected" :value="local">
+                            <input type="checkbox" class="styled" v-model="cities_selected" :value="local">
                             {{local}}
                         </label>
                     </div>
@@ -36,8 +36,8 @@
     import axios from 'axios'
     export default {
         computed:{
-            get_locals_selected(){
-                return this.locals_selected
+            get_cities_selected(){
+                return this.cities_selected
             }
         },
         props: [],
@@ -109,7 +109,7 @@
                     ,"Hà Nội"
                     ,"TP HCM"
                 ],
-                locals_selected: [],
+                cities_selected: [],
                 max_show: 10
             }
         },
@@ -133,9 +133,9 @@
         }
         ,
         watch:{
-            get_locals_selected: {
+            get_cities_selected: {
                 handler(newValue){
-                    this.$emit('change_locals_selected',newValue)
+                    this.$emit('change_cities_selected',newValue)
                 },
                 deep: true
             }

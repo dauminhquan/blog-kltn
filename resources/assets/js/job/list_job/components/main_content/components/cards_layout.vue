@@ -90,9 +90,9 @@
                 {
                     query.params.types_job_selected = key_query.types_job_selected
                 }
-                if(key_query.locals_selected != undefined && key_query.locals_selected.length >0)
+                if(key_query.cities_selected != undefined && key_query.cities_selected.length >0)
                 {
-                    query.params.locals_selected = key_query.locals_selected
+                    query.params.cities_selected = key_query.cities_selected
                 }
                 if(key_query.positions_selected != undefined && key_query.positions_selected.length >0 )
                 {

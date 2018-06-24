@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Student;
 use App\Models\User;
@@ -63,6 +64,15 @@ class DeleteDataService
         }
     }
 
+    public function DeleteWorkStudent($id)
+    {
+        $employee = Employee::find($id);
+        if($employee != null)
+        {
+            $employee->delete();
+        }
+        return ['message' => 'Xóa thành công'];
+    }
     public function deleteEnterprise(Request $request)
     {
         $validate =  Validator::make($request->all(),[

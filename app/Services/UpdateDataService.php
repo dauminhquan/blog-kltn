@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,10 +85,7 @@ class UpdateDataService
                 $student->address_student = $request->address_student;
                 $student->phone_number_student = $request->phone_number_student;
                 $student->email_address_student = $request->email_address_student;
-                if($request->has('salary'))
-                {
-                    $student->salary = $request->salary;
-                }
+
                 if($request->has('graduated'))
                 {
                     $student->graduated = $request->graduated;
@@ -112,10 +110,7 @@ class UpdateDataService
             $student->address_student = $request->address_student;
             $student->phone_number_student = $request->phone_number_student;
             $student->email_address_student = $request->email_address_student;
-            if($request->has('salary'))
-            {
-                $student->salary = $request->salary;
-            }
+
             if($request->has('graduated'))
             {
                 $student->graduated = $request->graduated;
@@ -161,6 +156,40 @@ class UpdateDataService
         ];
     }
 
+    public function UpdateWorkStudent(Request $request, $id)
+    {
+        $employee = Employee::find($id);
+        if(!$employee)
+        {
+            return response()->json(['id' => 'Công việc không tồn tại'],404);
+        }
+        $validator = Validator::make($request->all(),
+            [
+                'started_at' => 'required',
+                'position' => 'required',
+
+            ],
+            [
+                'started_at.required' => 'Không có thời gian bắt đầu',
+                'position.required' => 'Không có vị trí',
+
+            ]);
+        if($validator->fails())
+        {
+            return response()->json($validator->errors(),406);
+        }
+
+        $employee->id_salary = $request->id_salary;
+        $employee->started_at = $request->started_at;
+
+        $employee->position = $request->position;
+        $employee->dropped_at = $request->dropped_at;
+
+        $employee->update();
+        return [
+            'message' => 'Update thành công'
+        ];
+    }
     //enter prise
 
     public function UpdateAvatarEnterprise(Request $request)
@@ -246,6 +275,7 @@ class UpdateDataService
                 $enterprise->address_enterprise = $request->address_enterprise;
                 $enterprise->name_president_enterprise = $request->name_president_enterprise;
                 $enterprise->phone_number_enterprise = $request->phone_number_enterprise;
+                $enterprise->introduce_enterprise = $request->introduce_enterprise;
                 $enterprise->save();
                 $user->password = Hash::make($request->password);
                 return [
@@ -258,6 +288,7 @@ class UpdateDataService
             $enterprise->address_enterprise = $request->address_enterprise;
             $enterprise->name_president_enterprise = $request->name_president_enterprise;
             $enterprise->phone_number_enterprise = $request->phone_number_enterprise;
+            $enterprise->introduce_enterprise = $request->introduce_enterprise;
             $enterprise->save();
             return [
                 'message' => 'Thành công'

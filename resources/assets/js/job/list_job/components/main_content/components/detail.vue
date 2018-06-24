@@ -23,10 +23,12 @@
             <div class="content-group-lg">
                 <h6 class="text-semibold">Các nơi làm việc</h6>
                 <ul class="ul-skill" >
-                    <li v-for="location in infoLocations" :key="location.city">
-                        <span class="label label-success">{{location.city}}, {{location.location}}</span>
+                    <li v-for="location in infoCities" :key="location.city">
+                        <span class="label label-success">{{location.city}}</span>
                     </li>
-
+                    <li>
+                        Địa chỉ tại: <b>{{infoLocation}}</b>
+                    </li>
                 </ul>
             </div>
             <div class="content-group-lg">
@@ -62,7 +64,7 @@
 
             <div class="content-group-lg">
                 <h6 class="text-semibold">Chi tiết tin tuyển dụng</h6>
-                {{infoDetail.content_post}}
+                <div v-html="infoDetail.content_post"></div>
             </div>
 
             <div class="content-group-lg">
@@ -106,7 +108,10 @@
             infoTypes(){
                 return this.$store.getters.getJobDetail.types
             },
-            infoLocations(){
+            infoCities(){
+                return this.$store.getters.getJobDetail.cities
+            },
+            infoLocation(){
                 return this.$store.getters.getJobDetail.locations
             }
         },

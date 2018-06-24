@@ -2,12 +2,12 @@
 @section('header-content')
     <div class="page-header-content">
         <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Thông tin sinh viên</span></h4>
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Thông tin doanh nghiệp</span></h4>
 
             <ul class="breadcrumb breadcrumb-caret position-right">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Quản lý doanh nghiệp</a></li>
-                <li class="active">Thông tin doanh nghiệp <b>#1</b> </li>
+                <li><a href="{{route('admin.enterprise.manage.index')}}">Quản lý doanh nghiệp</a></li>
+                <li class="active">Thông tin doanh nghiệp </li>
             </ul>
         </div>
 

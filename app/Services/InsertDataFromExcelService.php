@@ -12,7 +12,9 @@ namespace App\Services;
 use App\Http\Requests\ExcelFile;
 use App\Models\Branch;
 use App\Models\Course;
+use App\Models\Employee;
 use App\Models\Enterprise;
+use App\Models\Salary;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -74,7 +76,7 @@ class InsertDataFromExcelService
                     $student->avatar_student = $item->avatar_student;
                     $student->code_course = $item->code_course;
                     $student->code_branch = $item->code_branch;
-                    $student->salary = $item->salary;
+
                     $student->id_user = $user->id;
                     $student->graduated = $item->graduated;
                     $student->save();
@@ -91,6 +93,82 @@ class InsertDataFromExcelService
         }
         return [
             'message' => 'Thêm sinh viên thành công',
+            'error' => $list_err
+        ];
+    }
+    public function insertExcelWorkStudents(ExcelFile $request)
+    {
+        // masv
+        // email doanh nghiep
+        // vi tri
+        // luong
+        // thoi gian bat dau
+        // thoi gian ket thuc
+        $list_err = [];
+        $data = Excel::load($request->ExcelFileUpload,function($reader){
+            $reader->all();
+
+        })->get();
+        if(count($data) > 0)
+        {
+            foreach ($data as $item)
+            {
+
+                // check xem ma nganh
+                // ma khoa co ton tai khong
+
+
+                if(
+                    !$this->existEmailEnterprise($item->email_address_enterprise))
+                {
+
+                    $list_err[] = [
+                        'item' => $item->email_address_enterprise,
+                        'message' => 'Email doanh nghiệp không đúng'
+                    ];
+                }elseif(!$this->existEmailEnterprise($item->code_student))
+                {
+                    $list_err[] = [
+                        'item' => $item->code_student,
+                        'message' => 'Mã sinh viên không đúng'
+                    ];
+                }elseif(!$this->existSalary($item->salary))
+                {
+                    $list_err[] = [
+                        'item' => $item->salary,
+                        'message' => 'Mã lương không đúng'
+                    ];
+                }
+                elseif($item->position == null)
+                {
+                    $list_err[] = [
+                        'item' => 'code_student: '.$item->code_student.', email_address_enterprise:'.$item->email_address_enterprise,
+                        'message' => 'Vị trí không đúng'
+                    ];
+                }
+                else{
+                    $employee = new Employee();
+                    $employee->user_enterprise = $item->email_address_enterprise;
+                    $employee->code_student = $item->code_student;
+                    $employee->started_at = $item->started_at;
+                    $employee->dropped_at = $item->dropped_at;
+                    $employee->id_salary = $item->id_salary;
+                    $employee->position = $item->position;
+                    $employee->save();
+                }
+
+
+            }
+        }
+
+        if(count($list_err) == count($data))
+        {
+            return response()->json([
+                'message' => "File rỗng | Sai định dạng | Trùng dữ liệu toàn bộ"
+            ],406);
+        }
+        return [
+            'message' => 'Thêm danh sách doanh nghiệp thành công',
             'error' => $list_err
         ];
     }
@@ -162,6 +240,7 @@ class InsertDataFromExcelService
         ];
     }
 
+
     private function existCourse($code_course)
     {
         if(Course::where('code_course',$code_course)->count() > 0)
@@ -194,7 +273,18 @@ class InsertDataFromExcelService
         }
         return false;
     }
-
+    private function existSalary($id)
+    {
+        if($id != null)
+        {
+            if(Salary::find($id))
+            {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
     private function existEmailEnterprise($email_address_enterprise)
     {
         if(User::where('user_name',$email_address_enterprise)->count()>0)
