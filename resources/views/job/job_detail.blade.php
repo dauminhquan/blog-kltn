@@ -1,7 +1,7 @@
 @extends('layout')
 @section('page-content')
     <main-sidebar></main-sidebar>
-    <detail-content></detail-content>
+    <detail-content id-job="{{$id}}"></detail-content>
 @endsection
 @section("js-page")
     <script type="text/javascript" src="{{asset("assets/js/build/pages/job/list-job/job-detail.js")}}"></script>

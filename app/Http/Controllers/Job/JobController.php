@@ -13,7 +13,7 @@ class JobController extends Controller
     }
     public function job_detail($id)
     {
-        return view('job.job_detail');
+        return view('job.job_detail',['id' => $id]);
     }
 
 }

@@ -190,7 +190,8 @@ class InsertDataService
             'time_end_post' => 'required|date',
             'time_start_post' => 'required|date',
             'title_post' => 'required',
-            'description_post' => 'required'
+            'description_post' => 'required',
+            'file_attach_post' => 'required|file'
         ],[
             'cities.required' => 'Không có thành phố',
             'content_post.required' => 'Nội dung trống',
@@ -208,12 +209,15 @@ class InsertDataService
             'time_start_post.required' => 'Không có thời gian bắt đầu đăng ký',
             'time_start_post.date' => 'Thời gian đăng ký không phải date time',
             'title_post.required' => 'Không có tiêu đề bài viết',
+            'file_attach_post.required' => 'File đính kèm không tồn tại',
+            'file_attach_post.file' => 'File đính kèm không đúng định dạng'
         ]);
         if($validator->fails())
         {
             return response()->json($validator->errors(),404);
         }
         try{
+
             DB::transaction(function () use ($request){
                 $post = new Post();
                 $post->id_enterprise = 1;
@@ -224,6 +228,7 @@ class InsertDataService
                 $post->content_post = $request->content_post;
                 $post->accept = 0;
                 $post->localtion = $request->location;
+                $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','1'.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
                 $post->save();
                 foreach ($request->cities as $city)
                 {

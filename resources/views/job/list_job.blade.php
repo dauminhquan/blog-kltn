@@ -15,8 +15,7 @@
 @endsection
 @section('page-content')
     <main-sidebar></main-sidebar>
-    <main-content v-if="JobDetailEmpty == true"></main-content>
-    <detail-content v-if="JobDetailEmpty == false"></detail-content>
+    <main-content></main-content>
 @endsection
 @section("js-page")
     <script type="text/javascript" src="{{asset("assets/js/build/pages/job/list-job/list-job.js")}}"></script>

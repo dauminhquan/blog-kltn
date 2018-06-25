@@ -125,12 +125,7 @@
             },
             getDetailJob(id)
             {
-                var vm = this
-                axios.get('/api/job/detail/'+id).then(data => {
-                    vm.$store.commit('setDetail',data.data)
-                }).catch(err => {
-                    console.dir(err)
-                })
+                window.open(window.location.origin+'/job/job-detail/'+id,'_blank');
             }
         },
         watch:{

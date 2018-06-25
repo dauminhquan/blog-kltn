@@ -10,7 +10,7 @@
                     </a>
 
                     <div class="media-body">
-                        <h5 class="media-heading text-semibold">{{infoEnterprise.name_enterprise}}</h5>
+                        <h5 class="media-heading text-semibold">{{infoEnterprise == undefined ? '' : infoEnterprise.name_enterprise}}</h5>
                         <ul class="list-inline list-inline-separate text-muted no-margin">
                             <li>IT Services</li>
                         </ul>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <p>{{infoEnterprise.introduce_enterprise}}</p>
+                <p>{{infoEnterprise == null ? '' :infoEnterprise.introduce_enterprise}}</p>
             </div>
         </div>
     </div>

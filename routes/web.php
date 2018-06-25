@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin'],funct
 Route::group(['prefix' => 'enterprise','as' => 'enterprise.','namespace' => 'Enterprise'],function (){
     Route::group(['as' => 'post.manage'],function (){
         Route::get('new-post',['as' => 'new.post','uses' =>'PostsManageController@new_post']);
+        Route::get('post-manage',['as' => 'post.manage','uses' => 'PostsManageController@post_manage']);
     });
 });
 

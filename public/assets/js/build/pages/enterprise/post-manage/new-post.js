@@ -12702,6 +12702,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12738,7 +12745,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             city: '',
             description_post: '',
             content_post: '',
-            ckeditor: null
+            ckeditor: null,
+            file: ''
         };
     },
 
@@ -12794,18 +12802,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addPost: function addPost() {
             var vm = this;
             vm.uploading = true;
-            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/api/enterprise/post', {
-                cities: vm.city,
-                content_post: vm.content_post,
-                description_post: vm.description_post,
-                list_positions: vm.list_positions,
-                list_skills: vm.list_skills,
-                list_types: vm.list_types,
-                location: vm.location,
-                time_end_post: vm.time_end_post,
-                time_start_post: vm.time_start_post,
-                title_post: vm.title_post
-            }).then(function (data) {
+            var formData = new FormData();
+
+            formData.append('content_post', vm.content_post);
+            formData.append('description_post', vm.description_post);
+            vm.list_positions.forEach(function (item) {
+                formData.append('list_positions[]', item);
+            });
+
+            vm.list_skills.forEach(function (item) {
+                formData.append('list_skills[]', item);
+            });
+
+            vm.list_types.forEach(function (item) {
+                formData.append('list_types[]', item);
+            });
+            vm.city.forEach(function (item) {
+                formData.append('cities[]', item);
+            });
+
+            // formData.append('list_positions',vm.list_positions)
+            // formData.append('list_skills',vm.list_skills)
+            // formData.append('list_types',vm.list_types)
+
+            formData.append('location', vm.location);
+            formData.append('time_end_post', vm.time_end_post);
+            formData.append('time_start_post', vm.time_start_post);
+            formData.append('title_post', vm.title_post);
+            formData.append('file_attach_post', vm.file);
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/api/enterprise/post', formData).then(function (data) {
                 new PNotify({
                     title: 'Ohh Yeah! Thành công!',
                     text: 'Thêm mới bài đăng thành công',
@@ -12821,6 +12846,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 vm.uploading = false;
             });
+        },
+        setFile: function setFile(e) {
+            console.dir(e);
+            this.file = e.target.files[0];
         }
     }
 });
@@ -13714,7 +13743,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { staticClass: "control-label" }, [
                       _vm._v("Thời gian bắt đầu nhận hồ sơ")
@@ -13744,7 +13773,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", { staticClass: "control-label" }, [
                       _vm._v("Thời gian kết thúc nhận hồ sơ")
@@ -13770,6 +13799,20 @@ var render = function() {
                           _vm.time_end_post = $event.target.value
                         }
                       }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-label" }, [
+                      _vm._v("Chọn file đính kèm")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "file", required: "" },
+                      on: { change: _vm.setFile }
                     })
                   ])
                 ])

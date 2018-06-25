@@ -12,9 +12,8 @@ export default new Vuex.Store({
         updateKeyQuery(state,key_query){
             state.key_query = key_query
         },
-        setDetail(state,data)
-        {
-            state.job_detail = data
+        setDetail(state,detail){
+            state.job_detail = detail
         }
     },
     getters:{
@@ -24,9 +23,8 @@ export default new Vuex.Store({
         getKeyQuery(state){
             return state.key_query
         },
-        getJobDetail(state)
-        {
-            return state.job_detail
+        getJobDetail(state){
+          return state.job_detail
         },
         getEnterprise(state)
         {

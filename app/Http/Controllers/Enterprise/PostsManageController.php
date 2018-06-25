@@ -15,4 +15,8 @@ class PostsManageController extends Controller
     {
         return view('enterprise.new_post');
     }
+    public function post_manage()
+    {
+        return view('enterprise.post_manage');
+    }
 }

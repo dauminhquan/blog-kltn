@@ -7,10 +7,10 @@
                     <img :src="AvatarEnterPrise" class="img-rounded img-lg" alt="">
                 </a>
                 <div class="media-body">
-                    <h5 class="media-heading text-semibold">{{infoDetail.title_post}}</h5>
+                    <h5 class="media-heading text-semibold">{{infoDetail == undefined? '' : infoDetail.title_post}}</h5>
                     <ul class="list-inline list-inline-separate text-muted no-margin">
-                        <li><a href="javascript:void(0)">{{infoEnterprise.name_enterprise}}</a></li>
-                        <li>{{infoEnterprise.address_enterprise}}</li>
+                        <li><a href="javascript:void(0)">{{infoDetail == undefined? '' : infoDetail.name_enterprise}}</a></li>
+                        <li>{{infoDetail == undefined? '' : infoDetail.address_enterprise }}</li>
                         <li>3 days ago</li>
                     </ul>
                 </div>
@@ -64,12 +64,12 @@
 
             <div class="content-group-lg">
                 <h6 class="text-semibold">Chi tiết tin tuyển dụng</h6>
-                <div v-html="infoDetail.content_post"></div>
+                <div v-html="infoDetail == undefined? '' : infoDetail.content_post "></div>
             </div>
 
             <div class="content-group-lg">
                 <h6 class="text-semibold">Hạn gửi hồ sơ</h6>
-                <p>Thời gian bắt đầu từ: <b>{{infoDetail.time_start_post}}</b> đến <b>{{infoDetail.time_end_post}}</b> </p>
+                <p>Thời gian bắt đầu từ: <b>{{infoDetail == undefined? '' : infoDetail.time_start_post }}</b> đến <b>{{infoDetail == undefined? '' : infoDetail.time_end_post}}</b> </p>
 
             </div>
 
@@ -91,28 +91,41 @@
         store,
         computed: {
             infoDetail(){
-                return this.$store.getters.getJobDetail.info
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.info
             },
             infoEnterprise(){
                 return this.$store.getters.getEnterprise
             },
             AvatarEnterPrise(){
-                return window.location.origin+this.infoEnterprise.avatar_enterprise+'?'+new Date()
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.avatar_enterprise+'?'+new Date()
+
             },
             infoSkill(){
-                return this.$store.getters.getJobDetail.skills
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.skills
+
             },
             infoPosition(){
-                return this.$store.getters.getJobDetail.positions
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.positions
+
             },
             infoTypes(){
-                return this.$store.getters.getJobDetail.types
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.types
+
             },
             infoCities(){
-                return this.$store.getters.getJobDetail.cities
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.cities
+
             },
             infoLocation(){
-                return this.$store.getters.getJobDetail.locations
+                var job_detail = this.$store.getters.getJobDetail
+                return job_detail == undefined? '':job_detail.locations
+
             }
         },
         methods:{
