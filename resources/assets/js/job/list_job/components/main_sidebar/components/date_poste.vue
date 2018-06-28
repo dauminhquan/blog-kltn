@@ -58,7 +58,7 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+
     export default {
         computed:{
             get_dates_selected(){
@@ -74,15 +74,7 @@
             }
         },
         methods:{
-            // getTypesJob()
-            // {
-            //     // var vm = this
-            //     // axios.get('/api/job/get-list-dat').then(data => {
-            //     //     vm.dates = data.data
-            //     // }).catch(err => {
-            //     //     console.dir(err)
-            //     // })
-            // }
+
         },
 
 
@@ -96,7 +88,7 @@
         },
 
         mounted(){
-            // this.getTypesJob()
+
 
         }
         ,

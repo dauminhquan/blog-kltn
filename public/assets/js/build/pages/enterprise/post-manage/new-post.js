@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 262);
+/******/ 	return __webpack_require__(__webpack_require__.s = 251);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -71,8 +71,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(15);
+var bind = __webpack_require__(5);
+var isBuffer = __webpack_require__(17);
 
 /*global toString:true*/
 
@@ -487,29 +487,169 @@ module.exports = function normalizeComponent (
 /***/ }),
 
 /***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Config = function Config() {
+        var _this = this;
 
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
+        _classCallCheck(this, Config);
 
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
+        this.WEB = window.location.origin;
+        this.API = window.location.origin + '/api';
+        this.API_ADM = this.API + '/admin';
+        this.API_ENTERPRISE = this.API + '/enterprise';
+
+        this.API_REQUEST_INFO = this.API + '/request-info';
+        /*WEB*/
+
+        /*WEB ADMIN*/
+        this.WEB_ADMIN = this.WEB + '/admin';
+        /*ADMIN ENTERPRISE MANAGE*/
+        this.WEB_ADMIN_ENTERPRISE_MANAGE = this.WEB_ADMIN + '/enterprise-manage';
+
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_EXAMPLE_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-example-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_INFO_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/info-enterprise';
+        /*ADMIN ENTERPRISE MANAGE*/
+        /*ADMIN JOB*/
+        this.WEB_ADMIN_JOB_MANAGE = this.WEB_ADMIN + '/job-manage';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS = this.WEB_ADMIN_JOB_MANAGE + '/jobs';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS_ID = function (ID) {
+                return _this.WEB_ADMIN_JOB_MANAGE + '/jobs/' + ID;
+        };
+        this.WEB_ADMIN_JOB_MANAGE_POSITION = this.WEB_ADMIN_JOB_MANAGE + '/position';
+        this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
+        /*ADMIN JOB*/
+        /*ADMIN STUDENT MANAGE*/
+        this.WEB_ADMIN_STUDENT_MANAGE = this.WEB_ADMIN + '/student-manage';
+        this.WEB_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_EXAMPLE_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-example-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_WORK_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-work-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXCEL_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/info-student';
+        /*ADMIN STUDENT MANAGE*/
+
+        /*WEB ADMIN*/
+
+        /*WEB ENTERPRISE*/
+        this.WEB_ENTERPRISE = this.WEB + '/enterprise';
+
+        this.WEB_ENTERPRISE_NEW_POST = this.WEB_ENTERPRISE + '/new-post';
+        this.WEB_ENTERPRISE_POST_MANAGE = this.WEB_ENTERPRISE + '/post-manage';
+        this.WEB_ENTERPRISE_POST = function (ID) {
+                return _this.WEB_ENTERPRISE + '/post/' + ID;
+        };
+        /*WEB ENTERPRISE*/
+
+        /*WEB JOB*/
+        this.WEB_JOB = this.WEB + '/job';
+
+        this.WEB_JOB_FILE = function (ID) {
+                return _this.WEB_JOB + '/file/' + ID;
+        };
+        this.WEB_JOB_JOB_DETAIL = function (ID) {
+                return _this.WEB_JOB + '/job-detail/' + ID;
+        };
+        this.WEB_JOB_LIST_JOB = this.WEB_JOB + '/list-job';
+        /*WEB JOB*/
+
+        /*WEB*/
+
+        /*  API ADMIN*/
+        /*STUDENT MANAGE*/
+        this.API_ADMIN_STUDENT_MANAGE = this.API_ADM + '/student-manage';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-student';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-avatar-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/update-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/delete-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_STUDENT_MANAGE + '/get-list-enterprise';
+        /*STUDENT MANAGE*/
+
+        /*ENTERPRISE MANGE*/
+        this.API_ADMIN_ENTERPRISE_MANAGE = this.API_ADM + '/enterprise-manage';
+
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE_EXCEL = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise-excel';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_AVATAR_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-avatar-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_EMPLOYEE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-employees-enterprise';
+        /*ENTERPRISE MANGE*/
+
+        /*JOB MANAGE*/
+        this.API_ADMIN_JOB_MANAGE = this.API_ADM + '/job-manage';
+
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/get-list-position';
+        this.API_ADMIN_JOB_MANAGE_ADD_POSITION = this.API_ADMIN_JOB_MANAGE + '/add-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-list-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-position';
+        this.API_ADMIN_JOB_MANAGE_EDIT_POSITION = this.API_ADMIN_JOB_MANAGE + '/edit-position';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/get-list-skill';
+        this.API_ADMIN_JOB_MANAGE_ADD_SKILL = this.API_ADMIN_JOB_MANAGE + '/add-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-list-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-skill';
+        this.API_ADMIN_JOB_MANAGE_EDIT_SKILL = this.API_ADMIN_JOB_MANAGE + '/edit-skill';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_JOB = this.API_ADMIN_JOB_MANAGE + '/get-list-job';
+        /*JOB MANAGE*/
+
+        /*API ADMIN*/
+
+        /*API ENTERPRISE*/
+
+        this.API_ENTERPRISE_POST = this.API_ENTERPRISE + '/post';
+
+        /*API ENTERPRISE*/
+
+        /*API JOB*/
+        this.API_JOB = this.API + '/job';
+
+        this.API_JOB_DETAIL = function (ID) {
+                return _this.API_JOB + '/detail/' + ID;
+        };
+        this.API_JOB_GET_LIST_ENTERPRISE = this.API_JOB + '/get-list-enterprise';
+        this.API_JOB_GET_LIST_JOB = this.API_JOB + '/get-list-job';
+        this.API_JOB_GET_LIST_POSITION = this.API_JOB + '/get-list-position';
+        this.API_JOB_GET_LIST_SKILL = this.API_JOB + '/get-list-skill';
+        this.API_JOB_GET_LIST_TYPE_JOB = this.API_JOB + '/get-list-type-job';
+        this.API_JOB_SIMILAR_JOB = this.API_JOB + '/similar-job';
+
+        /*API JOB*/
+
+        /*API REQUEST INFO*/
+        this.API_REQUEST_INFO_GET_COURSES = this.API_REQUEST_INFO + '/get-courses';
+        this.API_REQUEST_INFO_GET_DEPARTMENTS = this.API_REQUEST_INFO + '/get-departments';
+        this.API_REQUEST_INFO_GET_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/get-info-enterprise';
+        this.API_REQUEST_INFO_GET_INFO_STUDENT = this.API_REQUEST_INFO + '/get-info-student';
+        this.API_REQUEST_INFO_GET_LIST_SALARY = this.API_REQUEST_INFO + '/get-list-salary';
+        this.API_REQUEST_INFO_GET_OPTION_ENTERPRISE = this.API_REQUEST_INFO + '/get-option-enterprise';
+        this.API_REQUEST_INFO_GET_OPTION_STUDENT = this.API_REQUEST_INFO + '/get-option-student';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/check-exist-info-enterprise';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_STUDENT = this.API_REQUEST_INFO + '/check-exist-info-student';
+        this.API_REQUEST_INFO_GET_BRANCHES = function (DEPARTMENT) {
+                return _this.API_REQUEST_INFO + '/get-branches/' + DEPARTMENT;
+        };
+        /*API REQUEST INFO*/
 };
 
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
+/* harmony default export */ __webpack_exports__["a"] = (Config);
 
 /***/ }),
 
@@ -11741,19 +11881,44 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(4)))
 
 /***/ }),
 
 /***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(16);
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+
+
+window.Cookies = __webpack_require__(34);
+
+var token = window.Cookies('token');
+var ax = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create();
+ax.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+/* harmony default export */ __webpack_exports__["a"] = (ax);
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(16);
+var bind = __webpack_require__(5);
+var Axios = __webpack_require__(18);
 var defaults = __webpack_require__(3);
 
 /**
@@ -11787,15 +11952,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(10);
-axios.CancelToken = __webpack_require__(30);
-axios.isCancel = __webpack_require__(9);
+axios.Cancel = __webpack_require__(9);
+axios.CancelToken = __webpack_require__(32);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(31);
+axios.spread = __webpack_require__(33);
 
 module.exports = axios;
 
@@ -11805,7 +11970,7 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 15:
+/***/ 17:
 /***/ (function(module, exports) {
 
 /*!
@@ -11833,7 +11998,7 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11841,8 +12006,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(25);
-var dispatchRequest = __webpack_require__(26);
+var InterceptorManager = __webpack_require__(27);
+var dispatchRequest = __webpack_require__(28);
 
 /**
  * Create a new instance of Axios
@@ -11920,7 +12085,7 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 17:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11935,69 +12100,6 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
       delete headers[name];
     }
   });
-};
-
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(8);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response.request,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, request, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.request = request;
-  error.response = response;
-  return error;
 };
 
 
@@ -12032,6 +12134,69 @@ module.exports = g;
 /***/ }),
 
 /***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(7);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.request = request;
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12105,7 +12270,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12166,7 +12331,7 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12242,7 +12407,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 23:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12286,235 +12451,20 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 24:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
+module.exports = __webpack_require__(252);
 
 
 /***/ }),
 
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var transformData = __webpack_require__(27);
-var isCancel = __webpack_require__(9);
-var defaults = __webpack_require__(3);
-var isAbsoluteURL = __webpack_require__(28);
-var combineURLs = __webpack_require__(29);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(
-    config.data,
-    config.headers,
-    config.transformRequest
-  );
-
-  // Flatten headers
-  config.headers = utils.merge(
-    config.headers.common || {},
-    config.headers[config.method] || {},
-    config.headers || {}
-  );
-
-  utils.forEach(
-    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-    function cleanHeaderConfig(method) {
-      delete config.headers[method];
-    }
-  );
-
-  var adapter = config.adapter || defaults.adapter;
-
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-
-    // Transform response data
-    response.data = transformData(
-      response.data,
-      response.headers,
-      config.transformResponse
-    );
-
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(
-          reason.response.data,
-          reason.response.headers,
-          config.transformResponse
-        );
-      }
-    }
-
-    return Promise.reject(reason);
-  });
-};
-
-
-/***/ }),
-
-/***/ 262:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(263);
-
-
-/***/ }),
-
-/***/ 263:
+/***/ 252:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__content_vue__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__content_vue__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__content_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__content_vue__);
 window.Vue = __webpack_require__(11);
 
@@ -12527,15 +12477,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 264:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(265)
+var __vue_script__ = __webpack_require__(254)
 /* template */
-var __vue_template__ = __webpack_require__(271)
+var __vue_template__ = __webpack_require__(258)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12575,17 +12525,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 265:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_top_post_vue__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_top_post_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_top_post_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_select2_vue__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_select2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_select2_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_select2_vue__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_select2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_select2_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__axios__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(10);
 //
 //
 //
@@ -12709,14 +12657,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        'top-post': __WEBPACK_IMPORTED_MODULE_0__components_top_post_vue___default.a,
-        'select2': __WEBPACK_IMPORTED_MODULE_1__components_select2_vue___default.a
+
+        'select2': __WEBPACK_IMPORTED_MODULE_0__components_select2_vue___default.a
     },
     mounted: function mounted() {
         this.getSkills();
@@ -12730,6 +12679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            configUrl: new __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */](),
             uploading: false,
             locals: ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Tĩnh", "Hải Dương", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái", "Phú Yên", "Cần Thơ", "Đà Nẵng", "Hải Phòng", "Hà Nội", "TP HCM"],
             types: [],
@@ -12753,7 +12703,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getSkills: function getSkills() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/job/get-list-skill').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_JOB_GET_LIST_SKILL).then(function (data) {
                 vm.skills = data.data;
                 if (vm.skills.length > 0) {
                     vm.skills = vm.skills.map(function (item) {
@@ -12765,11 +12715,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).catch(function (err) {
                 console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi xảy ra từ server!',
+                    addclass: 'bg-danger'
+                });
             });
         },
         getPositions: function getPositions() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/job/get-list-position').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_JOB_GET_LIST_POSITION).then(function (data) {
                 vm.positions = data.data;
                 if (vm.positions.length > 0) {
                     vm.positions = vm.positions.map(function (item) {
@@ -12781,11 +12736,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).catch(function (err) {
                 console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi xảy ra từ server!',
+                    addclass: 'bg-danger'
+                });
             });
         },
         getTypes: function getTypes() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/job/get-list-type-job').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_JOB_GET_LIST_TYPE_JOB).then(function (data) {
                 vm.types = data.data;
                 if (vm.types.length > 0) {
                     vm.types = vm.types.map(function (item) {
@@ -12797,6 +12757,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).catch(function (err) {
                 console.dir(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi xảy ra từ server!',
+                    addclass: 'bg-danger'
+                });
             });
         },
         addPost: function addPost() {
@@ -12821,16 +12786,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 formData.append('cities[]', item);
             });
 
-            // formData.append('list_positions',vm.list_positions)
-            // formData.append('list_skills',vm.list_skills)
-            // formData.append('list_types',vm.list_types)
-
             formData.append('location', vm.location);
             formData.append('time_end_post', vm.time_end_post);
             formData.append('time_start_post', vm.time_start_post);
             formData.append('title_post', vm.title_post);
             formData.append('file_attach_post', vm.file);
-            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/api/enterprise/post', formData).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].post(vm.configUrl.API_ENTERPRISE_POST, formData).then(function (data) {
                 new PNotify({
                     title: 'Ohh Yeah! Thành công!',
                     text: 'Thêm mới bài đăng thành công',
@@ -12856,15 +12817,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 266:
+/***/ 255:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(267)
+var __vue_script__ = __webpack_require__(256)
 /* template */
-var __vue_template__ = __webpack_require__(270)
+var __vue_template__ = __webpack_require__(257)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12881,7 +12842,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\enterprise\\postsmanage\\newpost\\components\\top_post.vue"
+Component.options.__file = "resources\\assets\\js\\enterprise\\postsmanage\\newpost\\components\\select2.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -12890,9 +12851,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7a224394", Component.options)
+    hotAPI.createRecord("data-v-ccd06948", Component.options)
   } else {
-    hotAPI.reload("data-v-7a224394", Component.options)
+    hotAPI.reload("data-v-ccd06948", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -12904,177 +12865,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 267:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__select2_vue__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__select2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__select2_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'select2': __WEBPACK_IMPORTED_MODULE_0__select2_vue___default.a
-    },
-    mounted: function mounted() {
-        this.getSkills();
-        this.getPositions();
-        this.getTypes();
-    },
-
-    methods: {
-        getSkills: function getSkills() {
-            var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/job/get-list-skill').then(function (data) {
-                vm.skills = data.data;
-                if (vm.skills.length > 0) {
-                    vm.skills = vm.skills.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.name_skill
-                        };
-                    });
-                }
-            }).catch(function (err) {
-                console.dir(err);
-            });
-        },
-        getPositions: function getPositions() {
-            var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/job/get-list-position').then(function (data) {
-                vm.positions = data.data;
-                if (vm.positions.length > 0) {
-                    vm.positions = vm.positions.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.name_position
-                        };
-                    });
-                }
-            }).catch(function (err) {
-                console.dir(err);
-            });
-        },
-        getTypes: function getTypes() {
-            var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/job/get-list-type-job').then(function (data) {
-                vm.types = data.data;
-                if (vm.types.length > 0) {
-                    vm.types = vm.types.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.name_job_type
-                        };
-                    });
-                }
-            }).catch(function (err) {
-                console.dir(err);
-            });
-        }
-    },
-    data: function data() {
-        return {
-            locals: ["An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Tĩnh", "Hải Dương", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái", "Phú Yên", "Cần Thơ", "Đà Nẵng", "Hải Phòng", "Hà Nội", "TP HCM"],
-            types: [],
-            positions: [],
-            skills: [],
-            title_post: '',
-            list_types: [],
-            list_skills: [],
-            list_positions: [],
-            time_start_post: '',
-            time_end_post: '',
-            location: '',
-            city: '',
-            description_post: ''
-        };
-    }
-});
-
-/***/ }),
-
-/***/ 268:
+/***/ 256:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13159,7 +12950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 269:
+/***/ 257:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13191,323 +12982,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-
-/***/ }),
-
-/***/ 270:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("fieldset", { staticClass: "content-group" }, [
-    _c("legend", { staticClass: "text-bold" }, [_vm._v("Chọn các mục")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _vm._v("Nhập tiêu đề")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.title_post,
-                expression: "title_post"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", required: "" },
-            domProps: { value: _vm.title_post },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.title_post = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _vm._v("Mô tả ngắn gọn")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.description_post,
-                expression: "description_post"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", required: "" },
-            domProps: { value: _vm.description_post },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.description_post = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
-            _c("label", { staticClass: "control-label" }, [
-              _vm._v("Chọn các vị trí tuyển dụng")
-            ]),
-            _vm._v(" "),
-            _c("select2", {
-              attrs: {
-                options: _vm.positions,
-                required: "true",
-                "data-placeholder": "Chọn các vị trí",
-                multiple: "true"
-              },
-              model: {
-                value: _vm.list_positions,
-                callback: function($$v) {
-                  _vm.list_positions = $$v
-                },
-                expression: "list_positions"
-              }
-            })
-          ],
-          1
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
-            _c("label", { staticClass: "control-label" }, [
-              _vm._v("Chọn các kỹ năng")
-            ]),
-            _vm._v(" "),
-            _c("select2", {
-              attrs: {
-                options: _vm.skills,
-                required: "true",
-                multiple: "true"
-              },
-              model: {
-                value: _vm.list_skills,
-                callback: function($$v) {
-                  _vm.list_skills = $$v
-                },
-                expression: "list_skills"
-              }
-            })
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
-            _c("label", { staticClass: "control-label" }, [
-              _vm._v("Chọn các hình thức tuyển dụng")
-            ]),
-            _vm._v(" "),
-            _c("select2", {
-              attrs: { options: _vm.types, required: "true", multiple: "true" },
-              model: {
-                value: _vm.list_types,
-                callback: function($$v) {
-                  _vm.list_types = $$v
-                },
-                expression: "list_types"
-              }
-            })
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
-            _c("label", { staticClass: "control-label" }, [
-              _vm._v("Chọn thành phố")
-            ]),
-            _vm._v(" "),
-            _c("select2", {
-              attrs: {
-                options: _vm.locals,
-                required: "true",
-                multiple: "true"
-              },
-              model: {
-                value: _vm.city,
-                callback: function($$v) {
-                  _vm.city = $$v
-                },
-                expression: "city"
-              }
-            })
-          ],
-          1
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _vm._v("Nhập địa điểm")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.location,
-                expression: "location"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", required: "" },
-            domProps: { value: _vm.location },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.location = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _vm._v("Thời gian bắt đầu nhận hồ sơ")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.time_start_post,
-                expression: "time_start_post"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "date", required: "" },
-            domProps: { value: _vm.time_start_post },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.time_start_post = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { staticClass: "control-label" }, [
-            _vm._v("Thời gian kết thúc nhận hồ sơ")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.time_end_post,
-                expression: "time_end_post"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "date", required: "" },
-            domProps: { value: _vm.time_end_post },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.time_end_post = $event.target.value
-              }
-            }
-          })
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7a224394", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 271:
+/***/ 258:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13918,23 +13393,216 @@ if (false) {
 
 /***/ }),
 
+/***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
 /***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var utils = __webpack_require__(0);
+var transformData = __webpack_require__(29);
+var isCancel = __webpack_require__(8);
+var defaults = __webpack_require__(3);
+var isAbsoluteURL = __webpack_require__(30);
+var combineURLs = __webpack_require__(31);
+
 /**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
+ * Throws a `Cancel` if cancellation has been requested.
  */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
 };
 
 
@@ -13946,17 +13614,23 @@ module.exports = function isAbsoluteURL(url) {
 "use strict";
 
 
+var utils = __webpack_require__(0);
+
 /**
- * Creates a new URL by combining the specified URLs
+ * Transform the data for a request or a response
  *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
  */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL
-    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
-    : baseURL;
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
 };
 
 
@@ -13969,7 +13643,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(17);
+var normalizeHeaderName = __webpack_require__(19);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -13985,10 +13659,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -14063,7 +13737,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 
@@ -14073,7 +13747,51 @@ module.exports = defaults;
 "use strict";
 
 
-var Cancel = __webpack_require__(10);
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -14132,7 +13850,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 31:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14167,14 +13885,186 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
+var __WEBPACK_AMD_DEFINE_RESULT__;/*
+ * Cookies.js - 1.2.3
+ * https://github.com/ScottHamper/Cookies
+ *
+ * This is free and unencumbered software released into the public domain.
+ */
+(function (global, undefined) {
+    'use strict';
+
+    var factory = function (window) {
+        if (typeof window.document !== 'object') {
+            throw new Error('Cookies.js requires a `window` with a `document` object');
+        }
+
+        var Cookies = function (key, value, options) {
+            return arguments.length === 1 ?
+                Cookies.get(key) : Cookies.set(key, value, options);
+        };
+
+        // Allows for setter injection in unit tests
+        Cookies._document = window.document;
+
+        // Used to ensure cookie keys do not collide with
+        // built-in `Object` properties
+        Cookies._cacheKeyPrefix = 'cookey.'; // Hurr hurr, :)
+        
+        Cookies._maxExpireDate = new Date('Fri, 31 Dec 9999 23:59:59 UTC');
+
+        Cookies.defaults = {
+            path: '/',
+            secure: false
+        };
+
+        Cookies.get = function (key) {
+            if (Cookies._cachedDocumentCookie !== Cookies._document.cookie) {
+                Cookies._renewCache();
+            }
+            
+            var value = Cookies._cache[Cookies._cacheKeyPrefix + key];
+
+            return value === undefined ? undefined : decodeURIComponent(value);
+        };
+
+        Cookies.set = function (key, value, options) {
+            options = Cookies._getExtendedOptions(options);
+            options.expires = Cookies._getExpiresDate(value === undefined ? -1 : options.expires);
+
+            Cookies._document.cookie = Cookies._generateCookieString(key, value, options);
+
+            return Cookies;
+        };
+
+        Cookies.expire = function (key, options) {
+            return Cookies.set(key, undefined, options);
+        };
+
+        Cookies._getExtendedOptions = function (options) {
+            return {
+                path: options && options.path || Cookies.defaults.path,
+                domain: options && options.domain || Cookies.defaults.domain,
+                expires: options && options.expires || Cookies.defaults.expires,
+                secure: options && options.secure !== undefined ?  options.secure : Cookies.defaults.secure
+            };
+        };
+
+        Cookies._isValidDate = function (date) {
+            return Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date.getTime());
+        };
+
+        Cookies._getExpiresDate = function (expires, now) {
+            now = now || new Date();
+
+            if (typeof expires === 'number') {
+                expires = expires === Infinity ?
+                    Cookies._maxExpireDate : new Date(now.getTime() + expires * 1000);
+            } else if (typeof expires === 'string') {
+                expires = new Date(expires);
+            }
+
+            if (expires && !Cookies._isValidDate(expires)) {
+                throw new Error('`expires` parameter cannot be converted to a valid Date instance');
+            }
+
+            return expires;
+        };
+
+        Cookies._generateCookieString = function (key, value, options) {
+            key = key.replace(/[^#$&+\^`|]/g, encodeURIComponent);
+            key = key.replace(/\(/g, '%28').replace(/\)/g, '%29');
+            value = (value + '').replace(/[^!#$&-+\--:<-\[\]-~]/g, encodeURIComponent);
+            options = options || {};
+
+            var cookieString = key + '=' + value;
+            cookieString += options.path ? ';path=' + options.path : '';
+            cookieString += options.domain ? ';domain=' + options.domain : '';
+            cookieString += options.expires ? ';expires=' + options.expires.toUTCString() : '';
+            cookieString += options.secure ? ';secure' : '';
+
+            return cookieString;
+        };
+
+        Cookies._getCacheFromString = function (documentCookie) {
+            var cookieCache = {};
+            var cookiesArray = documentCookie ? documentCookie.split('; ') : [];
+
+            for (var i = 0; i < cookiesArray.length; i++) {
+                var cookieKvp = Cookies._getKeyValuePairFromCookieString(cookiesArray[i]);
+
+                if (cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] === undefined) {
+                    cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] = cookieKvp.value;
+                }
+            }
+
+            return cookieCache;
+        };
+
+        Cookies._getKeyValuePairFromCookieString = function (cookieString) {
+            // "=" is a valid character in a cookie value according to RFC6265, so cannot `split('=')`
+            var separatorIndex = cookieString.indexOf('=');
+
+            // IE omits the "=" when the cookie value is an empty string
+            separatorIndex = separatorIndex < 0 ? cookieString.length : separatorIndex;
+
+            var key = cookieString.substr(0, separatorIndex);
+            var decodedKey;
+            try {
+                decodedKey = decodeURIComponent(key);
+            } catch (e) {
+                if (console && typeof console.error === 'function') {
+                    console.error('Could not decode cookie with key "' + key + '"', e);
+                }
+            }
+            
+            return {
+                key: decodedKey,
+                value: cookieString.substr(separatorIndex + 1) // Defer decoding value until accessed
+            };
+        };
+
+        Cookies._renewCache = function () {
+            Cookies._cache = Cookies._getCacheFromString(Cookies._document.cookie);
+            Cookies._cachedDocumentCookie = Cookies._document.cookie;
+        };
+
+        Cookies._areEnabled = function () {
+            var testKey = 'cookies.js';
+            var areEnabled = Cookies.set(testKey, 1).get(testKey) === '1';
+            Cookies.expire(testKey);
+            return areEnabled;
+        };
+
+        Cookies.enabled = Cookies._areEnabled();
+
+        return Cookies;
+    };
+    var cookiesExport = (global && typeof global.document === 'object') ? factory(global) : factory;
+
+    // AMD support
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () { return cookiesExport; }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    // CommonJS/Node.js support
+    } else if (typeof exports === 'object') {
+        // Support Node.js specific `module.exports` (which can be a function)
+        if (typeof module === 'object' && typeof module.exports === 'object') {
+            exports = module.exports = cookiesExport;
+        }
+        // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+        exports.Cookies = cookiesExport;
+    } else {
+        global.Cookies = cookiesExport;
+    }
+})(typeof window === 'undefined' ? this : window);
 
 /***/ }),
 
-/***/ 5:
+/***/ 4:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -14365,7 +14255,7 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14384,19 +14274,19 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(18);
-var buildURL = __webpack_require__(20);
-var parseHeaders = __webpack_require__(21);
-var isURLSameOrigin = __webpack_require__(22);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(23);
+var settle = __webpack_require__(20);
+var buildURL = __webpack_require__(22);
+var parseHeaders = __webpack_require__(23);
+var isURLSameOrigin = __webpack_require__(24);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -14493,7 +14383,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(24);
+      var cookies = __webpack_require__(26);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -14572,13 +14462,13 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(19);
+var enhanceError = __webpack_require__(21);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -14598,50 +14488,15 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 80:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(268)
-/* template */
-var __vue_template__ = __webpack_require__(269)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\enterprise\\postsmanage\\newpost\\components\\select2.vue"
+"use strict";
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ccd06948", Component.options)
-  } else {
-    hotAPI.reload("data-v-ccd06948", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
-module.exports = Component.exports
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
 
 
 /***/ }),
@@ -14652,9 +14507,23 @@ module.exports = Component.exports
 "use strict";
 
 
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
 };
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
 
 
 /***/ })

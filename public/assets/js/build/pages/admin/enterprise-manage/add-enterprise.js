@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 184);
+/******/ 	return __webpack_require__(__webpack_require__.s = 173);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -71,8 +71,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(15);
+var bind = __webpack_require__(5);
+var isBuffer = __webpack_require__(17);
 
 /*global toString:true*/
 
@@ -487,29 +487,169 @@ module.exports = function normalizeComponent (
 /***/ }),
 
 /***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Config = function Config() {
+        var _this = this;
 
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
+        _classCallCheck(this, Config);
 
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
+        this.WEB = window.location.origin;
+        this.API = window.location.origin + '/api';
+        this.API_ADM = this.API + '/admin';
+        this.API_ENTERPRISE = this.API + '/enterprise';
+
+        this.API_REQUEST_INFO = this.API + '/request-info';
+        /*WEB*/
+
+        /*WEB ADMIN*/
+        this.WEB_ADMIN = this.WEB + '/admin';
+        /*ADMIN ENTERPRISE MANAGE*/
+        this.WEB_ADMIN_ENTERPRISE_MANAGE = this.WEB_ADMIN + '/enterprise-manage';
+
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_EXAMPLE_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-example-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_INFO_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/info-enterprise';
+        /*ADMIN ENTERPRISE MANAGE*/
+        /*ADMIN JOB*/
+        this.WEB_ADMIN_JOB_MANAGE = this.WEB_ADMIN + '/job-manage';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS = this.WEB_ADMIN_JOB_MANAGE + '/jobs';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS_ID = function (ID) {
+                return _this.WEB_ADMIN_JOB_MANAGE + '/jobs/' + ID;
+        };
+        this.WEB_ADMIN_JOB_MANAGE_POSITION = this.WEB_ADMIN_JOB_MANAGE + '/position';
+        this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
+        /*ADMIN JOB*/
+        /*ADMIN STUDENT MANAGE*/
+        this.WEB_ADMIN_STUDENT_MANAGE = this.WEB_ADMIN + '/student-manage';
+        this.WEB_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_EXAMPLE_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-example-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_WORK_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-work-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXCEL_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/info-student';
+        /*ADMIN STUDENT MANAGE*/
+
+        /*WEB ADMIN*/
+
+        /*WEB ENTERPRISE*/
+        this.WEB_ENTERPRISE = this.WEB + '/enterprise';
+
+        this.WEB_ENTERPRISE_NEW_POST = this.WEB_ENTERPRISE + '/new-post';
+        this.WEB_ENTERPRISE_POST_MANAGE = this.WEB_ENTERPRISE + '/post-manage';
+        this.WEB_ENTERPRISE_POST = function (ID) {
+                return _this.WEB_ENTERPRISE + '/post/' + ID;
+        };
+        /*WEB ENTERPRISE*/
+
+        /*WEB JOB*/
+        this.WEB_JOB = this.WEB + '/job';
+
+        this.WEB_JOB_FILE = function (ID) {
+                return _this.WEB_JOB + '/file/' + ID;
+        };
+        this.WEB_JOB_JOB_DETAIL = function (ID) {
+                return _this.WEB_JOB + '/job-detail/' + ID;
+        };
+        this.WEB_JOB_LIST_JOB = this.WEB_JOB + '/list-job';
+        /*WEB JOB*/
+
+        /*WEB*/
+
+        /*  API ADMIN*/
+        /*STUDENT MANAGE*/
+        this.API_ADMIN_STUDENT_MANAGE = this.API_ADM + '/student-manage';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-student';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-avatar-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/update-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/delete-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_STUDENT_MANAGE + '/get-list-enterprise';
+        /*STUDENT MANAGE*/
+
+        /*ENTERPRISE MANGE*/
+        this.API_ADMIN_ENTERPRISE_MANAGE = this.API_ADM + '/enterprise-manage';
+
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE_EXCEL = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise-excel';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_AVATAR_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-avatar-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_EMPLOYEE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-employees-enterprise';
+        /*ENTERPRISE MANGE*/
+
+        /*JOB MANAGE*/
+        this.API_ADMIN_JOB_MANAGE = this.API_ADM + '/job-manage';
+
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/get-list-position';
+        this.API_ADMIN_JOB_MANAGE_ADD_POSITION = this.API_ADMIN_JOB_MANAGE + '/add-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-list-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-position';
+        this.API_ADMIN_JOB_MANAGE_EDIT_POSITION = this.API_ADMIN_JOB_MANAGE + '/edit-position';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/get-list-skill';
+        this.API_ADMIN_JOB_MANAGE_ADD_SKILL = this.API_ADMIN_JOB_MANAGE + '/add-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-list-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-skill';
+        this.API_ADMIN_JOB_MANAGE_EDIT_SKILL = this.API_ADMIN_JOB_MANAGE + '/edit-skill';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_JOB = this.API_ADMIN_JOB_MANAGE + '/get-list-job';
+        /*JOB MANAGE*/
+
+        /*API ADMIN*/
+
+        /*API ENTERPRISE*/
+
+        this.API_ENTERPRISE_POST = this.API_ENTERPRISE + '/post';
+
+        /*API ENTERPRISE*/
+
+        /*API JOB*/
+        this.API_JOB = this.API + '/job';
+
+        this.API_JOB_DETAIL = function (ID) {
+                return _this.API_JOB + '/detail/' + ID;
+        };
+        this.API_JOB_GET_LIST_ENTERPRISE = this.API_JOB + '/get-list-enterprise';
+        this.API_JOB_GET_LIST_JOB = this.API_JOB + '/get-list-job';
+        this.API_JOB_GET_LIST_POSITION = this.API_JOB + '/get-list-position';
+        this.API_JOB_GET_LIST_SKILL = this.API_JOB + '/get-list-skill';
+        this.API_JOB_GET_LIST_TYPE_JOB = this.API_JOB + '/get-list-type-job';
+        this.API_JOB_SIMILAR_JOB = this.API_JOB + '/similar-job';
+
+        /*API JOB*/
+
+        /*API REQUEST INFO*/
+        this.API_REQUEST_INFO_GET_COURSES = this.API_REQUEST_INFO + '/get-courses';
+        this.API_REQUEST_INFO_GET_DEPARTMENTS = this.API_REQUEST_INFO + '/get-departments';
+        this.API_REQUEST_INFO_GET_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/get-info-enterprise';
+        this.API_REQUEST_INFO_GET_INFO_STUDENT = this.API_REQUEST_INFO + '/get-info-student';
+        this.API_REQUEST_INFO_GET_LIST_SALARY = this.API_REQUEST_INFO + '/get-list-salary';
+        this.API_REQUEST_INFO_GET_OPTION_ENTERPRISE = this.API_REQUEST_INFO + '/get-option-enterprise';
+        this.API_REQUEST_INFO_GET_OPTION_STUDENT = this.API_REQUEST_INFO + '/get-option-student';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/check-exist-info-enterprise';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_STUDENT = this.API_REQUEST_INFO + '/check-exist-info-student';
+        this.API_REQUEST_INFO_GET_BRANCHES = function (DEPARTMENT) {
+                return _this.API_REQUEST_INFO + '/get-branches/' + DEPARTMENT;
+        };
+        /*API REQUEST INFO*/
 };
 
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
+/* harmony default export */ __webpack_exports__["a"] = (Config);
 
 /***/ }),
 
@@ -11741,19 +11881,26 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(4)))
 
 /***/ }),
 
 /***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(16);
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(16);
+var bind = __webpack_require__(5);
+var Axios = __webpack_require__(18);
 var defaults = __webpack_require__(3);
 
 /**
@@ -11787,15 +11934,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(10);
-axios.CancelToken = __webpack_require__(30);
-axios.isCancel = __webpack_require__(9);
+axios.Cancel = __webpack_require__(9);
+axios.CancelToken = __webpack_require__(32);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(31);
+axios.spread = __webpack_require__(33);
 
 module.exports = axios;
 
@@ -11805,7 +11952,7 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 15:
+/***/ 17:
 /***/ (function(module, exports) {
 
 /*!
@@ -11833,161 +11980,20 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
-/***/ 16:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var defaults = __webpack_require__(3);
-var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(25);
-var dispatchRequest = __webpack_require__(26);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
-  config.method = config.method.toLowerCase();
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
+module.exports = __webpack_require__(174);
 
 
 /***/ }),
 
-/***/ 17:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(8);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response.request,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-
-/***/ 184:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(185);
-
-
-/***/ }),
-
-/***/ 185:
+/***/ 174:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue__);
 window.Vue = __webpack_require__(11);
 
@@ -12000,15 +12006,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 186:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(187)
+var __vue_script__ = __webpack_require__(176)
 /* template */
-var __vue_template__ = __webpack_require__(188)
+var __vue_template__ = __webpack_require__(177)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12048,13 +12054,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 187:
+/***/ 176:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
 //
 //
 //
@@ -12145,6 +12152,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12179,7 +12187,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             exist_email: false,
             classEmail: ['form-control'],
             classPassword: ['form-control'],
-            classOldPassword: ['form-control']
+            classOldPassword: ['form-control'],
+            configUrl: new __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */]()
         };
     },
 
@@ -12187,7 +12196,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submitAddEnterprise: function submitAddEnterprise() {
             var vm = this;
             if (vm.exist_email == false && vm.infoEnterprise.password == vm.infoEnterprise.rep_password) {
-                __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/enterprise-manage/add-enterprise', vm.infoEnterprise).then(function (data) {
+                __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE, vm.infoEnterprise).then(function (data) {
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: 'Thêm mới doanh nghiệp thành công',
@@ -12208,7 +12217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         checkExistEmail: function checkExistEmail() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/request-info/check-exist-info-enterprise', {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(vm.configUrl.API_REQUEST_INFO_CHECK_EXIST_INFO_ENTERPRISE, {
                 email_address_enterprise: vm.infoEnterprise.email_address_enterprise
             }).then(function (data) {
 
@@ -12283,7 +12292,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 188:
+/***/ 177:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -12670,30 +12679,108 @@ if (false) {
 
 /***/ }),
 
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(3);
+var utils = __webpack_require__(0);
+var InterceptorManager = __webpack_require__(27);
+var dispatchRequest = __webpack_require__(28);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
+  config.method = config.method.toLowerCase();
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+
 /***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, request, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.request = request;
-  error.response = response;
-  return error;
+var utils = __webpack_require__(0);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
 };
 
 
@@ -12728,6 +12815,69 @@ module.exports = g;
 /***/ }),
 
 /***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(7);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.request = request;
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12801,7 +12951,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 21:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12862,7 +13012,7 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 22:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12938,7 +13088,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 23:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12982,7 +13132,7 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 24:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13043,7 +13193,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 25:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13103,18 +13253,18 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 26:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(27);
-var isCancel = __webpack_require__(9);
+var transformData = __webpack_require__(29);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(3);
-var isAbsoluteURL = __webpack_require__(28);
-var combineURLs = __webpack_require__(29);
+var isAbsoluteURL = __webpack_require__(30);
+var combineURLs = __webpack_require__(31);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -13197,7 +13347,7 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 27:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13225,50 +13375,6 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL
-    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
-    : baseURL;
-};
-
-
-/***/ }),
-
 /***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13276,7 +13382,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(17);
+var normalizeHeaderName = __webpack_require__(19);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -13292,10 +13398,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -13370,7 +13476,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 
@@ -13380,7 +13486,51 @@ module.exports = defaults;
 "use strict";
 
 
-var Cancel = __webpack_require__(10);
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -13439,7 +13589,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 31:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13475,13 +13625,6 @@ module.exports = function spread(callback) {
 /***/ }),
 
 /***/ 4:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(14);
-
-/***/ }),
-
-/***/ 5:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -13672,7 +13815,7 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13691,19 +13834,19 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(18);
-var buildURL = __webpack_require__(20);
-var parseHeaders = __webpack_require__(21);
-var isURLSameOrigin = __webpack_require__(22);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(23);
+var settle = __webpack_require__(20);
+var buildURL = __webpack_require__(22);
+var parseHeaders = __webpack_require__(23);
+var isURLSameOrigin = __webpack_require__(24);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -13800,7 +13943,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(24);
+      var cookies = __webpack_require__(26);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13879,13 +14022,13 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(19);
+var enhanceError = __webpack_require__(21);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -13905,7 +14048,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13914,6 +14057,33 @@ module.exports = function createError(message, config, code, request, response) 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
 
 
 /***/ })

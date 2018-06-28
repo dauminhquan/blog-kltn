@@ -37,7 +37,7 @@
 </template>
 <script>
     import tdCheckbox from './tdCheckbox'
-
+    import configUrl from './../../../../config'
     export default {
         components: {
           'td-checkbox' :tdCheckbox
@@ -45,7 +45,8 @@
         props:['item','checkAll'],
         data(){
           return {
-              willDelete: false
+              willDelete: false,
+              configUrl: new configUrl()
           }
         },
         methods: {
@@ -68,10 +69,10 @@
             },
             infoStudent(code_student)
             {
-                return window.location.origin+'/admin/student-manage/info-student?code_student='+code_student
+                return this.configUrl.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT+'?code_student='+code_student
             },
             openInforStudent(code_student){
-                window.open(window.location.origin+'/admin/student-manage/info-student?code_student='+code_student,'_blank')
+                window.open(this.configUrl.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT+'?code_student='+code_student,'_blank')
             }
         }
     }

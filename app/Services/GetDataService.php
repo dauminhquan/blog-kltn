@@ -379,10 +379,9 @@ class GetDataService
         }
         if($request->has('get_all'))
         {
-            dd($posts->select('posts.id','posts.id_enterprise','posts.title_post'
-                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->toSql());
-            return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
-                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
+
+            return $posts->join('users','users.id','enterprises.id_user')->select('users.user_name','posts.id','posts.id_enterprise','posts.title_post'
+                ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','posts.accept','posts.created_at','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
         }
         return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
             ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->paginate(20);
@@ -413,7 +412,8 @@ class GetDataService
         // danh sách loại công việc
         // danh sách kỹ năng
         $detail['info'] = Post::find($id);
-        $detail['enterprise'] = $detail['info']->enterprise()->select('name_enterprise','introduce_enterprise','avatar_enterprise','address_enterprise')->first();
+        $detail['enterprise'] = $detail['info']->enterprise()->select('name_enterprise','introduce_enterprise','avatar_enterprise','address_enterprise','id_user')->first();
+        $detail['enterprise']->email_address_enterprise = $detail['enterprise']->user->user_name;
         $detail['skills'] = $detail['info']->skills()->select('name_skill')->get();
 
         $detail['types'] = $detail['info']->types()->select('name_job_type')->get();

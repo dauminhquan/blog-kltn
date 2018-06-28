@@ -9,9 +9,15 @@
 namespace App\Services;
 
 
+use App\Ap\Models\PostType;
 use App\Models\Employee;
+use App\Models\Post;
+use App\Models\PostCity;
+use App\Models\PostPosition;
+use App\Models\PostSkill;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -293,6 +299,123 @@ class UpdateDataService
             return [
                 'message' => 'Thành công'
             ];
+        }
+    }
+    public function updatePost(Request $request,$id)
+    {
+        $post = Post::findOrFail($id);
+        if(!$post)
+        {
+            return response()->json(['message' => 'Thất bại','status' => 0],404);
+        }
+        $user = Auth::user();
+        if($user->type == 2 && $user->enterprise->id != $post->id_enterprise)
+        {
+            return response()->json(['message' => 'Thất bại','status' => 0],406);
+        }
+        $validator = Validator::make($request->all(),[
+            'cities' => 'required',
+            'content_post' => 'required',
+            'list_positions'=> 'required|array',
+            'list_skills'=> 'required|array',
+            'list_types'=> 'required|array',
+            'location' => 'required',
+            'time_end_post' => 'required|date',
+            'time_start_post' => 'required|date',
+            'title_post' => 'required',
+            'description_post' => 'required',
+
+        ],[
+            'cities.required' => 'Không có thành phố',
+            'content_post.required' => 'Nội dung trống',
+            'list_positions.required'=> 'Không có vị trí công việc',
+            'list_positions.array' => 'Vị trí công việc phải là 1 mảng',
+            'list_skills.required'=> 'Không có kỹ năng công việc',
+            'list_skills.array' => 'Kỹ năng công việc phải là 1 mảng',
+            'list_types.required'=> 'Không có hình thức  công việc',
+            'list_types.array' => 'Hình thức công việc phải là 1 mảng',
+            'description_post.required' => 'Không có nội dung hiển thị tóm tắt',
+
+            'location.required' => 'Không có địa điểm làm việc',
+            'time_end_post.required' => 'Không có thời gian hết hạn',
+            'time_end_post.date' => 'Thời gian hết hạn không phải date time',
+            'time_start_post.required' => 'Không có thời gian bắt đầu đăng ký',
+            'time_start_post.date' => 'Thời gian đăng ký không phải date time',
+            'title_post.required' => 'Không có tiêu đề bài viết',
+        ]);
+        if($validator->fails())
+        {
+            return response()->json($validator->errors(),404);
+        }
+        try{
+
+            DB::transaction(function () use ($request,$id){
+                $post = Post::find($id);
+                $post->id_enterprise = 1;
+                $post->title_post = $request->title_post;
+                $post->time_start_post = $request->time_start_post;
+                $post->time_end_post = $request->time_end_post;
+                $post->description_post = $request->description_post;
+                $post->content_post = $request->content_post;
+                $post->accept = 0;
+                $post->localtion = $request->location;
+                if($request->hasFile('file_attach_post'))
+                {
+                    $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','1'.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+                }
+                $post->update();
+                $post->cities()->where('id_post',$id)->delete();
+                foreach ($request->cities as $city)
+                {
+                    $post_city = new PostCity();
+                    $post_city->id_post= $post->id;
+                    $post_city->city = $city;
+                    $post_city->save();
+                }
+
+                foreach ($post->positions as $item)
+                {
+
+                    $item->pivot->delete();
+                }
+
+                foreach ($request->list_positions as $position)
+                {
+                    $post_position = new PostPosition();
+                    $post_position->id_post= $post->id;
+                    $post_position->id_position = $position;
+                    $post_position->save();
+                }
+                foreach ($post->skills as $item)
+                {
+                    $item->pivot->delete();
+                }
+                foreach ($request->list_skills as $skill)
+                {
+
+                    $post_skill = new PostSkill();
+                    $post_skill->id_post= $id;
+                    $post_skill->id_skill = $skill;
+                    $post_skill->save();
+                }
+                foreach ($post->types as $item)
+                {
+                    $item->pivot->delete();
+                }
+                foreach ($request->list_types as $type)
+                {
+
+                    $post_type = new PostType();
+                    $post_type->id_post= $id;
+                    $post_type->id_job_type = $type;
+                    $post_type->save();
+                }
+
+            });
+            return ['message' => 'Update thành công','status' => 1];
+        }catch (\Exception $exception)
+        {
+            return response()->json(['message' => 'Thất bại','error'=> $exception->getMessage(),'status' => 0],500);
         }
     }
 }

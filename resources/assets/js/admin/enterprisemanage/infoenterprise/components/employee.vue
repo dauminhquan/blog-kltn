@@ -53,20 +53,22 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
 
         props: ['email_address_enterprise'],
         data() {
             return {
-                employees: []
+                employees: [],
+                configUrl: new configUrl()
             }
         },
         methods: {
             getEmployees()
             {
                 var vm = this
-                axios.get('/api/admin/enterprise-manage/get-employees-enterprise?email_address_enterprise='+vm.email_address_enterprise).then(data => {
+                axios.get(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_GET_EMPLOYEE_ENTERPRISE+'?email_address_enterprise='+vm.email_address_enterprise).then(data => {
                     console.log(data)
                     vm.employees = data.data
                 }).catch(err => {
@@ -86,7 +88,7 @@
             },
             openStudentInfo(code_student)
             {
-                return window.location.origin+'/admin/student-manage/info-student?code_student='+code_student
+                return this.configUrl.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT+'?code_student='+code_student
             }
         },
         mounted(){

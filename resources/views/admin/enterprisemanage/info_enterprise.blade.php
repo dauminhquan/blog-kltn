@@ -22,6 +22,7 @@
     <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/enterprise-manage/info-enterprise.js")}}"></script>
 @endsection
 @section('theme-asset')
+    <script type="text/javascript" src="{{asset('assets/js/plugins/ckeditor/ckeditor.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset("assets/js/plugins/uploaders/dropzone.min.js")}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins/forms/selects/select2.min.js')}}"></script>

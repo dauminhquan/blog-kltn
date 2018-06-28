@@ -19,7 +19,7 @@ class Post extends Model
     }
     public function positions()
     {
-        return $this->belongsToMany('App\Models\Position','post_position','id_post','id_position','id','id');
+        return $this->belongsToMany(Position::class,'post_position','id_post','id_position','id','id');
     }
     public function types()
     {

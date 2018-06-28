@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Ap\Models\PostType;
 use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Post;
@@ -18,6 +19,7 @@ use App\Models\PostSkill;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -180,6 +182,7 @@ class InsertDataService
 
     public function insertPost(Request $request)
     {
+
         $validator = Validator::make($request->all(),[
             'cities' => 'required',
             'content_post' => 'required',
@@ -220,7 +223,7 @@ class InsertDataService
 
             DB::transaction(function () use ($request){
                 $post = new Post();
-                $post->id_enterprise = 1;
+                $post->id_enterprise = Auth::user()->enterprise->id;
                 $post->title_post = $request->title_post;
                 $post->time_start_post = $request->time_start_post;
                 $post->time_end_post = $request->time_end_post;
@@ -251,6 +254,14 @@ class InsertDataService
                     $list_skills->id_post= $post->id;
                     $list_skills->id_skill = $skill;
                     $list_skills->save();
+                }
+                foreach ($request->list_types as $type)
+                {
+
+                    $post_type = new PostType();
+                    $post_type->id_post= $post->id;
+                    $post_type->id_job_type = $type;
+                    $post_type->save();
                 }
 
             });

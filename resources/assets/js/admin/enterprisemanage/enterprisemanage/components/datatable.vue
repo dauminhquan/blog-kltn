@@ -20,7 +20,7 @@
                 <th></th>
                 <th>Tên doanh nghiệp</th>
                 <th>Email</th>
-                <th>Thông tin</th>
+                <th>Tên giám đốc</th>
                 <th>Địa chỉ</th>
                 <th>Ngày đăng ký</th>
                 <th class="text-center">Actions</th>
@@ -93,23 +93,22 @@
     import tdCheckbox from './tdCheckbox.vue'
     import thCheckAll from './thCheckAll.vue'
     import trTable from './trTable.vue'
-    import store from 'vuex'
-    import axios from 'axios'
+
+    import configUrl from './../../../../config'
+    import axios from './../../../../axios'
     export default {
-        store,
+
         components:{
             'td-checkbox' : tdCheckbox,
             'th-check-all': thCheckAll,
             'tr-table': trTable,
         },
-
         computed: {
             getDataRows(){
                 return this.dataRows
             }
         },
         beforeCreate(){
-
 
         },
         beforeMount(){
@@ -146,7 +145,7 @@
                     }
                 });
                 this.table = $('#table').dataTable({
-                    columnDefs: [ { orderable: false, targets: [0,1,6] }],
+                    columnDefs: [ { orderable: false, targets: [0,1,7] }],
                     buttons: {
                         buttons: [
                             {
@@ -158,7 +157,7 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/enterprise-manage/add-enterprise','_blank');
+                                    window.open(vm.configUrl.WEB_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE,'_blank');
 
                                 }
                             },
@@ -174,8 +173,7 @@
                                 text: 'Tải xuống Excel',
                                 className: 'btn bg-purple',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/admin/enterprise-manage/get-excel-enterprise','_blank');
-
+                                    window.open(vm.configUrl.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_ENTERPRISE,'_blank');
                                 }
                             }
                         ]
@@ -212,7 +210,7 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/enterprise-manage/delete-list-enterprise',
+                axios.delete(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_DELETE_LIST_ENTERPRISE,
                     {
                         params: {
                             list_id_enterprise : vm.id_item_selected
@@ -264,7 +262,7 @@
                     this.ExcelFileuploading = true
                     var formData = new FormData()
                     formData.append('ExcelFileUpload',vm.ExcelFileUpload)
-                    axios.post('/api/admin/enterprise-manage/add-enterprise-excel',formData).then(data => {
+                    axios.post(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE_EXCEL,formData).then(data => {
                         vm.ExcelFileuploading = false
                         if(data.data.error.length > 0 || data.data.error == null)
                         {
@@ -306,7 +304,7 @@
             },
             getEnterprise(){
                 var vm = this
-                axios.get('/api/admin/enterprise-manage/get-list-enterprise').then(data => {
+                axios.get(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_GET_LIST_ENTERPRISE).then(data => {
                    vm.dataRows = data.data
                     vm.enterprises = data.data
                 }).catch(err => {
@@ -320,7 +318,7 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/enterprise-manage/delete-enterprise',
+                axios.delete(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_DELETE_ENTERPRISE,
                     {
                         params: {
                             id : id
@@ -360,6 +358,7 @@
                 dataRows: [],
                 ExcelFileUpload: '',
                 deleting: false,
+                configUrl: new configUrl()
 
             }
         },

@@ -31,8 +31,9 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../../axios'
     import store from './../../../Store'
+    import configUrl from './../../../../../config'
     export default {
         store,
         computed: {
@@ -57,7 +58,8 @@
                 posts: [
 
                 ],
-                key_query: {}
+                key_query: {},
+                configUrl: new configUrl()
             }
         },
 
@@ -111,12 +113,17 @@
                     query.params.dates_selected = key_query.dates_selected
                 }
 
-                console.log(query)
-                axios.get('/api/job/get-list-job',query).then(data => {
+
+                axios.get(vm.configUrl.API_JOB_GET_LIST_JOB,query).then(data => {
                     vm.posts = data.data.data
                     vm.$emit('set_total_page',parseInt(data.data.total/20)+1)
                 }).catch(err => {
                     console.log(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi xảy ra từ server!',
+                        addclass: 'bg-danger'
+                    });
                 })
             },
             CheckNew(date)
@@ -125,7 +132,7 @@
             },
             getDetailJob(id)
             {
-                window.open(window.location.origin+'/job/job-detail/'+id,'_blank');
+                window.open(this.configUrl.WEB_JOB_JOB_DETAIL(id),'_blank');
             }
         },
         watch:{

@@ -5,7 +5,7 @@
             <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Quản lý sinh viên</span></h4>
 
             <ul class="breadcrumb breadcrumb-caret position-right">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Home</a></li>
                 <li><a href="{{route('admin.student.manage.index')}}">Quản lý sinh viên</a></li>
                 <li class="active">Danh sách sinh viên</li>
             </ul>

@@ -39,7 +39,7 @@ mix.js('resources/assets/js/admin/job/positionsmanage/positionsmanage.js', 'publ
 
 mix.js('resources/assets/js/admin/job/skillsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/skill.js');
 
-mix.js('resources/assets/js/admin/job/jobsmanage/jobsmanage.js', 'public/assets/js/build/pages/admin/job/job.js');
+mix.js('resources/assets/js/admin/job/jobsmanage/jobmanage/jobsmanage.js', 'public/assets/js/build/pages/admin/job/job.js');
 
 
 
@@ -47,9 +47,9 @@ mix.js('resources/assets/js/admin/job/jobsmanage/jobsmanage.js', 'public/assets/
 // -- enterprise
 mix.js('resources/assets/js/enterprise/postsmanage/newpost/newpost.js', 'public/assets/js/build/pages/enterprise/post-manage/new-post.js');
 
+mix.js('resources/assets/js/enterprise/postsmanage/postsmanage/postmanage.js', 'public/assets/js/build/pages/enterprise/post-manage/post-manage.js');
 
-
-
+mix.js('resources/assets/js/enterprise/postsmanage/updatepost/updatepost.js', 'public/assets/js/build/pages/enterprise/post-manage/update-post.js');
 //!-- enterprise
 //dung chung
 
@@ -63,4 +63,8 @@ mix.js('resources/assets/js/job/list_job/job_detail.js', 'public/assets/js/build
 
 //auth
 mix.js('resources/assets/js/auth/login.js', 'public/assets/js/build/pages/auth/login.js');
+
+
+
+mix.js('resources/assets/js/core.js', 'public/assets/js/core/index.js');
 

@@ -1,5 +1,5 @@
 <template>
-    <!-- Similar jobs -->
+
     <div>
         <h5 class="pt-10 content-group">Các việc tương tự</h5>
         <div class="row">
@@ -31,12 +31,12 @@
             </div>
         </div>
     </div>
-    <!-- /similar jobs -->
+
 </template>
 
 <script>
-    import store from './../../../Store'
-    import axios from 'axios'
+
+    import configUrl from './../../../../../config'
     export default {
         computed: {
             infoSimilar(){
@@ -50,14 +50,13 @@
             },
             getDetailJob(id)
             {
-                var vm = this
-                axios.get('/api/job/detail/'+id).then(data => {
-                    vm.$store.commit('setDetail',data.data)
-                    document.body.scrollTop = 10; // For Safari
-                    document.documentElement.scrollTop = 10; // For Chrome, Firefox, IE and Opera
-                }).catch(err => {
-                    console.dir(err)
-                })
+                window.open(this.configUrl.WEB_JOB_JOB_DETAIL(id),'_blank')
+
+            }
+        },
+        data(){
+            return {
+                configUrl: new configUrl()
             }
         }
     }

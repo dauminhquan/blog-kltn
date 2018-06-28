@@ -68,7 +68,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         mounted(){
             this.setDatatable()
@@ -120,7 +121,7 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/post-manage/delete-list-post',
+                axios.delete(/*vm.configUrl.API_ADMIN_JOB_MANAGE_DELETE */'/api/admin/post-manage/delete-list-post',
                     {
                         params: {
                             list_id_post : vm.id_item_selected
@@ -155,7 +156,7 @@
 
             getPosts(){
                 var vm = this
-                axios.get('/api/admin/post-manage/get-list-post',{
+                axios.get(vm.configUrl.API_ADMIN_JOB_MANAGE_GET_LIST_JOB,{
                     params:{
                         email_address_enterprise: vm.email_address_enterprise
                     }
@@ -205,7 +206,8 @@
         data(){
             return {
                 table: '',
-                dataRows: []
+                dataRows: [],
+                configUrl: new configUrl()
             }
         }
     }

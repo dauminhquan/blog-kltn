@@ -3,6 +3,13 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiCheckAdmin;
+use App\Http\Middleware\ApiCheckEnterprise;
+use App\Http\Middleware\ApiCheckEnterpriseOrAdmin;
+use App\Http\Middleware\ApiCheckStudent;
+use App\Http\Middleware\WebCheckAdmin;
+use App\Http\Middleware\WebCheckEnterprise;
+use App\Http\Middleware\WebCheckLogin;
+use App\Http\Middleware\WebCheckStudent;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -60,6 +67,16 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'check.admin' => ApiCheckAdmin::class
+        'api.check.admin' => ApiCheckAdmin::class,
+        'api.check.enterprise' => ApiCheckEnterprise::class,
+        'api.check.enterprise.or.admin' => ApiCheckEnterpriseOrAdmin::class,
+
+        'api.check.student' => ApiCheckStudent::class,
+        'web.check.admin' => WebCheckAdmin::class,
+        'web.check.enterprise' => WebCheckEnterprise::class,
+        'web.check.student' => WebCheckStudent::class,
+        'web.check.login' => WebCheckLogin::class,
+
+
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class ApiCheckEnterprise
 {
@@ -15,7 +16,7 @@ class ApiCheckEnterprise
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->authentication == 2)
+        if(Auth::user()->type == 2)
         {
             return $next($request);
         }

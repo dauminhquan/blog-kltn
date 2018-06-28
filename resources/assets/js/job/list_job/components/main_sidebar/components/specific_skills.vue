@@ -34,7 +34,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from './../../../../../axios'
+    import configUrl from './../../../../../config'
     export default {
         computed:{
             get_skills_selected(){
@@ -47,17 +48,23 @@
 
                 skills : [],
                 skills_selected: [],
-                max_show: 10
+                max_show: 10,
+                configUrl:new configUrl()
             }
         },
         methods:{
             getSkills()
             {
                 var vm = this
-                axios.get('/api/job/get-list-skill').then(data => {
+                axios.get(vm.configUrl.API_JOB_GET_LIST_SKILL).then(data => {
                     vm.skills = data.data
                 }).catch(err => {
                     console.dir(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi xảy ra từ server!',
+                        addclass: 'bg-danger'
+                    });
                 })
             }
         },

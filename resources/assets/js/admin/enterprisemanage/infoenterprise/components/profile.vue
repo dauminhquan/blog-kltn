@@ -15,7 +15,7 @@
             </div>
 
             <div class="panel-body">
-                <!-- 2 columns form -->
+
                 <form v-on:submit.prevent="submitUpdateEnterprise">
                     <div class="row">
                         <fieldset>
@@ -79,7 +79,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Điền thông tin về doanh nghiệp</label>
-                                <textarea rows="5" cols="5" required class="form-control" v-model="infoEnterprise.introduce_enterprise" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
+                                <textarea id="content-profile" required rows="5" cols="5"  class="form-control" v-model="infoEnterprise.introduce_enterprise" placeholder="Điền thông tin thêm về doanh nghiệp"></textarea>
+
                             </div>
                         </fieldset>
                     </div>
@@ -88,10 +89,10 @@
                         <button type="submit" class="btn btn-primary">Lưu doanh nghiệp <i class="icon-arrow-right14 position-right"></i></button>
                     </div>
                 </form>
-                <!-- /2 columns form -->
+
             </div>
         </div>
-        <!-- /profile info -->
+
 
 
 
@@ -99,7 +100,8 @@
 </template>
 <script>
 
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         computed: {
             getInforEmail(){
@@ -130,17 +132,21 @@
 
         },
         mounted(){
+            let vm = this
+            this.ckeditor = CKEDITOR.replace( 'content-profile' );
+            this.ckeditor.on('change',function () {
 
+                vm.infoEnterprise.introduce_enterprise = this.getData()
+            })
             this.getInforEnterprise()
 
-            // lấy danh sách khóa học
 
         },
         created(){
         },
         data(){
             return {
-
+                configUrl: new configUrl(),
                 infoEnterprise:{
 
                     name_enterprise:'',
@@ -170,26 +176,27 @@
                 classCodeEnterprise : ['form-control'],
                 classPassword : ['form-control'],
                 classOldPassword : ['form-control'],
+                ckeditor: null,
             }
         },
         methods:{
             getInforEnterprise(){
-                var vm =this
-                        axios.get('/api/request-info/get-info-enterprise?email_address_enterprise='+vm.email_address_enterprise).then(data => {
+                let vm =this
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_INFO_ENTERPRISE+'?email_address_enterprise='+vm.email_address_enterprise).then(data => {
 
-                        vm.infoEnterprise.name_enterprise = data.data.info_enterprise.name_enterprise
-                        vm.infoEnterprise.address_enterprise = data.data.info_enterprise.address_enterprise
-                        vm.infoEnterprise.name_president_enterprise = data.data.info_enterprise.name_president_enterprise
-                        vm.infoEnterprise.email_address_enterprise = data.data.info_enterprise.email_address_enterprise
-                        vm.infoEnterprise.phone_number_enterprise = data.data.info_enterprise.phone_number_enterprise
-                        vm.infoEnterprise.introduce_enterprise = data.data.info_enterprise.introduce_enterprise
+                    vm.infoEnterprise.name_enterprise = data.data.info_enterprise.name_enterprise
+                    vm.infoEnterprise.address_enterprise = data.data.info_enterprise.address_enterprise
+                    vm.infoEnterprise.name_president_enterprise = data.data.info_enterprise.name_president_enterprise
+                    vm.infoEnterprise.email_address_enterprise = data.data.info_enterprise.email_address_enterprise
+                    vm.infoEnterprise.phone_number_enterprise = data.data.info_enterprise.phone_number_enterprise
+                    vm.infoEnterprise.introduce_enterprise = data.data.info_enterprise.introduce_enterprise
 
-                    }).catch(err => {
+                }).catch(err => {
 
-                    })
+                })
             },
             submitUpdateEnterprise(){
-                var vm =this
+                let vm =this
                 if(vm.infoEnterprise.password != vm.infoEnterprise.rep_password)
                 {
                     if(!this.checkHasDrangerClass(this.classOldPassword))
@@ -199,7 +206,7 @@
                 }
                 else {
                     vm.infoEnterprise.email_address_enterprise = vm.email_address_enterprise
-                    axios.put('/api/admin/enterprise-manage/update-enterprise',vm.infoEnterprise).then(data => {
+                    axios.put(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_ENTERPRISE,vm.infoEnterprise).then(data => {
                         console.log(data)
                         new PNotify({
                             title: 'Ohh Yeah! Thành công!',
@@ -207,9 +214,7 @@
                             addclass: 'bg-success'
                         });
                         vm.infoEnterprise.email_address_enterprise = ''
-                        // setTimeout(function () {
-                        //     window.location
-                        // },2000)
+
                     }).catch(err => {
                         console.log(err)
                         new PNotify({
@@ -228,7 +233,7 @@
             },
             upsetDrangerClass(value)
             {
-                var index = value.indexOf('border-danger')
+                let index = value.indexOf('border-danger')
                 if(index > -1)
                 {
                     value.splice(index,1)
@@ -237,7 +242,7 @@
             },
             checkHasDrangerClass(value)
             {
-                var index = value.indexOf('border-danger')
+                let index = value.indexOf('border-danger')
                 if(index > -1)
                 {
                     return true

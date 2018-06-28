@@ -6,10 +6,11 @@
             <similar-job></similar-job>
         </div>
     </div>
-    <!-- /detached content -->
+
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     import detail from './components/detail.vue'
     import enterprise_profile from './components/enterprise_profile.vue'
     import similar_job from  './components/similar_jobs.vue'
@@ -18,11 +19,16 @@
         beforeMount(){
             this.getData()
         },
+        data(){
+          return {
+              configUrl: new configUrl()
+          }
+        },
         methods: {
 
             getData(){
                 var vm = this
-                axios.get('/api/job/detail/'+this.idJob).then(data => {
+                axios.get(vm.configUrl.API_JOB_DETAIL(vm.idJob)).then(data => {
                     vm.$store.commit('setDetail',data.data)
                 }).catch(err => {
                     alert('Lỗi')

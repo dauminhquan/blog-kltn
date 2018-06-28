@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Models\Position;
 use App\Models\Skill;
+use App\Services\GetDataService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -236,5 +237,22 @@ class JobManageController extends Controller
         return response()->json([
             'message' => 'Sửa kỹ năng thành công'
         ],200);
+    }
+    public function get_list_job(Request $request)
+    {
+        if($request->has('email_address_enterprise'))
+        {
+            $validate = Validator::make($request->all(),[
+                'email_address_enterprise' => 'exists:users,user_name'
+            ],[
+                'email_address_enterprise.exists' => 'Email không tồn tại'
+            ]);
+            if($validate->fails())
+            {
+                return response()->json($validate->errors(),406);
+            }
+        }
+        $get_data_service = new GetDataService();
+        return $get_data_service->getListJob($request);
     }
 }

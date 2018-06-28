@@ -90,6 +90,7 @@
 </template>
 <script>
     import axios from 'axios'
+    import configUrl from './../../../../config'
     export default {
         computed: {
             getInforEmail(){
@@ -127,6 +128,7 @@
                 classEmail : ['form-control'],
                 classPassword : ['form-control'],
                 classOldPassword : ['form-control'],
+                configUrl : new configUrl()
             }
         },
         methods:{
@@ -136,7 +138,7 @@
                 var vm =this
                if(vm.exist_email == false && vm.infoEnterprise.password == vm.infoEnterprise.rep_password)
                {
-                   axios.post('/api/admin/enterprise-manage/add-enterprise',vm.infoEnterprise).then(data => {
+                   axios.post(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE,vm.infoEnterprise).then(data => {
                        new PNotify({
                            title: 'Ohh Yeah! Thành công!',
                            text: 'Thêm mới doanh nghiệp thành công',
@@ -158,7 +160,7 @@
             checkExistEmail()
             {
                 var vm = this
-                axios.post('/api/request-info/check-exist-info-enterprise',{
+                axios.post(vm.configUrl.API_REQUEST_INFO_CHECK_EXIST_INFO_ENTERPRISE,{
                     email_address_enterprise : vm.infoEnterprise.email_address_enterprise
                 }).then(data => {
 

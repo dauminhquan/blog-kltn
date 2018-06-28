@@ -32,7 +32,8 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../../axios'
+    import configUrl from './../../../../../config'
     export default {
         computed:{
             get_types_job_selected(){
@@ -48,17 +49,23 @@
 
                 types_job : [],
                 types_job_selected: [],
-                keyword: ''
+                keyword: '',
+                configUrl:new configUrl()
             }
         },
         methods:{
           getTypesJob()
           {
               var vm = this
-              axios.get('/api/job/get-list-type-job').then(data => {
+              axios.get(vm.configUrl.API_JOB_GET_LIST_TYPE_JOB).then(data => {
                     vm.types_job = data.data
               }).catch(err => {
                     console.dir(err)
+                  new PNotify({
+                      title: 'Ohh! Có lỗi xảy ra rồi!',
+                      text: 'Đã có lỗi xảy ra từ server!',
+                      addclass: 'bg-danger'
+                  });
               })
           },
             search(){

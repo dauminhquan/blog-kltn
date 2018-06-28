@@ -80,16 +80,17 @@ Route::group(['namespace' => 'Api'],function(){
             Route::delete('/delete-skill',['name' => 'delete.skill','uses' => 'JobManageController@delete_skill']);
             Route::put('/edit-skill',['name' => 'edit.skill','uses' => 'JobManageController@edit_skill']);
 
+            Route::get('/get-list-job',['name' => 'get.list.post','uses' => 'JobManageController@get_list_job']);
+
         });
 
 
         //post
-        Route::group(['prefix' => '/post-manage','name' => 'post.manage.'],function (){
-            //them sinh vien bang file excel
-
-            Route::get('/get-list-post',['name' => 'get.list.post','uses' => 'PostsManageController@get_list_post']);
-
-        });
+//        Route::group(['prefix' => '/post-manage','name' => 'post.manage.'],function (){
+//
+//
+//
+//        });
 
     });
 
@@ -116,8 +117,14 @@ Route::group(['namespace' => 'Api'],function(){
 
     //enterprise
 
-    Route::group(['prefix' => '/enterprise','name' => 'enterprise','namespace' => 'Enterprise'],function (){
-       Route::resource('post','PostController')->except(['create','edit']);
+    Route::group(['prefix' => '/enterprise','name' => 'enterprise','namespace' => 'Enterprise','middleware' => ['auth:api']],function (){
+        Route::group(['middleware' => ['api.check.enterprise.or.admin']],function(){
+            Route::resource('post','PostController')->except(['create','store','edit','update']);
+            Route::delete('post','PostController@delete_list_post');
+            Route::post('post/{id}','PostController@update');
+        });
+        Route::post('post','PostController@store')->middleware('api.check.enterprise');
+
     });
 
     Route::group(['prefix' => '/job','name' => 'get.job.','namespace' => 'Job'],function (){
@@ -138,6 +145,7 @@ Route::group(['namespace' => 'Api'],function(){
     });
 
     Route::post('login',['uses' => 'Auth\AuthController@login']);
+    Route::post('checkLogin',['uses' => 'Auth\AuthController@checkLogin'])->middleware('auth:api');
     Route::post('logout',['uses' => 'Auth\AuthController@logout'])->middleware('auth:api');
 });
 

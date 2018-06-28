@@ -123,6 +123,8 @@
 <script>
     import choose_info_select2 from './choose-info-select2'
     import axios from 'axios'
+    import configUrl from './../../../../config'
+
     export default {
         computed: {
             getInforEmail(){
@@ -143,7 +145,7 @@
             'choose-info-select2': choose_info_select2
         },
         mounted(){
-
+            console.log(this.configUrl)
             $(".file-styled").uniform({
                 fileButtonClass: 'action btn bg-pink-400'
             });
@@ -185,6 +187,7 @@
                 classCodeStudent : ['form-control'],
                 classPassword : ['form-control'],
                 classOldPassword : ['form-control'],
+                configUrl: new configUrl()
             }
         },
         methods:{
@@ -250,7 +253,7 @@
                 var vm =this
                if(vm.exist_email == false && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password)
                {
-                   axios.post('/api/admin/student-manage/add-student',vm.infoStudent).then(data => {
+                   axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT,vm.infoStudent).then(data => {
                        new PNotify({
                            title: 'Ohh Yeah! Thành công!',
                            text: 'Thêm mới sinh viên thành công',

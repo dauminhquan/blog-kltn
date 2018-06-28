@@ -32,7 +32,7 @@
             </tbody>
         </table>
 
-        <!-- modal push excel -->
+
         <div id="modal-push-excel" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
@@ -56,8 +56,7 @@
                 </div>
             </div>
         </div>
-        <!-- /inline form modal -->
-        <!-- Danger modal -->
+
         <div id="modal_danger" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -85,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <!-- /default modal -->
+
     </div>
 </template>
 <script>
@@ -93,10 +92,10 @@
     import tdCheckbox from './tdCheckbox.vue'
     import thCheckAll from './thCheckAll.vue'
     import trTable from './trTable.vue'
-    import store from 'vuex'
-    import axios from 'axios'
+    import configUrl from './../../../../config'
+    import axios from './../../../../axios'
     export default {
-        store,
+
         components:{
             'td-checkbox' : tdCheckbox,
             'th-check-all': thCheckAll,
@@ -207,12 +206,12 @@
             },
             delete_selected(){
                 $('#modal_danger').modal('show')
-                // console.log($(item).parents('tr'))
+
             },
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-list-student',
+                axios.delete(vm.configUrl.API_ADMIN_STUDENT_MANAGE_DELETE_LIST_STUDENT,
                     {
                         params: {
                             list_id_student : vm.id_item_selected
@@ -238,7 +237,7 @@
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
-                        text: 'Đã có lỗi từ serve',
+                        text: 'Đã có lỗi từ server',
                         addclass: 'bg-danger'
                     });
                 })
@@ -264,7 +263,7 @@
                     this.ExcelFileuploading = true
                     var formData = new FormData()
                     formData.append('ExcelFileUpload',vm.ExcelFileUpload)
-                    axios.post('/api/admin/student-manage/add-student-excel',formData).then(data => {
+                    axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL,formData).then(data => {
                         vm.ExcelFileuploading = false
                         if(data.data.error.length > 0 || data.data.error == null)
                         {
@@ -306,7 +305,7 @@
             },
             getStudents(){
                 var vm = this
-                axios.get('/api/admin/student-manage/get-list-student').then(data => {
+                axios.get(vm.configUrl.API_ADMIN_STUDENT_MANAGE_GET_LIST_STUDENT).then(data => {
                    vm.dataRows = data.data
                     vm.students = data.data
                 }).catch(err => {
@@ -320,7 +319,7 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/student-manage/delete-student',
+                axios.delete(vm.configUrl.API_ADMIN_STUDENT_MANAGE_DELETE_STUDENT,
                     {
                         params: {
                             id : id
@@ -343,7 +342,7 @@
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
-                        text: 'Đã có lỗi từ serve',
+                        text: 'Đã có lỗi từ server',
                         addclass: 'bg-danger'
                     });
                 })
@@ -360,14 +359,13 @@
                 dataRows: [],
                 ExcelFileUpload: '',
                 deleting: false,
-
+                configUrl: new configUrl()
             }
         },
         watch:{
             getDataRows: {
                     handler(old){
-                        // console.log(old)
-                        // console.log($('#table_body').html())
+
                     },
                     deep: true
                 }

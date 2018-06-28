@@ -3,7 +3,7 @@
         <div class="panel panel-body login-form">
             <div class="text-center">
                 <div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
-                <h5 class="content-group">Đăng nhập <small class="display-block">Điền thông tin tài khoản</small></h5>
+                <h5 class="content-group">Đăng nhập <small :class="styleText" v-html="Text"></small></h5>
             </div>
 
             <div class="form-group has-feedback has-feedback-left">
@@ -11,6 +11,7 @@
                 <div class="form-control-feedback">
                     <i class="icon-user text-muted"></i>
                 </div>
+
             </div>
 
             <div class="form-group has-feedback has-feedback-left">
@@ -32,11 +33,12 @@
 </template>
 <script>
     import axios from 'axios'
-    import cookie from 'vue-cookie'
-    import vue from 'vue'
-    vue.use(cookie)
-    export default {
+    window.Cookies = require('cookies-js');
 
+    export default {
+        mounted(){
+
+        },
         methods:{
             forgotPassword()
             {
@@ -44,13 +46,43 @@
             },
             login(){
                 var vm = this
+
                     axios.post('/api/login',vm.infoLogin).then(data => {
-                        this.$cookie.set('token',data.data.token,{
-                            expires: 1
+                        let index = vm.styleText.findIndex(element => {
+                            return 'text-danger' == element
                         })
-                        console.log(data)
+                        vm.styleText.splice(index,1)
+                        window.Cookies.set('token',data.data.token,{
+                            expires: 6000
+                        })
+                        vm.Text = ''
+                        axios.post('/login',vm.infoLogin).then(data => {
+                            window.location= window.location.origin
+                        }).catch(err =>{
+                            alert(err)
+                        })
+
                     }).catch(err => {
                         console.log(err)
+                        vm.styleText.push('text-danger');
+                        if(err.response.data.user_name !== undefined)
+                        {
+                            let html = ''
+                            err.response.data.user_name.forEach(item => {
+                                html+=item
+                                html+='<br>'
+                            })
+                            vm.Text = html
+                        }
+                        else if(err.response.data.message !== undefined)
+                        {
+                            vm.Text = err.response.data.message
+                        }
+                        else{
+                            alert('Đã xảy ra lỗi. Vui lòng kiếm tra lại')
+                            console.dir(err)
+                        }
+
                     })
             }
         },
@@ -59,7 +91,9 @@
                 infoLogin: {
                     user_name:'',
                     password: ''
-                }
+                },
+                styleText: ['display-block'],
+                Text: 'Điền tài khoản và mật khẩu của bạn'
             }
         }
     }

@@ -230,7 +230,7 @@
                     <li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Hỗ trợ</a></li>
                     <li class="divider"></li>
 
-                    <li><a href="#"><i class="icon-switch2"></i> Đăng xuất</a></li>
+                    <li><a href="javascript:void(0)" id="logout"><i class="icon-switch2"></i> Đăng xuất</a></li>
                 </ul>
             </li>
         </ul>
@@ -752,8 +752,8 @@
 @section('theme-asset')
 @show
 <script type="text/javascript" src="{{asset("assets/js/core/app.js")}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/core/index.js')}}"></script>
 @section('js-page')
 @show
-
 </body>
 </html>

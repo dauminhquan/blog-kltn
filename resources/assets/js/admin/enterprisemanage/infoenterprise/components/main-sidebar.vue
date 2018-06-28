@@ -108,7 +108,8 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         props : ['email_address_enterprise'],
         mounted(){
@@ -119,14 +120,15 @@
                 file_avatar: new FormData(),
                 avatar_user : '',
                 user_name: '',
+                configUrl: new configUrl()
             }
         },
         methods:{
 
             getAvatarUser(){
                 var vm = this
-                axios.get('/api/request-info/get-option-enterprise?email_address_enterprise='+vm.email_address_enterprise+'&option[]=avatar_enterprise&option[]=name_enterprise').then(data => {
-                    console.log(data)
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_OPTION_ENTERPRISE+ '?email_address_enterprise='+vm.email_address_enterprise+'&option[]=avatar_enterprise&option[]=name_enterprise').then(data => {
+
                     vm.avatar_user = data.data.avatar_enterprise
                     vm.user_name = data.data.name_enterprise
 
@@ -145,7 +147,7 @@
                 var vm = this
                 vm.file_avatar.append('avatar',e.target.files[0])
                 vm.file_avatar.append('email_address_enterprise',vm.email_address_enterprise)
-                axios.post('/api/admin/enterprise-manage/update-avatar-enterprise',vm.file_avatar).then(data => {
+                axios.post(vm.configUrl.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_AVATAR_ENTERPRISE,vm.file_avatar).then(data => {
                         vm.avatar_user = data.data.url+'?'+new Date()
                 }).catch(err => {
                     console.log(err)

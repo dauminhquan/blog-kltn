@@ -6,11 +6,11 @@
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
         <td class="avatar-user"><img :src="getAvatar(item.avatar_enterprise)" alt=""></td>
-        <td><a :href="infoEnterprise(item.user_enterprise)">{{item.name_enterprise}}</a></td>
+        <td ><a :href="infoEnterprise(item.user_enterprise)">{{item.name_enterprise}}</a></td>
         <td>{{item.user_enterprise}}</td>
-        <td>{{item.introduce_enterprise}}</td>
+        <td>{{item.name_president_enterprise}}</td>
         <td>{{item.address_enterprise}}</td>
-        <td>{{item.created_at}}</td>
+        <td>{{DateCreated(item.created_at)}}</td>
         <td class="text-center">
             <ul class="icons-list">
                 <li class="dropdown">
@@ -29,7 +29,7 @@
 </template>
 <script>
     import tdCheckbox from './tdCheckbox'
-
+    import configUrl from './../../../../config'
     export default {
         components: {
           'td-checkbox' :tdCheckbox
@@ -37,7 +37,8 @@
         props:['item','checkAll'],
         data(){
           return {
-              willDelete: false
+              willDelete: false,
+              configUrl: new configUrl()
           }
         },
         methods: {
@@ -60,10 +61,15 @@
             },
             infoEnterprise(user_enterprise)
             {
-                return window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+user_enterprise
+                return this.configUrl.WEB_ADMIN_ENTERPRISE_MANAGE_INFO_ENTERPRISE+'?user_enterprise='+user_enterprise
             },
             openInforEnterprise(user_enterprise){
-                window.open(window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+user_enterprise,'_blank')
+                window.open(this.configUrl.WEB_ADMIN_ENTERPRISE_MANAGE_INFO_ENTERPRISE+'?user_enterprise='+user_enterprise,'_blank')
+            },
+            DateCreated(date)
+            {
+                let d = new Date(date)
+                return d.getDate()+'/'+d.getMonth()+'/'+d.getFullYear()
             }
         }
     }

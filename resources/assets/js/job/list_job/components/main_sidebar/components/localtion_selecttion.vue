@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+
     export default {
         computed:{
             get_cities_selected(){
@@ -128,7 +128,7 @@
         },
 
         mounted(){
-            // this.getTypesJob()
+
 
         }
         ,

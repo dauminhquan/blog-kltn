@@ -29,8 +29,8 @@ class AuthController extends Controller
 
         if(Auth::attempt(['user_name' => $request->user_name,'password' => $request->password]))
         {
-            $user = Auth::user();
 
+            $user = Auth::user();
             $token = $user->token_api;
 
             if(count($token) >= 5)
@@ -64,5 +64,8 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Logout thành công',
         ],200);
+    }
+    public function checkLogin(){
+        return ['status' => 1,'message' => 'Đã đăng nhập rồi'];
     }
 }
