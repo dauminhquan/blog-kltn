@@ -25,6 +25,16 @@ class Config{
         this.WEB_ADMIN_JOB_MANAGE_POSITION = this.WEB_ADMIN_JOB_MANAGE+'/position'
         this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE+'/skill'
         /*ADMIN JOB*/
+
+        /*ADMIN POST COURSE*/
+
+        this.WEB_ADMIN_POST_COURSE = (ID) => { return this.WEB_ADMIN+'/post-course/'+ID}
+        this.WEB_ADMIN_POST_COURSES = this.WEB_ADMIN+'/post-courses'
+
+
+        // this.
+
+        /*ADMIN POST COURSE*/
         /*ADMIN STUDENT MANAGE*/
         this.WEB_ADMIN_STUDENT_MANAGE = this.WEB_ADMIN+'/student-manage'
         this.WEB_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE+'/add-student'
@@ -42,6 +52,10 @@ class Config{
         this.WEB_ENTERPRISE_NEW_POST = this.WEB_ENTERPRISE+'/new-post'
         this.WEB_ENTERPRISE_POST_MANAGE = this.WEB_ENTERPRISE+'/post-manage'
         this.WEB_ENTERPRISE_POST = (ID) => { return this.WEB_ENTERPRISE+'/post/'+ID}
+
+        this.WEB_ENTERPRISE_NEW_POST_COURSE = this.WEB_ENTERPRISE+'/new-post-course'
+        this.WEB_ENTERPRISE_POST_COURSE_MANAGE = this.WEB_ENTERPRISE+'/post-course-manage'
+        this.WEB_ENTERPRISE_POST_COURSE = (ID) => { return this.WEB_ENTERPRISE+'/post-course/'+ID}
         /*WEB ENTERPRISE*/
 
         /*WEB JOB*/
@@ -99,15 +113,26 @@ class Config{
         this.API_ADMIN_JOB_MANAGE_DELETE_LIST_SKILL= this.API_ADMIN_JOB_MANAGE+'/delete-list-skill'
         this.API_ADMIN_JOB_MANAGE_DELETE_SKILL= this.API_ADMIN_JOB_MANAGE+'/delete-skill'
         this.API_ADMIN_JOB_MANAGE_EDIT_SKILL= this.API_ADMIN_JOB_MANAGE+'/edit-skill'
-        this.API_ADMIN_JOB_MANAGE_GET_LIST_JOB = this.API_ADMIN_JOB_MANAGE+'/get-list-job'
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_JOB = this.API_ADMIN_JOB_MANAGE+'/get-list-post'
+        this.API_ADMIN_JOB_MANAGE_ACCEPT_POST = (ID) => {return this.API_ADMIN_JOB_MANAGE+'/accept-post/'+ID}
+        this.API_ADMIN_JOB_MANAGE_GET_DETAIL_POST = (ID) => {return this.API_ADMIN_JOB_MANAGE+'/get-detail-post/'+ID}
         /*JOB MANAGE*/
 
+        /*POST COURSE*/
+
+        this.API_ADMIN_POST_COURSE_MANAGE = this.API_ADM+'/post-course-manage'
+        this.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE = (ID) => { this.API_ADMIN_POST_COURSE_MANAGE+'/accept-post-course/'+ID }
+        this.API_ADMIN_POST_COURSE_MANAGE_GET_DETAIL_POST_COURSE = (ID) => { this.API_ADMIN_POST_COURSE_MANAGE+'/get-detail-post-course/'+ID }
+        this.API_ADMIN_POST_COURSE_MANAGE_GET_LIST_POST_COURSE =  this.API_ADMIN_POST_COURSE_MANAGE+'/get-list-post-course/'
+        this.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE = (ID) => {return this.API_ADMIN_POST_COURSE_MANAGE+'/accept-post-course/'+ID}
+
+        /*POST COURSE*/
         /*API ADMIN*/
 
         /*API ENTERPRISE*/
 
         this.API_ENTERPRISE_POST = this.API_ENTERPRISE+'/post'
-
+        this.API_ENTERPRISE_POST_COURSE = this.API_ENTERPRISE+'/post-course'
 
         /*API ENTERPRISE*/
 

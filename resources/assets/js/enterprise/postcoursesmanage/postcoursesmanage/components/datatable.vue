@@ -20,8 +20,7 @@
 
                 <th>Tiêu đề</th>
                 <th>Ngày đăng</th>
-                <th>Các vị trí tuyển dụng</th>
-                <th>Các kỹ năng</th>
+
                 <th>Tình trạng</th>
                 <th class="text-center">Actions</th>
             </tr>
@@ -89,7 +88,7 @@
 
         },
         beforeMount(){
-            this.getPosts()
+            this.getPostCourse()
         },
         mounted(){
 
@@ -113,6 +112,7 @@
             },
             setDatatable()
             {
+                var vm =this
                 $.extend( $.fn.dataTable.defaults, {
                     autoWidth: false,
                     dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
@@ -123,7 +123,7 @@
                     }
                 });
                 this.table = $('#table').dataTable({
-                    columnDefs: [ { orderable: false, targets: [0] }],
+                    columnDefs: [ { orderable: false, targets: [0,4] }],
                     buttons: {
                         buttons: [
                             {
@@ -135,7 +135,7 @@
                                 text: 'Thêm mới',
                                 className: 'btn bg-primary',
                                 action: function(e, dt, node, config) {
-                                    window.open(window.location.origin+'/enterprise/new-post','_blank');
+                                    window.open(vm.configUrl.WEB_ENTERPRISE_NEW_POST_COURSE,'_blank');
                                 }
                             },
                         ]
@@ -172,10 +172,10 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete(vm.configUrl.API_ENTERPRISE_POST,
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST_COURSE,
                     {
                         params: {
-                            list_id_post : vm.id_item_selected
+                            list_id_post_course : vm.id_item_selected
                         }
                     }).then(data => {
                     vm.posts = vm.posts.filter(value =>{
@@ -191,7 +191,7 @@
                     $('#modal_danger').modal('hide')
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' bài viết',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
@@ -214,9 +214,9 @@
             },
 
 
-            getPosts(){
+            getPostCourse(){
                 var vm = this
-                axios.get(vm.configUrl.API_ADMIN_JOB_MANAGE_GET_LIST_JOB,{
+                axios.get(vm.configUrl.API_ENTERPRISE_POST_COURSE,{
                     params:{
                         get_all : true
                     }
@@ -234,7 +234,7 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete(vm.configUrl.API_ENTERPRISE_POST+'/'+id).then(data => {
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST_COURSE+'/'+id).then(data => {
                     vm.posts = vm.posts.filter(value =>{
                         return value.id !=id
                     })

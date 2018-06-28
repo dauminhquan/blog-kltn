@@ -17,7 +17,11 @@ class JobController extends Controller
     public function job_detail($id)
     {
         $post = Post::findOrFail($id);
-        return view('job.job_detail',['id' => $id]);
+        if($post->accept == 1)
+        {
+            return view('job.job_detail',['id' => $id]);
+        }
+        return response()->redirectToRoute('home');
     }
     public function file($id)
     {

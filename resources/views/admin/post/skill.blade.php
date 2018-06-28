@@ -17,7 +17,7 @@
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/job/skill.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/post/skill.js")}}"></script>
 @endsection
 @section('theme-asset')
     <script type="text/javascript" src="{{asset('assets/js/plugins/tables/datatables/datatables.min.js')}}"></script>

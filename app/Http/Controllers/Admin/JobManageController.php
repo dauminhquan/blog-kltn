@@ -8,29 +8,25 @@ use App\Http\Controllers\Controller;
 
 class JobManageController extends Controller
 {
-    public function list_job(Request $request)
-    {
 
-        return view('job.list_job');
-    }
     public function positionsManage()
     {
-        return view('admin.job.position');
+        return view('admin.post.position');
     }
     public function skillsManage()
     {
-        return view('admin.job.skill');
+        return view('admin.post.skill');
     }
     public function jobsManage()
     {
-        return view('admin.job.jobs');
+        return view('admin.post.posts');
     }
     public function updateJob($id)
     {
         $post = Post::findOrFail($id);
         if($post)
         {
-            return view('admin.job.update_post',['id'=>$id]);
+            return view('admin.post.update_post',['id'=>$id]);
         }
         return response()->redirectToRoute('home');
     }

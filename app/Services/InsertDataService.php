@@ -9,11 +9,12 @@
 namespace App\Services;
 
 
-use App\Ap\Models\PostType;
+use App\Models\PostType;
 use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Post;
 use App\Models\PostCity;
+use App\Models\PostCourse;
 use App\Models\PostPosition;
 use App\Models\PostSkill;
 use App\Models\Student;
@@ -231,8 +232,10 @@ class InsertDataService
                 $post->content_post = $request->content_post;
                 $post->accept = 0;
                 $post->localtion = $request->location;
-                $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','1'.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+                $post->file_attach_post = 'none';
                 $post->save();
+                $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','post_'.$post->id.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+                $post->update();
                 foreach ($request->cities as $city)
                 {
                     $post_city = new PostCity();
@@ -271,5 +274,53 @@ class InsertDataService
             return response()->json(['message' => 'Thất bại','error'=> $exception->getMessage(),'status' => 0],500);
         }
 
+    }
+
+    public function insertPostCourse(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+           'title_post_course' => 'required',
+           'content_post_course' => 'required',
+            'time_start' => 'required|date',
+            'time_end' => 'required|date',
+            'description_post_course' => 'required'
+        ],[
+            'content_post_course.required' => 'Không có nội dung',
+            'title_post_course' =>'Không có tiêu đề',
+            'time_start.required' => 'Không có thời gian bắt đầu',
+            'time_start.date' => 'Thời gian bắt đầu không phải ngày tháng',
+            'time_end.required' => 'Không có thời gian kết thúc',
+            'time_end.date' => 'Thời gian kết thúc không phải ngày tháng',
+            'description_post_course.required' => 'Không có mô tả'
+        ]);
+        if($validator->fails())
+        {
+            return response()->json($validator->errors(),406);
+        }
+
+        dd($request->all());
+        try{
+            DB::transaction(function () use($request){
+                $post_course = new PostCourse();
+                $post_course->id_enterprise = Auth::user()->enterprise->id;
+                $post_course->title_post_course = $request->title_post_course;
+                $post_course->content_post_course = $request->content_post_course;
+                $post_course->file_attach_course = 'none';
+                $post_course->location = $request->location;
+                $post_course->time_start = $request->time_start;
+                $post_course->time_end = $request->time_end;
+                $post_course->description_post_course = $request->description_post_course;
+                $post_course->save();
+                if($request->hasFile('file_attach_course'))
+                {
+                    $post_course->file_attach_course =   $request->file('file_attach_post_course')->storeAs('/public/file_attaches','post_course_'.$post_course->id.'.'.$request->file('file_attach_post_course')->getClientOriginalExtension());
+                    $post_course->update();
+                }
+            });
+            return response()->json(['status' => 1,'message' =>'Thành công'],200);
+        }catch (\Exception $exception)
+        {
+            return response()->json(['status' => 0,'message' =>$exception->getMessage()],500);
+        }
     }
 }

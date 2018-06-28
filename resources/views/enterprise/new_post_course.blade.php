@@ -17,7 +17,7 @@
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/enterprise/post-manage/new-post.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/enterprise/post-course-manage/new-post-course.js")}}"></script>
 @endsection
 @section('theme-asset')
     <script type="text/javascript" src="{{asset('assets/js/plugins/ckeditor/ckeditor.js')}}"></script>

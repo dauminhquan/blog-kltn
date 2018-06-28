@@ -10,14 +10,13 @@
                 <li class="active">Danh sách tin</li>
             </ul>
         </div>
-
     </div>
 @endsection
 @section('page-content')
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/enterprise/post-manage/post-manage.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/enterprise/post-course-manage/post-course-manage.js")}}"></script>
 @endsection
 @section('theme-asset')
     {{--<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--}}

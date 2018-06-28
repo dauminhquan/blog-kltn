@@ -3,12 +3,10 @@
         <td class="check-item">
             <td-checkbox :checkAll="checkAll" :id-item="item.id"  @push_item_selected="push_id_item_selected($event)" @pop_item_selected="pop_id_item($event)"></td-checkbox>
         </td>
-        <td><a :href="infoPost(item.id,item.accept)" target="_blank">{{item.title_post}}</a>
-
+        <td><a :href="infoPostCourse(item.id,item.accept)" target="_blank">{{item.title_post_course}}</a>
         </td>
         <td>{{item.created_at}}</td>
-        <td><span v-for="position in item.positions" :key="position.name_position" class="label label-primary" >{{position.name_position}}</span></td>
-        <td><span v-for="type in item.types" :key="type.name_job_type" class="label label-info" >{{type.name_job_type}}</span></td>
+
         <td><span class="label label-default" v-if="item.accept == 0">Đang đợi</span> <span class="label label-danger" v-else-if="item.accept == 2">Đã hủy</span> <span v-else class="label label-success" >Đã đăng</span> </td>
         <td class="text-center">
             <ul class="icons-list">
@@ -18,7 +16,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li @click="request_delete"><a href="javascript:void(0)"><i class="glyphicon glyphicon-trash"></i> Xóa bài viết</a></li>
-                        <li @click="openInforPost(item.id)"><a href="javascript:void(0)"><i class="glyphicon glyphicon-edit"></i> Sửa bài đăng</a></li>
+                        <li @click="openInforPostCourse(item.id)"><a href="javascript:void(0)"><i class="glyphicon glyphicon-edit"></i> Sửa bài đăng</a></li>
                     </ul>
                 </li>
             </ul>
@@ -58,23 +56,23 @@
                 var vm = this
                 vm.$emit('request_delete_item',vm.item.id)
             },
-            infoPost(id,accept)
+            infoPostCourse(id,accept)
             {
                 let vm = this
-                if(accept == '1')
-                {
-                    return vm.configUrl.WEB_JOB_JOB_DETAIL(id)
-                }
-                if(accept == 2)
-                {
-                    return 'javascript:void()'
-                }
-                return vm.configUrl.WEB_ENTERPRISE_POST(id)
+                // if(accept == '1')
+                // {
+                //     return vm.configUrl.WEB_JOB_JOB_DETAIL(id)
+                // }
+                // if(accept == 2)
+                // {
+                //     return 'javascript:void()'
+                // }
+                // return vm.configUrl.WEB_ENTERPRISE_POST(id)
 
             },
-            openInforPost(id){
+            openInforPostCourse(id){
                 let vm = this
-                window.open(vm.configUrl.WEB_ENTERPRISE_POST(id),'_blank')
+                window.open(vm.configUrl.WEB_ENTERPRISE_POST_COURSE(id),'_blank')
             }
         }
     }

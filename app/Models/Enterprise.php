@@ -16,4 +16,7 @@ class Enterprise extends Model
     public function posts(){
         return $this->hasMany(Post::class,'id_enterprise','id');
     }
+    public function post_courses(){
+        return $this->hasMany(PostCourse::class,'id_enterprise','id');
+    }
 }

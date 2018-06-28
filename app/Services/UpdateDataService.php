@@ -9,7 +9,8 @@
 namespace App\Services;
 
 
-use App\Ap\Models\PostType;
+use App\Models\PostCourse;
+use App\Models\PostType;
 use App\Models\Employee;
 use App\Models\Post;
 use App\Models\PostCity;
@@ -361,7 +362,8 @@ class UpdateDataService
                 $post->localtion = $request->location;
                 if($request->hasFile('file_attach_post'))
                 {
-                    $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','1'.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+                    $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','post_'.$id.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+
                 }
                 $post->update();
                 $post->cities()->where('id_post',$id)->delete();
@@ -416,6 +418,55 @@ class UpdateDataService
         }catch (\Exception $exception)
         {
             return response()->json(['message' => 'Thất bại','error'=> $exception->getMessage(),'status' => 0],500);
+        }
+    }
+    public function updatePostCourse(Request $request,$id)
+    {
+        $post_course = PostCourse::findOrFail($id);
+
+        $validator = Validator::make($request->all(),[
+            'title_post_course' => 'required',
+            'content_post_course' => 'required',
+            'time_start' => 'required|date',
+            'time_end' => 'required|date',
+            'description_post_course' => 'required'
+        ],[
+            'content_post_course.required' => 'Không có nội dung',
+            'title_post_course' =>'Không có tiêu đề',
+            'time_start.required' => 'Không có thời gian bắt đầu',
+            'time_start.date' => 'Thời gian bắt đầu không phải ngày tháng',
+            'time_end.required' => 'Không có thời gian kết thúc',
+            'time_end.date' => 'Thời gian kết thúc không phải ngày tháng',
+            'description_post_course.required' => 'Không có mô tả'
+        ]);
+        if($validator->fails())
+        {
+            return response()->json($validator->errors(),406);
+        }
+//        dd($request->all());
+        try{
+            DB::transaction(function () use($request,$post_course){
+
+                $post_course->id_enterprise = Auth::user()->enterprise->id;
+                $post_course->title_post_course = $request->title_post_course;
+                $post_course->content_post_course = $request->content_post_course;
+                $post_course->file_attach_course = 'none';
+                $post_course->location = $request->location;
+                $post_course->time_start = $request->time_start;
+                $post_course->time_end = $request->time_end;
+                $post_course->description_post_course = $request->description_post_course;
+
+                if($request->hasFile('file_attach_post_course'))
+                {
+                    $post_course->file_attach_course =   $request->file('file_attach_post_course')->storeAs('/public/file_attaches','post_course_'.$post_course->id.'.'.$request->file('file_attach_post_course')->getClientOriginalExtension());
+
+                }
+                $post_course->update();
+            });
+            return response()->json(['status' => 1,'message' =>'Thành công'],200);
+        }catch (\Exception $exception)
+        {
+            return response()->json(['status' => 0,'message' =>$exception->getMessage()],500);
         }
     }
 }

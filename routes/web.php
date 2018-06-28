@@ -47,7 +47,12 @@ Route::group(['middleware' => 'web.check.login'],function (){
             Route::get('/skill',['as' => "skill","uses" => 'JobManageController@skillsManage']);
             Route::get('/jobs',['as' => "jobs","uses" => 'JobManageController@jobsManage']);
             Route::get('/jobs/{id}',['as' => "jobs.id","uses" => 'JobManageController@updateJob']);
+
+
+
         });
+        Route::get('/post-courses',['as' => "post.courses","uses" => 'PostCourseManageController@postcoursesManage']);
+        Route::get('/post-course/{id}',['as' => "post.course.id","uses" => 'PostCourseManageController@updatePostcourse']);
 
     });
     Route::group(['prefix' => 'enterprise','as' => 'enterprise.','namespace' => 'Enterprise',/*'middleware' => 'web.check.enterprise'*/],function (){
@@ -55,6 +60,11 @@ Route::group(['middleware' => 'web.check.login'],function (){
             Route::get('new-post',['as' => 'new.post','uses' =>'PostsManageController@new_post']);
             Route::get('post-manage',['as' => 'index','uses' => 'PostsManageController@post_manage']);
             Route::get('post/{id}',['as' => 'post.update','uses' => 'PostsManageController@update_post']);
+        });
+        Route::group(['as' => 'post.course.manage.'],function (){
+            Route::get('new-post-course',['as' => 'new.post.course','uses' =>'PostCoursesManageController@new_post_course']);
+            Route::get('post-course-manage',['as' => 'index','uses' => 'PostCoursesManageController@post_course_manage']);
+            Route::get('post-course/{id}',['as' => 'post.course.update','uses' => 'PostCoursesManageController@update_post_course']);
         });
     });
 

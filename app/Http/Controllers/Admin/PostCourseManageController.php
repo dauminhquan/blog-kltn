@@ -7,7 +7,7 @@ use App\Models\PostCourse;
 
 use App\Http\Controllers\Controller;
 
-class PostCourseController extends Controller
+class PostCourseManageController extends Controller
 {
 
 

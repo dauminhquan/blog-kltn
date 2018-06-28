@@ -12,9 +12,11 @@ namespace App\Services;
 use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Post;
+use App\Models\PostCourse;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class DeleteDataService
@@ -38,6 +40,7 @@ class DeleteDataService
             {
                 $student = Student::find((int)$item);
                 $id_user = $student->id_user;
+                Storage::delete(str_replace('/storage','public',$student->avatar_student));
                 $student->delete();
                 User::find($id_user)->delete();
 
@@ -60,6 +63,7 @@ class DeleteDataService
         }else{
             $student = Student::find((int)$request->id);
             $id_user = $student->id_user;
+            Storage::delete(str_replace('/storage','public',$student->avatar_student));
             $student->delete();
             User::find($id_user)->delete();
         }
@@ -90,6 +94,7 @@ class DeleteDataService
         }else{
             $enterprise = Enterprise::find((int)$request->id);
             $id_user = $enterprise->id_user;
+            Storage::delete(str_replace('/storage','public',$enterprise->avatar_enterprise));
             $enterprise->delete();
             User::find($id_user)->delete();
         }
@@ -113,6 +118,8 @@ class DeleteDataService
             {
                 $enterprise = Enterprise::find((int)$item);
                 $id_user = $enterprise->id_user;
+                Storage::delete(str_replace('/storage','public',$enterprise->avatar_enterprise));
+
                 $enterprise->delete();
                 User::find($id_user)->delete();
 
@@ -124,6 +131,7 @@ class DeleteDataService
         $post = Post::findOrFail($id);
         if($post)
         {
+            Storage::delete($post->file_attach_post);
             $post->delete();
             return ['status' => 1,'message' => 'Xóa bài viết thành công'];
 
@@ -148,12 +156,47 @@ class DeleteDataService
             foreach ($data as $item)
             {
                 $post = Post::find($item);
+                Storage::delete($post->file_attach_post);
                 $post->delete();
             }
             return ['status' => 1,'message' => 'Xóa thành công'];
         }catch (\Exception $exception)
         {
             return response(['status' => 0,'message' => 'Đã có lỗi xảy ra'],500);
+        }
+    }
+    public function deletePostCourse($id)
+    {
+        $post_course = PostCourse::findOrFail($id);
+        Storage::delete($post_course->file_attach_course);
+        $post_course->delete();
+
+        return ['status' => 1,'message' => 'Xóa thành công'];
+    }
+    public function deleteListPostCourse(Request $request){
+        $validator = Validator::make($request->all(),[
+            'list_id_post_course' => 'required|array'
+        ],[
+            'list_id_post_course.required' => 'Không có danh sách ID',
+            'list_id_post_course.array' => 'Không phải danh sách ID'
+        ]);
+        if($validator->fails())
+        {
+            return response($validator->errors(),400);
+        }
+        try{
+
+            $data = $request->list_id_post_course;
+            foreach ($data as $item)
+            {
+                $post_course = PostCourse::findOrFail($item);
+                Storage::delete($post_course->file_attach_course);
+                $post_course->delete();
+            }
+            return ['status' => 1,'message' => 'Xóa thành công'];
+        }catch (\Exception $exception)
+        {
+            return response(['status' => 0,'message' => $exception->getMessage()],500);
         }
     }
 

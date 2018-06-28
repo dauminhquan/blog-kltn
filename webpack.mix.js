@@ -35,12 +35,16 @@ mix.js('resources/assets/js/admin/enterprisemanage/addenterprise/addenterprise.j
 mix.js('resources/assets/js/admin/enterprisemanage/infoenterprise/infoenterprise.js', 'public/assets/js/build/pages/admin/enterprise-manage/info-enterprise.js');
 
 //job
-mix.js('resources/assets/js/admin/job/positionsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/position.js');
+mix.js('resources/assets/js/admin/post/positionsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/post/position.js');
 
-mix.js('resources/assets/js/admin/job/skillsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/job/skill.js');
+mix.js('resources/assets/js/admin/post/skillsmanage/positionsmanage.js', 'public/assets/js/build/pages/admin/post/skill.js');
 
-mix.js('resources/assets/js/admin/job/jobsmanage/jobmanage/jobsmanage.js', 'public/assets/js/build/pages/admin/job/job.js');
+mix.js('resources/assets/js/admin/post/postsmanage/postmanage/postsmanage.js', 'public/assets/js/build/pages/admin/post/post.js');
+mix.js('resources/assets/js/admin/post/postsmanage/updatepost/updatepost.js', 'public/assets/js/build/pages/admin/post/update-post.js');
 
+//post course
+mix.js('resources/assets/js/admin/postcourse/postcoursesmanage/postcoursemanage.js', 'public/assets/js/build/pages/admin/post-course/post-courses.js');
+mix.js('resources/assets/js/admin/postcourse/updatepostcourse/updatepostcourse.js', 'public/assets/js/build/pages/admin/post-course/update-post-course.js');
 
 
 // !-- admin
@@ -50,6 +54,14 @@ mix.js('resources/assets/js/enterprise/postsmanage/newpost/newpost.js', 'public/
 mix.js('resources/assets/js/enterprise/postsmanage/postsmanage/postmanage.js', 'public/assets/js/build/pages/enterprise/post-manage/post-manage.js');
 
 mix.js('resources/assets/js/enterprise/postsmanage/updatepost/updatepost.js', 'public/assets/js/build/pages/enterprise/post-manage/update-post.js');
+
+
+mix.js('resources/assets/js/enterprise/postcoursesmanage/newpostcourse/newpostcourse.js', 'public/assets/js/build/pages/enterprise/post-course-manage/new-post-course.js');
+
+mix.js('resources/assets/js/enterprise/postcoursesmanage/postcoursesmanage/postcoursemanage.js', 'public/assets/js/build/pages/enterprise/post-course-manage/post-course-manage.js');
+
+mix.js('resources/assets/js/enterprise/postcoursesmanage/updatepostcourse/updatepostcourse.js', 'public/assets/js/build/pages/enterprise/post-course-manage/update-post-course.js');
+
 //!-- enterprise
 //dung chung
 

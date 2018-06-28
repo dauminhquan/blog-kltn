@@ -80,8 +80,16 @@ Route::group(['namespace' => 'Api'],function(){
             Route::delete('/delete-skill',['name' => 'delete.skill','uses' => 'JobManageController@delete_skill']);
             Route::put('/edit-skill',['name' => 'edit.skill','uses' => 'JobManageController@edit_skill']);
 
-            Route::get('/get-list-job',['name' => 'get.list.post','uses' => 'JobManageController@get_list_job']);
+            Route::get('/get-list-post',['name' => 'get.list.post','uses' => 'JobManageController@get_list_post']);
+            Route::put('/accept-post/{id}',['name' => 'accept.post','uses'=> 'JobManageController@accept_post']);
+            Route::get('get-detail-post/{id}',['name' => 'get.detail.post','uses' => 'JobManageController@get_detail_post']);
+        });
+        //post course
+        Route::group(['prefix' => '/post-course-manage','name' => 'post.course.manage.'],function (){
 
+            Route::get('/get-list-post-course',['name' => 'get.list.post.course','uses' => 'PostCourseManageController@get_list_post_course']);
+            Route::put('/accept-post-course/{id}',['name' => 'accept.post.course','uses'=> 'PostCourseManageController@accept_post_course']);
+            Route::get('/get-detail-post-course/{id}',['name' => 'get.detail.post.course','uses' => 'PostCourseManageController@get_detail_post_course']);
         });
 
 
@@ -122,8 +130,14 @@ Route::group(['namespace' => 'Api'],function(){
             Route::resource('post','PostController')->except(['create','store','edit','update']);
             Route::delete('post','PostController@delete_list_post');
             Route::post('post/{id}','PostController@update');
+
+            Route::resource('post-course','PostCourseController')->except(['create','store','edit','update']);
+            Route::delete('post-course','PostCourseController@delete_list_post_course');
+            Route::post('post-course/{id}','PostCourseController@update');
+
         });
         Route::post('post','PostController@store')->middleware('api.check.enterprise');
+        Route::post('post-course','PostCourseController@store')->middleware('api.check.enterprise');
 
     });
 

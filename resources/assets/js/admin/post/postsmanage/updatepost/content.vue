@@ -112,13 +112,41 @@
                         <div class="pace-demo" v-if="uploading == true">
                             <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
                         </div>
+                        <button type="button" v-if="accepted == 0 && updateAccept == false" @click="acceptPost" class="btn btn-success">Chấp nhận bài viết <i class="icon-check2 position-right"></i></button>
+                        <button type="button" @click="deletePost" class="btn btn-danger">Xóa bài viết <i class="icon-trash-alt position-right"></i></button>
                         <button type="submit" class="btn btn-primary">Lưu chỉnh sửa <i class="icon-arrow-right14 position-right"></i></button>
                     </div>
                 </form>
             </div>
         </div>
 
+        <div id="modal_danger" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="icon-warning"></i> Cảnh báo</h6>
+                    </div>
 
+                    <div class="modal-body">
+
+                        <p> <i class="icon-warning"></i> Sau khi xóa, mọi dữ liệu liên quan sẽ bị xóa. Bạn nên cân nhắc điều này ! </p>
+                        <div style="border: snow" class="panel panel-body border-top-danger text-center">
+                            <div class="pace-demo" v-if="deleting == true">
+                                <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger" @click="acceptdeletePost">Xác định xóa</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -210,6 +238,8 @@
                     ,"Hà Nội"
                     ,"TP HCM"
                 ],
+                accepted: -1,
+                updateAccept: false,
                 types: [],
                 positions: [],
                 skills: [],
@@ -225,7 +255,8 @@
                 content_post: '',
                 ckeditor: null,
                 file: '',
-                configUrl: new configUrl()
+                configUrl: new configUrl(),
+                deleting: false,
             }
         },
         methods:{
@@ -297,6 +328,25 @@
                     });
                 })
             },
+            acceptPost(){
+                let vm = this
+                axios.put(vm.configUrl.API_ADMIN_JOB_MANAGE_ACCEPT_POST(vm.idPost)).then(data => {
+                    vm.accepted = 1
+                    vm.updateAccept = true
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Chấp nhận thành công',
+                        addclass: 'bg-success'
+                    });
+                }).catch(err => {
+                    console.dir(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ server',
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
             updatePost(){
                 var vm = this
                 vm.uploading = true
@@ -343,6 +393,32 @@
                     vm.uploading = false
                 })
             },
+            deletePost(){
+                $('#modal_danger').modal('show')
+            },
+            acceptdeletePost(){
+                var vm = this
+                vm.deleting = true
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST+'/'+vm.idPost).then(data => {
+
+                    vm.deleting = false
+                    $('#modal_danger').modal('hide')
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Đã xóa thành công bài viết',
+                        addclass: 'bg-success'
+                    });
+                    setTimeout(function () {
+                        window.location = vm.configUrl.WEB_ADMIN_JOB_MANAGE_JOBS
+                    },1000)
+                }).catch(err => {
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ server',
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
             getPost(){
                 let vm = this
                 axios.get(vm.configUrl.API_ADMIN_JOB_MANAGE_GET_DETAIL_POST(vm.idPost)).then(data => {
@@ -364,6 +440,7 @@
                     this.title_post = data.data.info.title_post
                     this.time_start_post = data.data.info.time_start_post
                     this.time_end_post = data.data.info.time_end_post
+                    this.accepted = data.data.info.accept
                 }).catch(err => {
 
                 })

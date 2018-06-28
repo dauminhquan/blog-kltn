@@ -17,7 +17,8 @@
                 <th class="check-all">
                     <th-check-all :selected="false" @delete_selected="delete_selected" @setcheckAll="setCheckAllData"></th-check-all>
                 </th>
-
+                <th></th>
+                <th>Doanh nghiệp</th>
                 <th>Tiêu đề</th>
                 <th>Ngày đăng</th>
 
@@ -123,7 +124,7 @@
                     }
                 });
                 this.table = $('#table').dataTable({
-                    columnDefs: [ { orderable: false, targets: [0,4] }],
+                    columnDefs: [ { orderable: false, targets: [0,1,6] }],
                     buttons: {
                         buttons: [
                             {
@@ -191,7 +192,7 @@
                     $('#modal_danger').modal('hide')
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' bài viết',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
@@ -216,7 +217,7 @@
 
             getPostCourse(){
                 var vm = this
-                axios.get(vm.configUrl.API_ENTERPRISE_POST_COURSE,{
+                axios.get(vm.configUrl.API_ADMIN_POST_COURSE_MANAGE_GET_LIST_POST_COURSE,{
                     params:{
                         get_all : true
                     }
@@ -285,7 +286,7 @@
 </script>
 <style>
     .avatar-user{
-        width: 30px;
+        width: 100px;
         height: 50px;
     }
     .avatar-user img{

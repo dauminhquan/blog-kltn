@@ -347,7 +347,7 @@
             },
             getPost(){
                 let vm = this
-                axios.get(vm.configUrl.API_JOB_DETAIL(vm.idPost)).then(data => {
+                axios.get(vm.configUrl.API_ENTERPRISE_POST+'/'+vm.idPost).then(data => {
 
                     this.city = data.data.cities.map(item => {
                         return item.city

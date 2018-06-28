@@ -10,24 +10,25 @@ namespace App\Http\Controllers\Enterprise;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
+
+use App\Models\PostCourse;
 use Illuminate\Support\Facades\Auth;
 
-class CoursesManageController extends Controller
+class PostCoursesManageController extends Controller
 {
-    public function new_course()
+    public function new_post_course()
     {
-        return view('enterprise.new_course');
+        return view('enterprise.new_post_course');
     }
-    public function course_manage()
+    public function post_course_manage()
     {
-        return view('enterprise.course_manage');
+        return view('enterprise.post_course_manage');
     }
-    public function update_course($id){
-        $course = Course::findOrFail($id);
+    public function update_post_course($id){
+        $course = PostCourse::findOrFail($id);
         if($course && $course->id_enterprise == Auth::guard('web')->user()->enterprise->id)
         {
-            return view('enterprise.update_course',['id'=>$id]);
+            return view('enterprise.update_post_course',['id'=>$id]);
         }
         return response()->redirectToRoute('home');
 

@@ -17,7 +17,7 @@
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/job/position.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/post/position.js")}}"></script>
 @endsection
 @section('theme-asset')
     {{--<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>--}}

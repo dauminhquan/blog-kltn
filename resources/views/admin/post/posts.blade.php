@@ -17,7 +17,7 @@
     <content-wrapper></content-wrapper>
 @endsection
 @section("js-page")
-    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/job/job.js")}}"></script>
+    <script type="text/javascript" src="{{asset("assets/js/build/pages/admin/post/post.js")}}"></script>
 @endsection
 @section('theme-asset')
 

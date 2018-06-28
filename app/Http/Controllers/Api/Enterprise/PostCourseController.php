@@ -10,21 +10,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class CourseController extends Controller
+class PostCourseController extends Controller
 {
 
     public function index()
     {
-        $data = Auth::user()->enterprise->courses()->select('id','title_course','created_at','accept')->get();
+        $data = Auth::user()->enterprise->post_courses()->select('id','title_post_course','created_at','accept')->get();
 
-        foreach ($data as $item)
-        {
-            $item->positions= $item->positions()->select('name_position')->get();
-        }
-        foreach ($data as $item)
-        {
-            $item->types= $item->types()->select('name_job_type')->get();
-        }
         return $data;
     }
 
@@ -32,14 +24,14 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $insert_data_service = new InsertDataService();
-        return $insert_data_service->insertCourse($request);
+        return $insert_data_service->insertPostCourse($request);
     }
 
 
     public function show($id)
     {
         $get_data_service = new GetDataService();
-        return $get_data_service->enterpriseGetDetailJob($id);
+        return $get_data_service->enterpriseDetailPostCourse($id);
     }
 
 
@@ -48,17 +40,17 @@ class CourseController extends Controller
 
 
         $update_data_service = new UpdateDataService();
-        return $update_data_service->updateCourse($request,$id);
+        return $update_data_service->updatePostCourse($request,$id);
     }
 
     public function destroy($id)
     {
             $delete_data_service = new DeleteDataService();
-            return $delete_data_service->deleteCourse($id);
+            return $delete_data_service->deletePostCourse($id);
     }
-    public function delete_list_course(Request $request)
+    public function delete_list_post_course(Request $request)
     {
         $delete_data_service = new DeleteDataService();
-        return $delete_data_service->deleteListCourse($request);
+        return $delete_data_service->deleteListPostCourse($request);
     }
 }

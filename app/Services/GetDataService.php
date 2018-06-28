@@ -16,12 +16,14 @@ use App\Models\Employee;
 use App\Models\Enterprise;
 use App\Models\Position;
 use App\Models\Post;
+use App\Models\PostCourse;
 use App\Models\Salary;
 use App\Models\Skill;
 use App\Models\Student;
 use App\Models\TypeJob;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -279,92 +281,95 @@ class GetDataService
     public function getListJob(Request $request)
     {
 
-        $posts=  Post::join('enterprises','enterprises.id','posts.id_enterprise');
+        $posts=  Post::join('enterprises','enterprises.id','posts.id_enterprise')->where('posts.accept',1);
 
-        if($request->has('cities_selected'))
-        {
-            $posts = $posts->join('post_city','post_city.id_post','posts.id');
-            if(gettype($request->cities_selected) =='array' && count($request->cities_selected) > 0)
+        $posts = $posts->where(function ($query) use($request,$posts){
+            if($request->has('cities_selected'))
             {
-                foreach ($request->cities_selected as $item)
+                $posts= $posts->join('post_city','post_city.id_post','posts.id');
+                if(gettype($request->cities_selected) =='array' && count($request->cities_selected) > 0)
                 {
-                    $posts = $posts->orWhere('post_city.city',$item);
+                    foreach ($request->cities_selected as $item)
+                    {
+                        $query->orWhere('post_city.city',$item);
+                    }
                 }
             }
-
-        }
-        if($request->has('positions_selected'))
-        {
-            $posts = $posts->join('post_position','post_position.id_post','posts.id');
-            if(gettype($request->positions_selected) =='array' && count($request->positions_selected) > 0)
+            if($request->has('positions_selected'))
             {
-                foreach ($request->positions_selected as $item)
+                $posts = $posts->join('post_position','post_position.id_post','posts.id');
+                if(gettype($request->positions_selected) =='array' && count($request->positions_selected) > 0)
                 {
-                    $posts = $posts->orWhere('post_position.id_position',$item);
+                    foreach ($request->positions_selected as $item)
+                    {
+                        $query->orWhere('post_position.id_position',$item);
+                    }
                 }
-            }
 
-        }
-        if($request->has('skills_selected'))
-        {
-            $posts = $posts->join('post_skill','post_skill.id_post','posts.id');
-            if(gettype($request->skills_selected) =='array' && count($request->skills_selected) > 0)
+            }
+            if($request->has('skills_selected'))
             {
-                foreach ($request->skills_selected as $item)
+                $posts= $posts->join('post_skill','post_skill.id_post','posts.id');
+                if(gettype($request->skills_selected) =='array' && count($request->skills_selected) > 0)
                 {
-                    $posts = $posts->orWhere('post_skill.id_skill',$item);
+                    foreach ($request->skills_selected as $item)
+                    {
+                        $query->orWhere('post_skill.id_skill',$item);
+                    }
                 }
+
             }
-
-        }
-        if($request->has('enterprises_selected'))
-        {
-
-            if(gettype($request->enterprises_selected) =='array' && count($request->enterprises_selected) > 0)
+            if($request->has('enterprises_selected'))
             {
-                foreach ($request->enterprises_selected as $item)
+
+                if(gettype($request->enterprises_selected) =='array' && count($request->enterprises_selected) > 0)
                 {
-                    $posts = $posts->orWhere('posts.id_enterprise',$item);
+                    foreach ($request->enterprises_selected as $item)
+                    {
+                        $query->orWhere('posts.id_enterprise',$item);
+                    }
                 }
+
             }
 
-        }
-
-        if($request->has('types_job_selected'))
-        {
-            $posts = $posts->join('post_type','post_type.id_post','posts.id');
-            if(gettype($request->types_job_selected) =='array' && count($request->types_job_selected) > 0)
+            if($request->has('types_job_selected'))
             {
-                foreach ($request->types_job_selected as $item)
+                $posts= $posts->join('post_type','post_type.id_post','posts.id');
+                if(gettype($request->types_job_selected) =='array' && count($request->types_job_selected) > 0)
                 {
-                    $posts = $posts->orWhere('post_type.id_job_type',$item);
+                    foreach ($request->types_job_selected as $item)
+                    {
+                        $query->orWhere('post_type.id_job_type',$item);
+                    }
                 }
-            }
 
-        }
-        if($request->has('dates_selected'))
-        {
-            if($request->dates_selected == 0) // hom nay
-            {
-                $posts = $posts->where('posts.time_start_post','>=',date('Y-m-d'));
             }
-            if($request->dates_selected == 1) // hom qua
+            if($request->has('dates_selected'))
             {
-                $posts = $posts->where('posts.time_start_post','>=',date('Y-m-d'));
-            }
-            if($request->dates_selected == 2) // tuan truoc
-            {
-                $posts = $posts->where('posts.time_start_post','>=',date("m/d/Y", strtotime("last week monday")));
-            }
-            if($request->dates_selected == 3) // thang truoc
-            {
-                $posts = $posts->where('posts.time_start_post','>=',date("Y-n-j", strtotime("first day of previous month")));
-            }
+                if($request->dates_selected == 0) // hom nay
+                {
+                    $query->where('posts.time_start_post','>=',date('Y-m-d'));
+                }
+                if($request->dates_selected == 1) // hom qua
+                {
+                    $query->where('posts.time_start_post','>=',date('Y-m-d'));
+                }
+                if($request->dates_selected == 2) // tuan truoc
+                {
+                    $query->where('posts.time_start_post','>=',date("m/d/Y", strtotime("last week monday")));
+                }
+                if($request->dates_selected == 3) // thang truoc
+                {
+                    $query->where('posts.time_start_post','>=',date("Y-n-j", strtotime("first day of previous month")));
+                }
 //                   if($request->dates_selected == 4) // any time
 //                   {
 //                       $posts = $posts->where('posts.time_start_post','<=',date('Y-m-d'));
 //                   }
-        }
+            }
+
+        });
+
         if($request->has('email_address_enterprise'))
         {
             $user = User::where('user_name',$request->email_address_enterprise)->first();
@@ -383,6 +388,7 @@ class GetDataService
             return $posts->join('users','users.id','enterprises.id_user')->select('users.user_name','posts.id','posts.id_enterprise','posts.title_post'
                 ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','posts.accept','posts.created_at','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
         }
+
         return $posts->select('posts.id','posts.id_enterprise','posts.title_post'
             ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->paginate(20);
     }
@@ -412,6 +418,10 @@ class GetDataService
         // danh sách loại công việc
         // danh sách kỹ năng
         $detail['info'] = Post::find($id);
+        if($detail['info']->accept == 0)
+        {
+            return response()->json(['status' => 0,'message' => 'Bài viết không tồn tại'],403);
+        }
         $detail['enterprise'] = $detail['info']->enterprise()->select('name_enterprise','introduce_enterprise','avatar_enterprise','address_enterprise','id_user')->first();
         $detail['enterprise']->email_address_enterprise = $detail['enterprise']->user->user_name;
         $detail['skills'] = $detail['info']->skills()->select('name_skill')->get();
@@ -458,6 +468,117 @@ class GetDataService
         // thông tin về doanh nghiệp
         // các công việc giống
     }
+
+    public function enterpriseGetDetailJob($id)
+    {
+        // tất cả thông tin về bài viết
+        // tên doanh nghiệp
+        // danh sách vị trí
+        // danh sách loại công việc
+        // danh sách kỹ năng
+        $detail['info'] = Post::find($id);
+        if($detail['info']->id_enterprise != Auth::user()->enterprise->id)
+        {
+            return response()->json(['status' => 0,'message' => 'Bài viết không tồn tại'],403);
+        }
+        $detail['enterprise'] = $detail['info']->enterprise()->select('name_enterprise','introduce_enterprise','avatar_enterprise','address_enterprise','id_user')->first();
+        $detail['enterprise']->email_address_enterprise = $detail['enterprise']->user->user_name;
+        $detail['skills'] = $detail['info']->skills()->select('name_skill')->get();
+
+        $detail['types'] = $detail['info']->types()->select('name_job_type')->get();
+        $detail['cities'] = $detail['info']->cities()->select('city')->get();
+
+        $detail['locations'] = $detail['info']->location;
+
+        $detail['positions'] = $detail['info']->positions()->select('name_position')->get();
+
+
+        $post = Post::find($id);
+        $skills = $post->skills()->select('skills.id')->get();
+        $positions = $post->positions()->select('positions.id')->get();
+
+        $similar = Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post'
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->where('posts.id','!=',$post->id);
+
+        if($skills != null && gettype($skills) == 'array' && count($skills) > 0)
+        {
+            $similar = $similar->join('post_skill');
+            foreach ($skills as $skill)
+            {
+                $similar  = $similar->orWhere('skills.id',$skill->id);
+            }
+        }
+        if($positions != null && gettype($positions) == 'array' && count($positions) > 0)
+        {
+            $similar = $similar->join('post_position');
+            foreach ($positions as $position)
+            {
+                $similar  = $similar->orWhere('skills.id',$position->id);
+            }
+        }
+
+        $detail['similar'] = $similar->distinct()->orderBy('posts.created_at','desc')->limit(6)->get();
+
+
+        return $detail;
+    }
+
+    public function adminGetDetailJob($id)
+    {
+        // tất cả thông tin về bài viết
+        // tên doanh nghiệp
+        // danh sách vị trí
+        // danh sách loại công việc
+        // danh sách kỹ năng
+        $detail['info'] = Post::findOrFail($id);
+
+        $detail['enterprise'] = $detail['info']->enterprise()->select('name_enterprise','introduce_enterprise','avatar_enterprise','address_enterprise','id_user')->first();
+        $detail['enterprise']->email_address_enterprise = $detail['enterprise']->user->user_name;
+        $detail['skills'] = $detail['info']->skills()->select('name_skill')->get();
+
+        $detail['types'] = $detail['info']->types()->select('name_job_type')->get();
+        $detail['cities'] = $detail['info']->cities()->select('city')->get();
+
+        $detail['locations'] = $detail['info']->location;
+
+        $detail['positions'] = $detail['info']->positions()->select('name_position')->get();
+
+
+        $post = Post::find($id);
+        $skills = $post->skills()->select('skills.id')->get();
+        $positions = $post->positions()->select('positions.id')->get();
+
+        $similar = Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post'
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->where('posts.id','!=',$post->id);
+
+        if($skills != null && gettype($skills) == 'array' && count($skills) > 0)
+        {
+            $similar = $similar->join('post_skill');
+            foreach ($skills as $skill)
+            {
+                $similar  = $similar->orWhere('skills.id',$skill->id);
+            }
+        }
+        if($positions != null && gettype($positions) == 'array' && count($positions) > 0)
+        {
+            $similar = $similar->join('post_position');
+            foreach ($positions as $position)
+            {
+                $similar  = $similar->orWhere('skills.id',$position->id);
+            }
+        }
+
+        $detail['similar'] = $similar->distinct()->orderBy('posts.created_at','desc')->limit(6)->get();
+
+
+        return $detail;
+//        return Post::find($id)->skills()->select('name_skill')->get();
+
+
+        // thông tin về doanh nghiệp
+        // các công việc giống
+    }
+
     public function getSimilarJob($id)
     {
         // cùng vị trí
@@ -466,4 +587,18 @@ class GetDataService
 
 
     }
+
+    public function enterpriseDetailPostCourse($id){
+        return PostCourse::findOrFail($id);
+
+    }
+    public function adminGetDetailPostCourse($id)
+    {
+        $post_course = PostCourse::findOrfail($id);
+        $post_course->enterprise = $post_course->enterprise()->select('id','name_enterprise','avatar_enterprise','id_user')->first();
+        $user_name = $post_course->enterprise->user()->select('user_name')->first();
+        $post_course->enterprise->user_name = $user_name->user_name;
+        return $post_course;
+    }
+
 }

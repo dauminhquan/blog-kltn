@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Models\Position;
+use App\Models\Post;
 use App\Models\Skill;
 use App\Services\GetDataService;
 use Illuminate\Http\Request;
@@ -238,21 +239,25 @@ class JobManageController extends Controller
             'message' => 'Sửa kỹ năng thành công'
         ],200);
     }
-    public function get_list_job(Request $request)
+    public function get_list_post(Request $request)
     {
-        if($request->has('email_address_enterprise'))
-        {
-            $validate = Validator::make($request->all(),[
-                'email_address_enterprise' => 'exists:users,user_name'
-            ],[
-                'email_address_enterprise.exists' => 'Email không tồn tại'
-            ]);
-            if($validate->fails())
-            {
-                return response()->json($validate->errors(),406);
-            }
-        }
+
+        $posts=  Post::join('enterprises','enterprises.id','posts.id_enterprise')->join('users','users.id','enterprises.id_user')->select('users.user_name','posts.id','posts.id_enterprise','posts.title_post'
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','posts.accept','posts.created_at','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();
+        return $posts;
+    }
+    public function accept_post($id)
+    {
+        $post = Post::findOrFail($id);
+
+        $post->accept = 1;
+        $post->update();
+        return ['status' => 1,'message' =>'Chấp nhận bài viết thành công'];
+    }
+    public function get_detail_post($id)
+    {
         $get_data_service = new GetDataService();
-        return $get_data_service->getListJob($request);
+        return $get_data_service->adminGetDetailJob($id);
+
     }
 }

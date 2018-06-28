@@ -83,12 +83,40 @@
                         <div class="pace-demo" v-if="uploading == true">
                             <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                        <button type="button" v-if="accepted == 0 && updateAccept == false" @click="acceptPostCourse" class="btn btn-success">Chấp nhận bài viết <i class="icon-check2 position-right"></i></button>
+                        <button type="button" @click="deletePostCourse" class="btn btn-danger">Xóa bài viết <i class="icon-trash-alt position-right"></i></button>
+                        <button type="submit" class="btn btn-primary">Lưu chỉnh sửa <i class="icon-arrow-right14 position-right"></i></button>
                     </div>
                 </form>
             </div>
         </div>
+        <div id="modal_danger" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="icon-warning"></i> Cảnh báo</h6>
+                    </div>
 
+                    <div class="modal-body">
+
+                        <p> <i class="icon-warning"></i> Sau khi xóa, mọi dữ liệu liên quan sẽ bị xóa. Bạn nên cân nhắc điều này ! </p>
+                        <div style="border: snow" class="panel panel-body border-top-danger text-center">
+                            <div class="pace-demo" v-if="deleting == true">
+                                <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger" @click="acceptdeletePostCourse">Xác định xóa</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -116,8 +144,9 @@
             return {
                 configUrl: new configUrl(),
                 uploading: false,
-
-
+                deleting: false,
+                accepted: -1,
+                updateAccept: false,
 
 
                 title_post_course:'',
@@ -133,7 +162,51 @@
             }
         },
         methods:{
-            
+            acceptPostCourse(){
+                let vm = this
+                axios.put(vm.configUrl.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE(vm.idPostCourse)).then(data => {
+                    vm.accepted = 1
+                    vm.updateAccept = true
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Chấp nhận thành công',
+                        addclass: 'bg-success'
+                    });
+                }).catch(err => {
+                    console.dir(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ server',
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
+            deletePostCourse(){
+                $('#modal_danger').modal('show')
+            },
+            acceptdeletePostCourse(){
+                var vm = this
+                vm.deleting = true
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST_COURSE+'/'+vm.idPostCourse).then(data => {
+
+                    vm.deleting = false
+                    $('#modal_danger').modal('hide')
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Đã xóa thành công bài viết',
+                        addclass: 'bg-success'
+                    });
+                    setTimeout(function () {
+                        window.location = vm.configUrl.WEB_ADMIN_POST_COURSES
+                    },1000)
+                }).catch(err => {
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ server',
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
             updatePostCourse(){
                 var vm = this
                 vm.uploading = true
@@ -150,10 +223,11 @@
                 axios.post(vm.configUrl.API_ENTERPRISE_POST_COURSE+'/'+vm.idPostCourse,formData).then(data => {
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Thêm mới bài đăng thành công',
+                        text: 'Update bài đăng thành công',
                         addclass: 'bg-success'
                     });
                     vm.uploading = false
+
                 }).catch(err => {
                     console.dir(err)
                     new PNotify({
@@ -174,6 +248,7 @@
                     vm.title_post_course = data.data.title_post_course
                     vm.time_start = data.data.time_start
                     vm.time_end = data.data.time_end
+                    vm.accepted = data.data.accept
                 }).catch(err => {
 
                 })

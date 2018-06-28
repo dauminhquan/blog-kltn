@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Enterprise;
 
 use App\Services\DeleteDataService;
+use App\Services\GetDataService;
 use App\Services\InsertDataService;
 use App\Services\UpdateDataService;
 use Illuminate\Http\Request;
@@ -37,7 +38,8 @@ class PostController extends Controller
 
     public function show($id)
     {
-
+        $get_data_service = new GetDataService();
+        return $get_data_service->enterpriseGetDetailJob($id);
     }
 
 
