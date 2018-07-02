@@ -210,7 +210,7 @@
             confirm_delete(){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/job-manage/delete-list-position',
+                axios.delete(vm.configUrl.API_ADMIN_JOB_MANAGE_DELETE_LIST_POSITION,
                     {
                         params: {
                             list_id_position : vm.id_item_selected
@@ -383,6 +383,7 @@
                 addingPositon: false,
                 dataRows: [],
                 deleting: false,
+                configUrl: new configUrl()
 
             }
         },

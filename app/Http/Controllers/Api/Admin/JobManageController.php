@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Models\Enterprise;
 use App\Models\Position;
 use App\Models\Post;
 use App\Models\Skill;
+use App\Models\User;
 use App\Services\GetDataService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -241,6 +243,16 @@ class JobManageController extends Controller
     }
     public function get_list_post(Request $request)
     {
+        if($request->has('email_address_enterprise'))
+        {
+            $user = User::where('user_name',$request->email_address_enterprise)->first();
+            if($user != null)
+            {
+                $id_enterprise = $user->enterprise->id;
+                return Enterprise::findOrFail($id_enterprise)->posts()->select('accept','created_at','id','title_post')->get();
+            }
+            return [];
+        }
 
         $posts=  Post::join('enterprises','enterprises.id','posts.id_enterprise')->join('users','users.id','enterprises.id_user')->select('users.user_name','posts.id','posts.id_enterprise','posts.title_post'
             ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','posts.accept','posts.created_at','enterprises.avatar_enterprise')->distinct()->orderBy('posts.created_at','desc')->get();

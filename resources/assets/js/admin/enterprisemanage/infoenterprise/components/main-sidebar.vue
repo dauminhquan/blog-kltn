@@ -30,7 +30,7 @@
 
                         <li><a href="#employee" data-toggle="tab"><i class=" icon-office"></i> Danh sách nhân viên</a></li>
                         <li><a href="#list_post" data-toggle="tab"><i class=" icon-list"></i> Danh sách bài đăng tuyển dụng</a></li>
-                        <li><a href="#course" data-toggle="tab"><i class=" icon-book2"></i> Danh sách khóa học</a></li>
+                        <li><a href="#post_course" data-toggle="tab"><i class=" icon-book2"></i> Danh sách khóa học</a></li>
                     </ul>
                 </div>
             </div>

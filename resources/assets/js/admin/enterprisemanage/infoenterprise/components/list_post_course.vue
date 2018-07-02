@@ -1,16 +1,16 @@
 <template>
-    <div class="tab-pane fade" id="list_post">
+    <div class="tab-pane fade" id="post_course">
 
 
         <div class="panel panel-flat">
             <div class="panel-heading">
-                <h6 class="panel-title">Thông tin về công việc</h6>
+                <h6 class="panel-title">Thông tin về khóa đào tạo</h6>
 
             </div>
 
 
             <div class="table-responsive">
-                <table id="table" class="table tasks-list table-lg">
+                <table id="table_course" class="table tasks-list table-lg">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -24,8 +24,8 @@
                     <tr v-for="row in dataRows">
                         <td>{{row.id}}</td>
                         <td>
-                            <div class="text-semibold"><a :href="null">{{row.title_post}}</a></div>
-                            <div class="text-muted">{{row.description_post}}</div>
+                            <div class="text-semibold"><a :href="null">{{row.title_post_course}}</a></div>
+                            <div class="text-muted">{{row.description_post_course}}</div>
                         </td>
                         <td>
                             <div class="input-group input-group-transparent">
@@ -52,7 +52,7 @@
 
                                         <li><a :href="null" @click="openEdit(row.id)"><i class="icon-pencil"></i> Sửa bài viết</a></li>
                                         <li><a :href="null" @click="confirm_delete_item(row.id)"><i class="icon-trash" ></i> Xóa bài viết</a></li>
-                                        <li><a :href="null" v-if="row.accept == 0" @click="acceptPost(row.id)"><i class="icon-check2"></i> Xác nhận bài viết</a></li>
+                                        <li><a :href="null" v-if="row.accept == 0" @click="acceptPostCourse(row.id)"><i class="icon-check2"></i> Xác nhận bài viết</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -74,7 +74,7 @@
     export default {
         mounted(){
             this.setDatatable()
-            this.getPosts()
+            this.getPostCourses()
         },
         props: ['email_address_enterprise']
         ,
@@ -99,7 +99,7 @@
                         paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
                     }
                 });
-                this.table = $('#table').dataTable({});
+                this.table = $('#table_course').dataTable({});
                 // Add placeholder to the datatable filter option
                 $('.dataTables_filter input[type=search]').attr('placeholder','Nhập từ khóa');
 
@@ -121,9 +121,9 @@
             },
 
 
-            getPosts(){
+            getPostCourses(){
                 var vm = this
-                axios.get(vm.configUrl.API_ADMIN_JOB_MANAGE_GET_LIST_JOB,{
+                axios.get(vm.configUrl.API_ADMIN_POST_COURSE_MANAGE_GET_LIST_POST_COURSE,{
                     params:{
                         email_address_enterprise: vm.email_address_enterprise
                     }
@@ -140,7 +140,7 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete(vm.configUrl.API_ENTERPRISE_POST+'/'+ id).then(data => {
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST_COURSE+'/'+ id).then(data => {
                     vm.dataRows = vm.dataRows.filter(value =>{
                         return value.id !=id
                     })
@@ -158,13 +158,13 @@
                 })
 
             },
-            acceptPost(id){
+            acceptPostCourse(id){
                 let vm = this
-                axios.put(vm.configUrl.API_ADMIN_JOB_MANAGE_ACCEPT_POST(id)).then(data => {
+                axios.put(vm.configUrl.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE(id)).then(data => {
                     let index = vm.dataRows.findIndex((item) => {
-                            return item.id == id
+                        return item.id == id
                     })
-                    console.log(index)
+                   
                     vm.dataRows[index].accept = 1
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
@@ -182,7 +182,7 @@
             },
             openEdit(id){
                 let vm = this
-                window.open(vm.configUrl.WEB_ADMIN_JOB_MANAGE_JOBS_ID(id),'_blank')
+                window.open(vm.configUrl.WEB_ADMIN_POST_COURSE(id),'_blank')
             }
         },
         data(){

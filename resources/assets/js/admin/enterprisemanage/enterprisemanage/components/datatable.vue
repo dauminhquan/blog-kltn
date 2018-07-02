@@ -32,7 +32,7 @@
             </tbody>
         </table>
 
-        <!-- modal push excel -->
+
         <div id="modal-push-excel" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
@@ -56,8 +56,7 @@
                 </div>
             </div>
         </div>
-        <!-- /inline form modal -->
-        <!-- Danger modal -->
+
         <div id="modal_danger" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -85,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <!-- /default modal -->
+
     </div>
 </template>
 <script>
@@ -116,7 +115,7 @@
         },
         mounted(){
                 this.setDatatable()
-            // console.log(this.table.fnGetData())
+
 
         },
         beforeUpdate(){
@@ -361,15 +360,6 @@
                 configUrl: new configUrl()
 
             }
-        },
-        watch:{
-            getDataRows: {
-                    handler(old){
-                        // console.log(old)
-                        // console.log($('#table_body').html())
-                    },
-                    deep: true
-                }
         },
     }
 </script>

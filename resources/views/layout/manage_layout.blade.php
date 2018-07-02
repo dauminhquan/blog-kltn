@@ -21,7 +21,7 @@
 
 <body>
 
-<!-- Main navbar -->
+
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
         <a class="navbar-brand" href="index.html"><img src="{{asset("assets/images/logo_light.png")}}" alt=""></a>
@@ -572,8 +572,8 @@
 
     <div class="navbar-collapse collapse" id="navbar-second-toggle">
         <ul class="nav navbar-nav">
-            <li><a href="index.html"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
-            <li><a href="index.html"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
+            <li><a href="{{route('home')}}"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
+            <li><a href="{{route('job.list.job')}}"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
             <li><a href="index.html"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
             <li><a href="index.html"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
 
@@ -586,9 +586,6 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined">Quản lý thư</span>
                                 <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-stack2"></i> Gửi thư</a>
-                                    </li>
                                     <li>
                                         <a href="#"><i class="icon-align-center-horizontal"></i> Thư đến</a>
                                     </li>
@@ -606,21 +603,24 @@
                                     <li>
                                         <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý thông tin doanh nghiệp</a>
                                         <ul>
-                                            <li><a href="sidebar_mini_collapse.html">Thêm mới doanh nghiệp</a></li>
-                                            <li><a href="sidebar_mini_collapse.html">Danh sách doanh nghiệp</a></li>
+                                            <li><a href="{{route('admin.enterprise.manage.index')}}">Danh sách doanh nghiệp</a></li>
+                                            <li><a href="{{route('admin.enterprise.manage.add.enterprise')}}">Thêm mới doanh nghiệp</a></li>
+
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý các bài viết của doanh nghiệp</a>
+                                        <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý các bài viết công việc</a>
                                         <ul>
-                                            <li><a href="sidebar_mini_collapse.html">Danh sách doanh nghiệp</a></li>
+                                            <li><a href="{{route('admin.job.manage.jobs')}}">Danh sách bài viết doanh nghiệp</a></li>
+                                            <li><a href="{{route('admin.job.manage.position')}}">Danh sách vị trí</a></li>
+                                            <li><a href="{{route('admin.job.manage.skill')}}">Danh sách kỹ năng</a></li>
                                         </ul>
                                     </li>
 
                                     <li>
                                         <a href="#"><i class="icon-indent-decrease2"></i> Quản lý các khóa học doanh nghiệp</a>
                                         <ul>
-                                            <li><a href="sidebar_mini_collapse.html">Danh sách khóa học</a></li>
+                                            <li><a href="{{route('admin.post.courses')}}">Danh sách khóa học</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -629,7 +629,7 @@
                                 <span class="menu-heading underlined">Quản lý sinh viên</span>
                                 <ul class="menu-list">
                                     <li>
-                                        <a href="#"><i class="icon-graph"></i> Danh sách sinh viên</a>
+                                        <a href="{{route('admin.student.manage.index')}}"><i class="icon-graph"></i> Danh sách sinh viên</a>
 
                                     </li>
                                 </ul>

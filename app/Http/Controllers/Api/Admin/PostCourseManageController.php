@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Models\Enterprise;
 use App\Models\Position;
 use App\Models\Post;
 use App\Models\PostCourse;
 use App\Models\Skill;
+use App\Models\User;
 use App\Services\GetDataService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,6 +18,17 @@ class PostCourseManageController extends Controller
 
     public function get_list_post_course(Request $request)
     {
+        if($request->has('email_address_enterprise'))
+        {
+            $user = User::where('user_name',$request->email_address_enterprise)->first();
+            if($user != null)
+            {
+                $id_enterprise = $user->enterprise->id;
+                return Enterprise::findOrFail($id_enterprise)->post_courses()->select('accept','created_at','id','title_post_course')->get();
+            }
+            return [];
+        }
+
 
         $post_courses = PostCourse::all();
         foreach ($post_courses as $item)

@@ -439,7 +439,7 @@ class GetDataService
         $positions = $post->positions()->select('positions.id')->get();
 
         $similar = Post::join('enterprises','enterprises.id','posts.id_enterprise')->select('posts.id','posts.id_enterprise','posts.title_post'
-            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->where('posts.id','!=',$post->id);
+            ,'posts.description_post','posts.updated_at','enterprises.name_enterprise','enterprises.address_enterprise','enterprises.avatar_enterprise')->where('posts.id','!=',$post->id)->where('posts.accept',1);
 
         if($skills != null && gettype($skills) == 'array' && count($skills) > 0)
         {

@@ -1,7 +1,7 @@
 <template>
     <div class="tab-pane fade" id="list_post">
 
-        <!-- Orders history -->
+
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h6 class="panel-title">Thông tin về công việc</h6>
@@ -24,7 +24,7 @@
                     <tr v-for="row in dataRows">
                         <td>{{row.id}}</td>
                         <td>
-                            <div class="text-semibold"><a href="task_manager_detailed.html">{{row.title_post}}</a></div>
+                            <div class="text-semibold"><a :href="null">{{row.title_post}}</a></div>
                             <div class="text-muted">{{row.description_post}}</div>
                         </td>
                         <td>
@@ -35,9 +35,9 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="#" class="label label-danger" v-if="row.accept == 0">Không được đăng</a>
-                                <a href="#" class="label label-default" v-if="row.accept == -1">Đang đợi</a>
-                                <a href="#" class="label label-success" v-if="row.accept == 1">Đã đăng</a>
+                                <a :href="null" class="label label-danger" v-if="row.accept == -1">Không được đăng</a>
+                                <a :href="null" class="label label-default" v-if="row.accept == 0">Đang đợi</a>
+                                <a :href="null" class="label label-success" v-if="row.accept == 1">Đã đăng</a>
 
                             </div>
                         </td>
@@ -50,8 +50,9 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-right">
 
-                                        <li><a href="#"><i class="icon-search4"></i> Xem chi tiết bài viết</a></li>
-                                        <li><a href="#"><i class="icon-trash"></i> Xóa bài viết</a></li>
+                                        <li><a :href="null" @click="openEdit(row.id)"><i class="icon-pencil"></i> Sửa bài viết</a></li>
+                                        <li><a :href="null" @click="confirm_delete_item(row.id)"><i class="icon-trash" ></i> Xóa bài viết</a></li>
+                                        <li><a :href="null" v-if="row.accept == 0" @click="acceptPost(row.id)"><i class="icon-check2"></i> Xác nhận bài viết</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -118,41 +119,7 @@
                 })
 
             },
-            confirm_delete(){
-                var vm = this
-                vm.deleting = true
-                axios.delete(/*vm.configUrl.API_ADMIN_JOB_MANAGE_DELETE */'/api/admin/post-manage/delete-list-post',
-                    {
-                        params: {
-                            list_id_post : vm.id_item_selected
-                        }
-                    }).then(data => {
-                    vm.posts = vm.posts.filter(value =>{
-                        return vm.id_item_selected.indexOf(value.id) == -1
-                    })
-                    var rows_selected = vm.fnGetSelected(vm.table)
 
-                    for (var i = 0; i < rows_selected.length; i++) {
-                        vm.table.fnDeleteRow(rows_selected[i])
-                    };
-
-                    vm.deleting = false
-                    $('#modal_danger').modal('hide')
-                    new PNotify({
-                        title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' doanh nghiệp',
-                        addclass: 'bg-success'
-                    });
-                    vm.id_item_selected = []
-                }).catch(err => {
-                    new PNotify({
-                        title: 'Ohh! Có lỗi xảy ra rồi!',
-                        text: 'Đã có lỗi từ serve',
-                        addclass: 'bg-danger'
-                    });
-                })
-
-            },
 
             getPosts(){
                 var vm = this
@@ -173,26 +140,15 @@
             confirm_delete_item(id){
                 var vm = this
                 vm.deleting = true
-                axios.delete('/api/admin/post-manage/delete-post',
-                    {
-                        params: {
-                            id : id
-                        }
-                    }).then(data => {
-                    vm.posts = vm.posts.filter(value =>{
+                axios.delete(vm.configUrl.API_ENTERPRISE_POST+'/'+ id).then(data => {
+                    vm.dataRows = vm.dataRows.filter(value =>{
                         return value.id !=id
                     })
-                    var rows_selected = vm.fnGetSelected(vm.table)
-
-                    for (var i = 0; i < rows_selected.length; i++) {
-                        vm.table.fnDeleteRow(rows_selected[i])
-                    };
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: 'Đã xóa thành công doanh nghiệp',
                         addclass: 'bg-success'
                     });
-                    vm.id_item_selected = []
                 }).catch(err => {
                     new PNotify({
                         title: 'Ohh! Có lỗi xảy ra rồi!',
@@ -202,12 +158,39 @@
                 })
 
             },
+            acceptPost(id){
+                let vm = this
+                axios.put(vm.configUrl.API_ADMIN_JOB_MANAGE_ACCEPT_POST(id)).then(data => {
+                    let index = vm.dataRows.findIndex((item) => {
+                            return item.id == id
+                    })
+
+                    vm.dataRows[index].accept = 1
+                    new PNotify({
+                        title: 'Ohh Yeah! Thành công!',
+                        text: 'Chấp nhận thành công',
+                        addclass: 'bg-success'
+                    });
+                }).catch(err => {
+                    console.dir(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi từ server',
+                        addclass: 'bg-danger'
+                    });
+                })
+            },
+            openEdit(id){
+                let vm = this
+                window.open(vm.configUrl.WEB_ADMIN_JOB_MANAGE_JOBS_ID(id),'_blank')
+            }
         },
         data(){
             return {
                 table: '',
                 dataRows: [],
-                configUrl: new configUrl()
+                configUrl: new configUrl(),
+
             }
         }
     }
