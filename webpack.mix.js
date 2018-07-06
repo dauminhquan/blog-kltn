@@ -62,8 +62,16 @@ mix.js('resources/assets/js/enterprise/postcoursesmanage/postcoursesmanage/postc
 
 mix.js('resources/assets/js/enterprise/postcoursesmanage/updatepostcourse/updatepostcourse.js', 'public/assets/js/build/pages/enterprise/post-course-manage/update-post-course.js');
 
+mix.js('resources/assets/js/enterprise/profile/infoenterprise.js', 'public/assets/js/build/pages/enterprise/profile.js');
+
 //!-- enterprise
 //dung chung
+
+// -- student
+
+mix.js('resources/assets/js/student/profile/profilestudent.js', 'public/assets/js/build/pages/student/profile.js');
+
+//!-- student
 
 //job
 

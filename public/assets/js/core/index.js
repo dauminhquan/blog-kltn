@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 387);
+/******/ 	return __webpack_require__(__webpack_require__.s = 425);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -545,7 +545,27 @@ var Config = function Config() {
         this.API_ENTERPRISE_POST = this.API_ENTERPRISE + '/post';
         this.API_ENTERPRISE_POST_COURSE = this.API_ENTERPRISE + '/post-course';
 
+        this.API_ENTERPRISE_OPTION_PROFILE = this.API_ENTERPRISE + '/option-profile';
+        this.API_ENTERPRISE_INFO = this.API_ENTERPRISE + '/info';
+        this.API_ENTERPRISE_EMPLOYEES = this.API_ENTERPRISE + '/employees';
         /*API ENTERPRISE*/
+
+        /*API STUDENT*/
+
+        this.API_STUDENT = this.API + '/student';
+        this.API_STUDENT_OPTION_PROFILE = this.API_STUDENT + '/option-profile';
+        this.API_STUDENT_INFO = this.API_STUDENT + '/info';
+        this.API_STUDENT_WORKS = this.API_STUDENT + '/works';
+
+        this.API_STUDENT_GET_LIST_ENTERPRISE = this.API_STUDENT + '/get-list-enterprise';
+
+        this.API_STUDENT_ADD_WORK_STUDENT_EXCEL = this.API_STUDENT + '/add-work-excel';
+        this.API_STUDENT_ADD_WORK_STUDENT = this.API_STUDENT + '/add-work';
+
+        this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_STUDENT + '/delete-work/' + ID;
+        };
+        /*API STUDENT*/
 
         /*API JOB*/
         this.API_JOB = this.API + '/job';
@@ -1773,65 +1793,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*
 
 /***/ }),
 
-/***/ 387:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(388);
-
-
-/***/ }),
-
-/***/ 388:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
-
-
-window.Cookies = __webpack_require__(34);
-
-var token = window.Cookies('token');
-__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/checkLogin').then(function (data) {}).catch(function (err) {
-    __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/logout').then(function (data) {
-        window.location = window.location.origin + '/login';
-    }).catch(function (err) {
-        console.log(err);
-        new PNotify({
-            title: 'Ohh! Có lỗi xảy ra rồi!',
-            text: 'Đã có lỗi xảy ra từ server!',
-            addclass: 'bg-danger'
-        });
-    });
-});
-$(document).ready(function () {
-    $('#logout').click(function () {
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/logout').then(function (data) {
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/logout').then(function (data) {
-                window.location = window.location.origin + '/login';
-            }).catch(function (err) {
-                console.log(err);
-                new PNotify({
-                    title: 'Ohh! Có lỗi xảy ra rồi!',
-                    text: 'Đã có lỗi xảy ra từ server!',
-                    addclass: 'bg-danger'
-                });
-            });
-        }).catch(function (err) {
-            new PNotify({
-                title: 'Ohh! Có lỗi xảy ra rồi!',
-                text: 'Đã có lỗi xảy ra từ server!',
-                addclass: 'bg-danger'
-            });
-        });
-    });
-});
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -2020,6 +1981,65 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+
+/***/ 425:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(426);
+
+
+/***/ }),
+
+/***/ 426:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
+
+
+window.Cookies = __webpack_require__(34);
+
+var token = window.Cookies('token');
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/checkLogin').then(function (data) {}).catch(function (err) {
+    __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/logout').then(function (data) {
+        window.location = window.location.origin + '/login';
+    }).catch(function (err) {
+        console.log(err);
+        new PNotify({
+            title: 'Ohh! Có lỗi xảy ra rồi!',
+            text: 'Đã có lỗi xảy ra từ server!',
+            addclass: 'bg-danger'
+        });
+    });
+});
+$(document).ready(function () {
+    $('#logout').click(function () {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/logout').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/logout').then(function (data) {
+                window.location = window.location.origin + '/login';
+            }).catch(function (err) {
+                console.log(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi xảy ra từ server!',
+                    addclass: 'bg-danger'
+                });
+            });
+        }).catch(function (err) {
+            new PNotify({
+                title: 'Ohh! Có lỗi xảy ra rồi!',
+                text: 'Đã có lỗi xảy ra từ server!',
+                addclass: 'bg-danger'
+            });
+        });
+    });
+});
 
 /***/ }),
 

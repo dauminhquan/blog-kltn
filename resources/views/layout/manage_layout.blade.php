@@ -4,16 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+    <title>UEC ThangLong University | Thang Long University</title>
 
-    <!-- Global stylesheets -->
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="{{asset("assets/css/icons/icomoon/styles.css")}}" rel="stylesheet" type="text/css">
     <link href="{{asset("assets/css/bootstrap.css")}}" rel="stylesheet" type="text/css">
     <link href="{{asset("assets/css/core.css")}}" rel="stylesheet" type="text/css">
     <link href="{{asset("assets/css/components.css")}}" rel="stylesheet" type="text/css">
     <link href="{{asset("assets/css/colors.css")}}" rel="stylesheet" type="text/css">
-    <!-- /global stylesheets -->
+
 
 
 
@@ -236,472 +236,265 @@
         </ul>
     </div>
 </div>
-<!-- /main navbar -->
 
 
-<!-- Second navbar -->
+
+
 <div class="navbar navbar-default" id="navbar-second">
     <ul class="nav navbar-nav no-border visible-xs-block">
         <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
     </ul>
-{{--Sinh viên--}}
-{{--<div class="navbar-collapse collapse" id="navbar-second-toggle">--}}
-{{--<ul class="nav navbar-nav">--}}
-{{--<li><a href="index.html"><i class="icon-display4 position-left"></i> Trang chủ</a></li>--}}
-{{--<li><a href="index.html"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>--}}
-{{--<li><a href="index.html"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>--}}
-{{--<li><a href="index.html"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>--}}
-{{--<li class="dropdown">--}}
-{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}
-{{--<i class="icon-make-group position-left"></i> Quản lý thư <span class="caret"></span>--}}
-{{--</a>--}}
 
-{{--<ul class="dropdown-menu width-250">--}}
-{{--<li class="dropdown-header">Quản lý thư</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-task"></i> Gửi thư</a>--}}
-{{--</li>--}}
+    @if(Auth::guard('web')->user()->type == 3)
 
-{{--<li>--}}
-{{--<a href="#"><i class="icon-images2"></i>Hộp thư đến</a>--}}
-{{--</li>--}}
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav">
+                <li><a href="{{route('home')}}"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
+                <li><a href="{{route('job.list.job')}}"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
+                <li><a href="#"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
+                <li><a href="#"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
 
-{{--<li>--}}
-{{--<a href="#"><i class="icon-grid6"></i> Thùng rác</a>--}}
-{{--</li>--}}
+                <li class="dropdown">
+                    <a href="{{route('student.profile')}}">
+                        <i class="icon-profile position-left"></i> Thông tin cá nhân
+                    </a>
 
-{{--</ul>--}}
-{{--</li>--}}
-{{--<li class="dropdown">--}}
-{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}
-{{--<i class="icon-make-group position-left"></i> Quản lý khóa học <span class="caret"></span>--}}
-{{--</a>--}}
+                </li>
+            </ul>
 
-{{--<ul class="dropdown-menu width-250">--}}
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="changelog.html">
+                        <i class="icon-history position-left"></i>
+                        Changelog
+                        <span class="label label-inline position-right bg-success-400">1.5</span>
+                    </a>
+                </li>
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Share</span>
+                        <span class="caret"></span>
+                    </a>
 
-{{--<li>--}}
-{{--<a href="#"><i class="icon-grid6"></i> Quản lý khóa học của bạn</a>--}}
-{{--</li>--}}
+                    <ul class="dropdown-menu dropdown-menu-right">
 
-{{--<li class="dropdown-header">Danh sách khóa học của bạn</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-task"></i> Khóa học 1</a>--}}
-{{--</li>--}}
+                        <li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>
 
-{{--<li>--}}
-{{--<a href="#"><i class="icon-images2"></i>Khóa học 2</a>--}}
-{{--</li>--}}
-
-{{--</ul>--}}
-{{--</li>--}}
-{{--<li class="dropdown">--}}
-{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}
-{{--<i class="icon-make-group position-left"></i> Tuyển dụng <span class="caret"></span>--}}
-{{--</a>--}}
-
-{{--<ul class="dropdown-menu width-250">--}}
-{{--<li class="dropdown-header">Quản lý tuyển dụng</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-task"></i> Đăng tin</a>--}}
-{{--</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-task"></i> Gửi thư</a>--}}
-{{--</li>--}}
-
-{{--<li>--}}
-{{--<a href="#"><i class="icon-images2"></i>Hộp thư đến</a>--}}
-{{--</li>--}}
-
-{{--<li>--}}
-{{--<a href="#"><i class="icon-grid6"></i> Thùng rác</a>--}}
-{{--</li>--}}
-
-{{--</ul>--}}
-{{--</li>--}}
-{{--<li class="dropdown mega-menu mega-menu-wide">--}}
-{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-stars position-left"></i> Quản lý thông tin <span class="caret"></span></a>--}}
-
-{{--<div class="dropdown-menu dropdown-content">--}}
-{{--<div class="dropdown-content-body">--}}
-{{--<div class="row">--}}
-{{--<div class="col-md-3">--}}
-{{--<span class="menu-heading underlined">Quản lý Sinh viên</span>--}}
-{{--<ul class="menu-list">--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-stack2"></i> Danh sách sinh viên</a>--}}
-{{--</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-align-center-horizontal"></i> Thêm mới sinh viên</a>--}}
-{{--</li>--}}
-{{--</ul>--}}
-{{--</div>--}}
-{{--<div class="col-md-3">--}}
-{{--<span class="menu-heading underlined">Quản lý Doanh nghiệp</span>--}}
-{{--<ul class="menu-list">--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-indent-decrease2"></i> Danh sách doanh nghiệp</a>--}}
-
-{{--</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-sort"></i> Thêm mới doanh nghiệp</a>--}}
-{{--</li>--}}
-{{--</ul>--}}
-{{--</div>--}}
-{{--<div class="col-md-3">--}}
-{{--<span class="menu-heading underlined">Bài đăng</span>--}}
-{{--<ul class="menu-list">--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-graph"></i> Danh sách bài đăng</a>--}}
-
-{{--</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-statistics"></i> Các bài đăng đang đợi duyệt</a>--}}
-{{--</li>--}}
-{{--</ul>--}}
-{{--</div>--}}
-{{--<div class="col-md-3">--}}
-{{--<span class="menu-heading underlined">Thông báo đến doanh nghiệp</span>--}}
-{{--<ul class="menu-list">--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-graph"></i> Danh sách thông báo</a>--}}
-
-{{--</li>--}}
-{{--<li>--}}
-{{--<a href="#"><i class="icon-statistics"></i> Tạo thông báo đến doanh nghiệp</a>--}}
-{{--</li>--}}
-{{--</ul>--}}
-{{--</div>--}}
-
-{{--</div>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--</li>--}}
-{{--<li class="dropdown mega-menu mega-menu-wide">--}}
-{{--<a href="#"><i class="icon-stars position-left"></i> Sinh viên trúng tuyển <span class="caret"></span></a>--}}
-
-
-{{--</li>--}}
-
-{{--<li class="dropdown">--}}
-{{--<a href="dsadsa.html">--}}
-{{--<i class="icon-strategy position-left"></i> Hỗ trợ--}}
-{{--hiển thị ra form nhập thư. Type là hỗ trợ--}}
-{{--</a>--}}
-
-{{--</li>--}}
-{{--<li class="dropdown">--}}
-{{--<a href="dsadsa.html">--}}
-{{--<i class="icon-strategy position-left"></i> Thống kê--}}
-{{--</a>--}}
-
-{{--</li>--}}
-{{--<li class="dropdown">--}}
-{{--<a href="dsadsa.html">--}}
-{{--<i class="icon-strategy position-left"></i> Thông tin cá nhân--}}
-{{--</a>--}}
-
-{{--</li>--}}
-{{--</ul>--}}
-
-{{--<ul class="nav navbar-nav navbar-right">--}}
-{{--<li>--}}
-{{--<a href="changelog.html">--}}
-{{--<i class="icon-history position-left"></i>--}}
-{{--Changelog--}}
-{{--<span class="label label-inline position-right bg-success-400">1.5</span>--}}
-{{--</a>--}}
-{{--</li>--}}
-
-{{--<li class="dropdown">--}}
-{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}
-{{--<i class="icon-cog3"></i>--}}
-{{--<span class="visible-xs-inline-block position-right">Share</span>--}}
-{{--<span class="caret"></span>--}}
-{{--</a>--}}
-
-{{--<ul class="dropdown-menu dropdown-menu-right">--}}
-
-{{--<li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>--}}
-
-{{--<li class="divider"></li>--}}
-{{--<li><a href="#"><i class="icon-gear"></i> All settings</a></li>--}}
-{{--</ul>--}}
-{{--</li>--}}
-{{--</ul>--}}
-{{--</div>--}}
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    @endif
 <!-- //sinh vien-->
 
     <!-- doanh nghiệp -->
-<!--
-    <div class="navbar-collapse collapse" id="navbar-second-toggle">
-        <ul class="nav navbar-nav">
-            <li><a href="index.html"><i class="icon-display4 position-left"></i> Trang chủ</a></li>
-            <li><a href="index.html"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
-            <li><a href="index.html"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
-            <li><a href="index.html"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
+    @if(Auth::guard('web')->user()->type == 2)
 
-            <li class="dropdown mega-menu mega-menu-wide">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-stars position-left"></i> Danh mục <span class="caret"></span></a>
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav">
+                <li><a href="{{route('home')}}"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
+                <li><a href="{{route('job.list.job')}}"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
+                <li><a href="#"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
+                <li><a href="#"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
 
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý thư</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-stack2"></i> Gửi thư</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thư đến</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thư đã gửi</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thùng rác</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý Khóa học</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-sort"></i> Quản lý đăng tin khóa học</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-sort"></i> Quản lý các khóa học của bạn</a>
-                                    </li>
-                                    <li class="dropdown-header"> Danh sách khóa học của bạn</li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-make-group position-left"></i> Danh mục <span class="caret"></span>
+                    </a>
 
-                                    <li>
-                                        <a href="#"><i class="icon-indent-decrease2"></i> Khóa học 1</a>
-                                        <ul>
-                                            <li><a href="sidebar_mini_collapse.html">Quản lý sinh viên</a></li>
+                    <ul class="dropdown-menu width-250">
 
-                                            <li>
-                                                <a href="#">Quản lý bài giảng</a>
-                                                <ul>
-                                                    <li><a href="sidebar_dual.html">Thêm bài giảng</a></li>
-                                                    <li><a href="sidebar_dual_double_collapse.html">Danh sách bài giảng</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Bài đăng</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-graph"></i> Thêm mới bài đăng</a>
+                        <li class="dropdown-submenu">
+                            <a href="#"><i class="icon-book2"></i> Khóa học</a>
+                            <ul class="dropdown-menu width-200">
+                                <li class="dropdown-header highlight">Options</li>
+                                <li><a href="{{route('enterprise.post.course.manage.index')}}">Quản lý khóa học</a></li>
+                                <li><a href="{{route('enterprise.post.course.manage.new.post.course')}}">Thêm mới khóa học</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#"><i class="icon-joomla"></i> Tuyển dụng</a>
+                            <ul class="dropdown-menu width-200">
+                                <li class="dropdown-header highlight">Options</li>
+                                <li><a href="{{route('enterprise.post.manage.index')}}">Quản lý tin</a></li>
+                                <li><a href="{{route('enterprise.post.manage.new.post')}}">Đăng tin</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
 
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-statistics"></i> Danh sách bài đăng của bạn</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý nhân viên</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-graph"></i> Danh sách nhân viên</a>
+                <li class="dropdown">
+                    <a href="{{route('enterprise.profile')}}">
+                        <i class="icon-profile position-left"></i> Thông tin cá nhân
+                    </a>
 
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="dsadsa.html">
-                    <i class="icon-strategy position-left"></i> Hỗ trợ
-                    {{--hiển thị ra form nhập thư. Type là hỗ trợ--}}
-        </a>
-
-    </li>
-{{--<li class="dropdown">--}}
-{{--<a href="dsadsa.html">--}}
-{{--<i class="icon-strategy position-left"></i> Thống kê--}}
-{{--</a>--}}
-
-{{--</li>--}}
-        <li class="dropdown">
-            <a href="dsadsa.html">
-                <i class="icon-strategy position-left"></i> Thông tin cá nhân
-            </a>
-
-        </li>
-    </ul>
-
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a href="changelog.html">
-                <i class="icon-history position-left"></i>
-                Changelog
-                <span class="label label-inline position-right bg-success-400">1.5</span>
-            </a>
-        </li>
-
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-cog3"></i>
-                <span class="visible-xs-inline-block position-right">Share</span>
-                <span class="caret"></span>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-
-                <li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>
-
-                <li class="divider"></li>
-                <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                </li>
             </ul>
-        </li>
-    </ul>
-</div>
--->
-    <!-- //doanh nghiệp -->
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="changelog.html">
+                        <i class="icon-history position-left"></i>
+                        Changelog
+                        <span class="label label-inline position-right bg-success-400">1.5</span>
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Share</span>
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+
+                        <li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>
+
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    @endif
+<!-- //doanh nghiệp -->
 
     <!-- Quản trị viên -->
 
+    @if(Auth::guard('web')->user()->type == 1)
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav">
+                <li><a href="{{route('home')}}"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
+                <li><a href="{{route('job.list.job')}}"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
+                <li><a href="index.html"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
+                <li><a href="index.html"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
 
-    <div class="navbar-collapse collapse" id="navbar-second-toggle">
-        <ul class="nav navbar-nav">
-            <li><a href="{{route('home')}}"><i class=" icon-home2 position-left"></i> Trang chủ</a></li>
-            <li><a href="{{route('job.list.job')}}"><i class=" icon-newspaper position-left"></i> Bảng tin tuyển dụng</a></li>
-            <li><a href="index.html"><i class="icon-display4 position-left"></i> Bảng tin doanh nghiệp đào tạo</a></li>
-            <li><a href="index.html"><i class="icon-bell2 position-left"></i> Thông báo nhà trường</a></li>
+                <li class="dropdown mega-menu mega-menu-wide">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-stars position-left"></i> Danh mục <span class="caret"></span></a>
 
-            <li class="dropdown mega-menu mega-menu-wide">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-stars position-left"></i> Danh mục <span class="caret"></span></a>
+                    <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Quản lý thư</span>
+                                    <ul class="menu-list">
+                                        <li>
+                                            <a href="#"><i class="icon-align-center-horizontal"></i> Thư đến</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="icon-align-center-horizontal"></i> Thư đã gửi</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="icon-align-center-horizontal"></i> Thùng rác</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Quản lý doanh nghiệp</span>
+                                    <ul class="menu-list">
+                                        <li>
+                                            <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý thông tin doanh nghiệp</a>
+                                            <ul>
+                                                <li><a href="{{route('admin.enterprise.manage.index')}}">Danh sách doanh nghiệp</a></li>
+                                                <li><a href="{{route('admin.enterprise.manage.add.enterprise')}}">Thêm mới doanh nghiệp</a></li>
 
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý thư</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thư đến</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thư đã gửi</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-align-center-horizontal"></i> Thùng rác</a>
-                                    </li>
-                                </ul>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý các bài viết công việc</a>
+                                            <ul>
+                                                <li><a href="{{route('admin.job.manage.jobs')}}">Danh sách bài viết doanh nghiệp</a></li>
+                                                <li><a href="{{route('admin.job.manage.position')}}">Danh sách vị trí</a></li>
+                                                <li><a href="{{route('admin.job.manage.skill')}}">Danh sách kỹ năng</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li>
+                                            <a href="#"><i class="icon-indent-decrease2"></i> Quản lý các khóa học doanh nghiệp</a>
+                                            <ul>
+                                                <li><a href="{{route('admin.post.courses')}}">Danh sách khóa học</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Quản lý sinh viên</span>
+                                    <ul class="menu-list">
+                                        <li>
+                                            <a href="{{route('admin.student.manage.index')}}"><i class="icon-graph"></i> Danh sách sinh viên</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Quản lý thông báo đến doanh nghiệp</span>
+                                    <ul class="menu-list">
+                                        <li>
+                                            <a href="#"><i class="icon-graph"></i> Thêm mới thông báo</a>
+
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="icon-statistics"></i> Danh sách thông báo</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
                             </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý doanh nghiệp</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý thông tin doanh nghiệp</a>
-                                        <ul>
-                                            <li><a href="{{route('admin.enterprise.manage.index')}}">Danh sách doanh nghiệp</a></li>
-                                            <li><a href="{{route('admin.enterprise.manage.add.enterprise')}}">Thêm mới doanh nghiệp</a></li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-indent-decrease2"></i>  Quản lý các bài viết công việc</a>
-                                        <ul>
-                                            <li><a href="{{route('admin.job.manage.jobs')}}">Danh sách bài viết doanh nghiệp</a></li>
-                                            <li><a href="{{route('admin.job.manage.position')}}">Danh sách vị trí</a></li>
-                                            <li><a href="{{route('admin.job.manage.skill')}}">Danh sách kỹ năng</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <a href="#"><i class="icon-indent-decrease2"></i> Quản lý các khóa học doanh nghiệp</a>
-                                        <ul>
-                                            <li><a href="{{route('admin.post.courses')}}">Danh sách khóa học</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý sinh viên</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="{{route('admin.student.manage.index')}}"><i class="icon-graph"></i> Danh sách sinh viên</a>
-
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined">Quản lý thông báo đến doanh nghiệp</span>
-                                <ul class="menu-list">
-                                    <li>
-                                        <a href="#"><i class="icon-graph"></i> Thêm mới thông báo</a>
-
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icon-statistics"></i> Danh sách thông báo</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#">
-                    <i class=" icon-phone-wave position-left"></i> Hỗ trợ
+                </li>
+                <li class="dropdown">
+                    <a href="#">
+                        <i class=" icon-stats-growth position-left"></i> Thống kê
+                    </a>
 
-                </a>
 
-            </li>
-            <li class="dropdown">
-                <a href="#">
-                    <i class=" icon-stats-growth position-left"></i> Thống kê
-                </a>
+                <li class="dropdown">
+                    <a href="#">
+                        <i class="icon-profile position-left"></i> Thông tin cá nhân
+                    </a>
 
-            {{--</li>--}}
-            <li class="dropdown">
-                <a href="#">
-                    <i class="icon-profile position-left"></i> Thông tin cá nhân
-                </a>
+                </li>
+            </ul>
 
-            </li>
-        </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="changelog.html">
+                        <i class="icon-history position-left"></i>
+                        Changelog
+                        <span class="label label-inline position-right bg-success-400">1.5</span>
+                    </a>
+                </li>
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="changelog.html">
-                    <i class="icon-history position-left"></i>
-                    Changelog
-                    <span class="label label-inline position-right bg-success-400">1.5</span>
-                </a>
-            </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right">Share</span>
+                        <span class="caret"></span>
+                    </a>
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-cog3"></i>
-                    <span class="visible-xs-inline-block position-right">Share</span>
-                    <span class="caret"></span>
-                </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
 
-                <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>
 
-                    <li><a href="#"><i class="icon-statistics"></i> Thống kê</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+@endif
 
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
 
-    <!-- //Quản trị viên -->
+<!-- //Quản trị viên -->
 </div>
 <!-- /second navbar -->
 
@@ -709,7 +502,7 @@
 <!-- Page header -->
 <div class="page-header">
     @section('header-content')
-        @show
+    @show
 </div>
 <!-- /page header -->
 
@@ -724,7 +517,7 @@
     @section("page-content")
 
     @show
-        <!-- /main content -->
+    <!-- /main content -->
 
     </div>
     <!-- /page content -->

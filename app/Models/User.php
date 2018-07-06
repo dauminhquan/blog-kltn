@@ -47,5 +47,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\OauthAccessTokens','user_id','id');
     }
+    public function employees()
+    {
+        return $this->hasMany(Employee::class,'user_enterprise','user_name');
+    }
+    public function works()
+    {
+        return $this->hasMany(Employee::class,'code_student','user_name');
+    }
 
 }

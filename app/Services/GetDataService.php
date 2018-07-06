@@ -192,6 +192,13 @@ class GetDataService
     public function getOptionEnterprise($email_address_enterprise,$option)
     {
 
+        if(Auth::user()->type == 2)
+        {
+            if(Auth::user()->user_name != $email_address_enterprise)
+            {
+                return response()->json(['message' => 'Khong du quyen'],406);
+            }
+        }
         $user = User::where(DB::raw('LOWER(user_name)'), strtolower($email_address_enterprise))->first();
         if ($user != null)
         {
@@ -217,10 +224,18 @@ class GetDataService
     }
     public function getEnterprise()
     {
+
         return Enterprise::join('users',"users.id","enterprises.id_user")->select('enterprises.*',DB::raw('users.user_name as user_enterprise'))->get();
     }
     public function getEnterpriseWithEmailAddressEnterprise($email_address_enterprise)
     {
+        if(Auth::user()->type == 2)
+        {
+            if(Auth::user()->user_name != $email_address_enterprise)
+            {
+                return response()->json(['message' => 'Khong du quyen'],406);
+            }
+        }
         $user = User::where(DB::raw('LOWER(user_name)'), $email_address_enterprise)->first();
         if ($user != null)
         {
@@ -232,6 +247,9 @@ class GetDataService
         }
     }
     public function getEmployeesEnterprise(Request $request){
+
+
+
         $validator = Validator::make($request->all(),[
             'email_address_enterprise' => 'required|exists:users,user_name'
         ],[
@@ -243,7 +261,13 @@ class GetDataService
             return response($validator->errors(),406);
 
         }
-
+        if(Auth::user()->type == 2)
+        {
+            if(Auth::user()->user_name != $request->email_address_enterprise)
+            {
+                return response()->json(['message' => 'Khong du quyen'],406);
+            }
+        }
         $enterprise = Employee::where('user_enterprise',$request->email_address_enterprise)->get();
         $employees = [];
 

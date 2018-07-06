@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\GetDataService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PostCourseManageController extends Controller
@@ -20,6 +21,13 @@ class PostCourseManageController extends Controller
     {
         if($request->has('email_address_enterprise'))
         {
+            if(Auth::user()->type == 2)
+            {
+                if(Auth::user()->user_name != $request->email_address_enterprise)
+                {
+                    return response()->json(['message' => 'Khong du quyen'],406);
+                }
+            }
             $user = User::where('user_name',$request->email_address_enterprise)->first();
             if($user != null)
             {

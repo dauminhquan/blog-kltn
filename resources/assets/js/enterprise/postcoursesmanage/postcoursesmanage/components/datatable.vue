@@ -216,11 +216,7 @@
 
             getPostCourse(){
                 var vm = this
-                axios.get(vm.configUrl.API_ENTERPRISE_POST_COURSE,{
-                    params:{
-                        get_all : true
-                    }
-                }).then(data => {
+                axios.get(vm.configUrl.API_ENTERPRISE_POST_COURSE).then(data => {
                     vm.dataRows = data.data
                     vm.posts = data.data
                 }).catch(err => {

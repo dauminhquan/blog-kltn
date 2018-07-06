@@ -24,7 +24,7 @@ Route::group(['middleware' => 'web.check.login'],function (){
 
 //admin
 
-    Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin',/*'middleware' => 'web.check.admin'*/],function (){
+    Route::group(['prefix' => 'admin','as' => 'admin.','namespace' => 'Admin','middleware' => 'web.check.admin'],function (){
         Route::group(['prefix' => 'student-manage','as' => 'student.manage.'],function (){
             Route::get('/',['as' => "index","uses" => 'StudentManageController@studentManage']);
             Route::get('/add-student',['as' => "add.student","uses" => 'StudentManageController@addStudent']);
@@ -55,7 +55,7 @@ Route::group(['middleware' => 'web.check.login'],function (){
         Route::get('/post-course/{id}',['as' => "post.course.id","uses" => 'PostCourseManageController@updatePostcourse']);
 
     });
-    Route::group(['prefix' => 'enterprise','as' => 'enterprise.','namespace' => 'Enterprise',/*'middleware' => 'web.check.enterprise'*/],function (){
+    Route::group(['prefix' => 'enterprise','as' => 'enterprise.','namespace' => 'Enterprise','middleware' => 'web.check.enterprise'],function (){
         Route::group(['as' => 'post.manage.'],function (){
             Route::get('new-post',['as' => 'new.post','uses' =>'PostsManageController@new_post']);
             Route::get('post-manage',['as' => 'index','uses' => 'PostsManageController@post_manage']);
@@ -66,12 +66,17 @@ Route::group(['middleware' => 'web.check.login'],function (){
             Route::get('post-course-manage',['as' => 'index','uses' => 'PostCoursesManageController@post_course_manage']);
             Route::get('post-course/{id}',['as' => 'post.course.update','uses' => 'PostCoursesManageController@update_post_course']);
         });
+        Route::get('/profile',['as' =>'profile','uses' => 'ProfileManageController@index' ]);
     });
 
     Route::group(['prefix' => 'job','as' => 'job.','namespace' => 'Job'],function (){
         Route::get('list-job',['as' => 'list.job','uses' =>'JobController@list_job']);
         Route::get('job-detail/{id}',['as' => 'job.detail','uses' =>'JobController@job_detail']);
         Route::get('file/{id}',['as' => 'file.id','uses' =>'JobController@file']);
+    });
+
+    Route::group(['prefix' => 'student','as' => 'student.','namespace' => 'Student'],function (){
+        Route::get('/profile',['as' =>'profile','uses' => 'ProfileManageController@index' ]);
     });
 
 });

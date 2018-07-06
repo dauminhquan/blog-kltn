@@ -72,6 +72,8 @@ class Kernel extends HttpKernel
         'api.check.enterprise.or.admin' => ApiCheckEnterpriseOrAdmin::class,
 
         'api.check.student' => ApiCheckStudent::class,
+
+
         'web.check.admin' => WebCheckAdmin::class,
         'web.check.enterprise' => WebCheckEnterprise::class,
         'web.check.student' => WebCheckStudent::class,

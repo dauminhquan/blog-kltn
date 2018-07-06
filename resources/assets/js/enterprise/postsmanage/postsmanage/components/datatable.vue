@@ -191,7 +191,7 @@
                     $('#modal_danger').modal('hide')
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
-                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' sinh viên',
+                        text: 'Đã xóa thành công '+vm.id_item_selected.length+' bài viết',
                         addclass: 'bg-success'
                     });
                     vm.id_item_selected = []
@@ -216,11 +216,7 @@
 
             getPosts(){
                 var vm = this
-                axios.get(vm.configUrl.API_ADMIN_JOB_MANAGE_GET_LIST_JOB,{
-                    params:{
-                        get_all : true
-                    }
-                }).then(data => {
+                axios.get(vm.configUrl.API_ENTERPRISE_POST).then(data => {
                     vm.dataRows = data.data
                     vm.posts = data.data
                 }).catch(err => {

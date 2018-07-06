@@ -38,10 +38,10 @@
                             </a>
                         </td>
                         <td>
-                            <a :href="openInfoEnterprise(work.user_enterprise)" target="_blank" class="text-semibold">{{work.name_enterprise}}</a>
+                            <a :href="openInfoEnterprise(work.user_enterprise)" class="text-semibold">{{work.name_enterprise}}</a>
                             <div class="text-muted text-size-small" style="width: 200px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap">
-                                <span class="status-mark bg-grey position-left"></span>
-                                {{work.introduce_enterprise}}
+                                <span class="status-mark bg-grey position-left" v-html="work.introduce_enterprise"></span>
+
                             </div>
                         </td>
                         <td>{{work.time_start}}</td>
@@ -58,7 +58,7 @@
                 </table>
             </div>
         </div>
-        <!-- /orders history -->
+
         <div id="modal-push-excel" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content text-center">
@@ -214,7 +214,8 @@
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         props: ['code_student'],
         data() {
@@ -241,15 +242,16 @@
                     code_student: '',
                     email_address_enterprise: ''
                 },
-                listEnterprise: []
+                listEnterprise: [],
+                configUrl: new configUrl()
             }
         },
         methods: {
             getWorkStudent()
             {
                 var vm = this
-                axios.get('/api/admin/student-manage/get-work-student?code_student='+vm.code_student).then(data => {
-                    console.log(data)
+                axios.get(vm.configUrl.API_ADMIN_STUDENT_MANAGE_GET_WORK_STUDENT+'?code_student='+vm.code_student).then(data => {
+
                     vm.work_student = data.data
                 }).catch(err => {
                     console.log(err)
@@ -260,7 +262,7 @@
             },
             openInfoEnterprise(email_address_enterprise)
             {
-                return window.location.origin+'/admin/enterprise-manage/info-enterprise?user_enterprise='+email_address_enterprise
+                return null
             },
             showModalExcel()
             {
@@ -302,7 +304,7 @@
 
                 var vm = this
                 vm.editingWork = true
-                axios.post('/api/admin/student-manage/update-work-student/'+vm.idEmployee,vm.work).then(data => {
+                axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_WORK_STUDENT(vm.idEmployee),vm.work).then(data => {
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: data.data.message,
@@ -337,7 +339,7 @@
             AddWork(){
                 var vm = this
                 vm.newWork.code_student = vm.code_student
-                axios.post('/api/admin/student-manage/add-work-student',vm.newWork).then(data => {
+                axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT,vm.newWork).then(data => {
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: 'Thêm mới thành công',
@@ -357,7 +359,7 @@
             },
             getEnterprise(){
                 var vm = this
-                axios.get('/api/admin/student-manage/get-list-enterprise').then(data =>{
+                axios.get(vm.configUrl.API_ADMIN_STUDENT_MANAGE_GET_LIST_ENTERPRISE).then(data =>{
                         vm.listEnterprise = data.data
                     }).catch(err=>{
                     console.dir(err)
@@ -372,7 +374,7 @@
 
                 var vm =this
                 vm.editingWork = true
-                axios.delete('/api/admin/student-manage/delete-work-student/'+vm.idEmployee,vm.work).then(data => {
+                axios.delete(vm.configUrl.API_ADMIN_STUDENT_MANAGE_DELETE_WORK_STUDENT(vm.idEmployee),vm.work).then(data => {
                     vm.work_student = vm.work_student.filter(item => {
                         return item.id!= vm.idEmployee
                     })
@@ -409,7 +411,7 @@
                 this.ExcelFileuploading = true
                 var formData = new FormData()
                 formData.append('ExcelFileUpload',vm.ExcelFileUpload)
-                axios.post('/api/admin/student-manage/add-work-student-excel',formData).then(data => {
+                axios.post(vm.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL,formData).then(data => {
                     vm.ExcelFileuploading = false
                     if(data.data.error.length > 0 || data.data.error == null)
                     {
@@ -451,7 +453,7 @@
             },
             getSalary(){
                 var vm =this
-                axios.get('/api/request-info/get-list-salary').then(data => {
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_LIST_SALARY).then(data => {
                     vm.listSalary = data.data
                 }).catch(err =>{
                     console.dir(err)

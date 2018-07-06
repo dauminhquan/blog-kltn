@@ -1072,8 +1072,249 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 10 */,
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Config = function Config() {
+        var _this = this;
+
+        _classCallCheck(this, Config);
+
+        this.WEB = window.location.origin;
+        this.API = window.location.origin + '/api';
+        this.API_ADM = this.API + '/admin';
+        this.API_ENTERPRISE = this.API + '/enterprise';
+
+        this.API_REQUEST_INFO = this.API + '/request-info';
+        /*WEB*/
+
+        /*WEB ADMIN*/
+        this.WEB_ADMIN = this.WEB + '/admin';
+        /*ADMIN ENTERPRISE MANAGE*/
+        this.WEB_ADMIN_ENTERPRISE_MANAGE = this.WEB_ADMIN + '/enterprise-manage';
+
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_GET_EXCEL_EXAMPLE_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/get-excel-example-enterprise';
+        this.WEB_ADMIN_ENTERPRISE_MANAGE_INFO_ENTERPRISE = this.WEB_ADMIN_ENTERPRISE_MANAGE + '/info-enterprise';
+        /*ADMIN ENTERPRISE MANAGE*/
+        /*ADMIN JOB*/
+        this.WEB_ADMIN_JOB_MANAGE = this.WEB_ADMIN + '/job-manage';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS = this.WEB_ADMIN_JOB_MANAGE + '/jobs';
+        this.WEB_ADMIN_JOB_MANAGE_JOBS_ID = function (ID) {
+                return _this.WEB_ADMIN_JOB_MANAGE + '/jobs/' + ID;
+        };
+        this.WEB_ADMIN_JOB_MANAGE_POSITION = this.WEB_ADMIN_JOB_MANAGE + '/position';
+        this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
+        /*ADMIN JOB*/
+
+        /*ADMIN POST COURSE*/
+
+        this.WEB_ADMIN_POST_COURSE = function (ID) {
+                return _this.WEB_ADMIN + '/post-course/' + ID;
+        };
+        this.WEB_ADMIN_POST_COURSES = this.WEB_ADMIN + '/post-courses';
+
+        // this.
+
+        /*ADMIN POST COURSE*/
+        /*ADMIN STUDENT MANAGE*/
+        this.WEB_ADMIN_STUDENT_MANAGE = this.WEB_ADMIN + '/student-manage';
+        this.WEB_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_EXAMPLE_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-example-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXECL_WORK_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-work-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_GET_EXCEL_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/get-excel-student';
+        this.WEB_ADMIN_STUDENT_MANAGE_INFO_STUDENT = this.WEB_ADMIN_STUDENT_MANAGE + '/info-student';
+        /*ADMIN STUDENT MANAGE*/
+
+        /*WEB ADMIN*/
+
+        /*WEB ENTERPRISE*/
+        this.WEB_ENTERPRISE = this.WEB + '/enterprise';
+
+        this.WEB_ENTERPRISE_NEW_POST = this.WEB_ENTERPRISE + '/new-post';
+        this.WEB_ENTERPRISE_POST_MANAGE = this.WEB_ENTERPRISE + '/post-manage';
+        this.WEB_ENTERPRISE_POST = function (ID) {
+                return _this.WEB_ENTERPRISE + '/post/' + ID;
+        };
+
+        this.WEB_ENTERPRISE_NEW_POST_COURSE = this.WEB_ENTERPRISE + '/new-post-course';
+        this.WEB_ENTERPRISE_POST_COURSE_MANAGE = this.WEB_ENTERPRISE + '/post-course-manage';
+        this.WEB_ENTERPRISE_POST_COURSE = function (ID) {
+                return _this.WEB_ENTERPRISE + '/post-course/' + ID;
+        };
+        /*WEB ENTERPRISE*/
+
+        /*WEB JOB*/
+        this.WEB_JOB = this.WEB + '/job';
+
+        this.WEB_JOB_FILE = function (ID) {
+                return _this.WEB_JOB + '/file/' + ID;
+        };
+        this.WEB_JOB_JOB_DETAIL = function (ID) {
+                return _this.WEB_JOB + '/job-detail/' + ID;
+        };
+        this.WEB_JOB_LIST_JOB = this.WEB_JOB + '/list-job';
+        /*WEB JOB*/
+
+        /*WEB*/
+
+        /*  API ADMIN*/
+        /*STUDENT MANAGE*/
+        this.API_ADMIN_STUDENT_MANAGE = this.API_ADM + '/student-manage';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT_EXCEL = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student-excel';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_LIST_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-list-student';
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/delete-student';
+        this.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/add-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/update-avatar-student';
+        this.API_ADMIN_STUDENT_MANAGE_GET_WORK_STUDENT = this.API_ADMIN_STUDENT_MANAGE + '/get-work-student';
+        this.API_ADMIN_STUDENT_MANAGE_UPDATE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/update-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_ADMIN_STUDENT_MANAGE + '/delete-work-student/' + ID;
+        };
+        this.API_ADMIN_STUDENT_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_STUDENT_MANAGE + '/get-list-enterprise';
+        /*STUDENT MANAGE*/
+
+        /*ENTERPRISE MANGE*/
+        this.API_ADMIN_ENTERPRISE_MANAGE = this.API_ADM + '/enterprise-manage';
+
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE_EXCEL = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise-excel';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_LIST_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-list-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_DELETE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/delete-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_ADD_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/add-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_UPDATE_AVATAR_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/update-avatar-enterprise';
+        this.API_ADMIN_ENTERPRISE_MANAGE_GET_EMPLOYEE_ENTERPRISE = this.API_ADMIN_ENTERPRISE_MANAGE + '/get-employees-enterprise';
+        /*ENTERPRISE MANGE*/
+
+        /*JOB MANAGE*/
+        this.API_ADMIN_JOB_MANAGE = this.API_ADM + '/job-manage';
+
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/get-list-position';
+        this.API_ADMIN_JOB_MANAGE_ADD_POSITION = this.API_ADMIN_JOB_MANAGE + '/add-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-list-position';
+        this.API_ADMIN_JOB_MANAGE_DELETE_POSITION = this.API_ADMIN_JOB_MANAGE + '/delete-position';
+        this.API_ADMIN_JOB_MANAGE_EDIT_POSITION = this.API_ADMIN_JOB_MANAGE + '/edit-position';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/get-list-skill';
+        this.API_ADMIN_JOB_MANAGE_ADD_SKILL = this.API_ADMIN_JOB_MANAGE + '/add-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_LIST_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-list-skill';
+        this.API_ADMIN_JOB_MANAGE_DELETE_SKILL = this.API_ADMIN_JOB_MANAGE + '/delete-skill';
+        this.API_ADMIN_JOB_MANAGE_EDIT_SKILL = this.API_ADMIN_JOB_MANAGE + '/edit-skill';
+        this.API_ADMIN_JOB_MANAGE_GET_LIST_JOB = this.API_ADMIN_JOB_MANAGE + '/get-list-post';
+        this.API_ADMIN_JOB_MANAGE_ACCEPT_POST = function (ID) {
+                return _this.API_ADMIN_JOB_MANAGE + '/accept-post/' + ID;
+        };
+        this.API_ADMIN_JOB_MANAGE_GET_DETAIL_POST = function (ID) {
+                return _this.API_ADMIN_JOB_MANAGE + '/get-detail-post/' + ID;
+        };
+        /*JOB MANAGE*/
+
+        /*POST COURSE*/
+
+        this.API_ADMIN_POST_COURSE_MANAGE = this.API_ADM + '/post-course-manage';
+        this.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE = function (ID) {
+                _this.API_ADMIN_POST_COURSE_MANAGE + '/accept-post-course/' + ID;
+        };
+        this.API_ADMIN_POST_COURSE_MANAGE_GET_DETAIL_POST_COURSE = function (ID) {
+                _this.API_ADMIN_POST_COURSE_MANAGE + '/get-detail-post-course/' + ID;
+        };
+        this.API_ADMIN_POST_COURSE_MANAGE_GET_LIST_POST_COURSE = this.API_ADMIN_POST_COURSE_MANAGE + '/get-list-post-course/';
+        this.API_ADMIN_POST_COURSE_MANAGE_ACCEPT_POST_COURSE = function (ID) {
+                return _this.API_ADMIN_POST_COURSE_MANAGE + '/accept-post-course/' + ID;
+        };
+
+        /*POST COURSE*/
+        /*API ADMIN*/
+
+        /*API ENTERPRISE*/
+
+        this.API_ENTERPRISE_POST = this.API_ENTERPRISE + '/post';
+        this.API_ENTERPRISE_POST_COURSE = this.API_ENTERPRISE + '/post-course';
+
+        this.API_ENTERPRISE_OPTION_PROFILE = this.API_ENTERPRISE + '/option-profile';
+        this.API_ENTERPRISE_INFO = this.API_ENTERPRISE + '/info';
+        this.API_ENTERPRISE_EMPLOYEES = this.API_ENTERPRISE + '/employees';
+        /*API ENTERPRISE*/
+
+        /*API STUDENT*/
+
+        this.API_STUDENT = this.API + '/student';
+        this.API_STUDENT_OPTION_PROFILE = this.API_STUDENT + '/option-profile';
+        this.API_STUDENT_INFO = this.API_STUDENT + '/info';
+        this.API_STUDENT_WORKS = this.API_STUDENT + '/works';
+
+        this.API_STUDENT_GET_LIST_ENTERPRISE = this.API_STUDENT + '/get-list-enterprise';
+
+        this.API_STUDENT_ADD_WORK_STUDENT_EXCEL = this.API_STUDENT + '/add-work-excel';
+        this.API_STUDENT_ADD_WORK_STUDENT = this.API_STUDENT + '/add-work';
+
+        this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_STUDENT + '/delete-work/' + ID;
+        };
+        /*API STUDENT*/
+
+        /*API JOB*/
+        this.API_JOB = this.API + '/job';
+
+        this.API_JOB_DETAIL = function (ID) {
+                return _this.API_JOB + '/detail/' + ID;
+        };
+        this.API_JOB_GET_LIST_ENTERPRISE = this.API_JOB + '/get-list-enterprise';
+        this.API_JOB_GET_LIST_JOB = this.API_JOB + '/get-list-job';
+        this.API_JOB_GET_LIST_POSITION = this.API_JOB + '/get-list-position';
+        this.API_JOB_GET_LIST_SKILL = this.API_JOB + '/get-list-skill';
+        this.API_JOB_GET_LIST_TYPE_JOB = this.API_JOB + '/get-list-type-job';
+        this.API_JOB_SIMILAR_JOB = this.API_JOB + '/similar-job';
+
+        /*API JOB*/
+
+        /*API REQUEST INFO*/
+        this.API_REQUEST_INFO_GET_COURSES = this.API_REQUEST_INFO + '/get-courses';
+        this.API_REQUEST_INFO_GET_DEPARTMENTS = this.API_REQUEST_INFO + '/get-departments';
+        this.API_REQUEST_INFO_GET_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/get-info-enterprise';
+        this.API_REQUEST_INFO_GET_INFO_STUDENT = this.API_REQUEST_INFO + '/get-info-student';
+        this.API_REQUEST_INFO_GET_LIST_SALARY = this.API_REQUEST_INFO + '/get-list-salary';
+        this.API_REQUEST_INFO_GET_OPTION_ENTERPRISE = this.API_REQUEST_INFO + '/get-option-enterprise';
+        this.API_REQUEST_INFO_GET_OPTION_STUDENT = this.API_REQUEST_INFO + '/get-option-student';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_ENTERPRISE = this.API_REQUEST_INFO + '/check-exist-info-enterprise';
+        this.API_REQUEST_INFO_CHECK_EXIST_INFO_STUDENT = this.API_REQUEST_INFO + '/check-exist-info-student';
+        this.API_REQUEST_INFO_GET_BRANCHES = function (DEPARTMENT) {
+                return _this.API_REQUEST_INFO + '/get-branches/' + DEPARTMENT;
+        };
+        /*API REQUEST INFO*/
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Config);
+
+/***/ }),
 /* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+
+
+window.Cookies = __webpack_require__(34);
+
+var token = window.Cookies('token');
+var ax = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create();
+ax.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+/* harmony default export */ __webpack_exports__["a"] = (ax);
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12039,7 +12280,6 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(13).setImmediate))
 
 /***/ }),
-/* 12 */,
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13191,7 +13431,184 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 34 */,
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/*
+ * Cookies.js - 1.2.3
+ * https://github.com/ScottHamper/Cookies
+ *
+ * This is free and unencumbered software released into the public domain.
+ */
+(function (global, undefined) {
+    'use strict';
+
+    var factory = function (window) {
+        if (typeof window.document !== 'object') {
+            throw new Error('Cookies.js requires a `window` with a `document` object');
+        }
+
+        var Cookies = function (key, value, options) {
+            return arguments.length === 1 ?
+                Cookies.get(key) : Cookies.set(key, value, options);
+        };
+
+        // Allows for setter injection in unit tests
+        Cookies._document = window.document;
+
+        // Used to ensure cookie keys do not collide with
+        // built-in `Object` properties
+        Cookies._cacheKeyPrefix = 'cookey.'; // Hurr hurr, :)
+        
+        Cookies._maxExpireDate = new Date('Fri, 31 Dec 9999 23:59:59 UTC');
+
+        Cookies.defaults = {
+            path: '/',
+            secure: false
+        };
+
+        Cookies.get = function (key) {
+            if (Cookies._cachedDocumentCookie !== Cookies._document.cookie) {
+                Cookies._renewCache();
+            }
+            
+            var value = Cookies._cache[Cookies._cacheKeyPrefix + key];
+
+            return value === undefined ? undefined : decodeURIComponent(value);
+        };
+
+        Cookies.set = function (key, value, options) {
+            options = Cookies._getExtendedOptions(options);
+            options.expires = Cookies._getExpiresDate(value === undefined ? -1 : options.expires);
+
+            Cookies._document.cookie = Cookies._generateCookieString(key, value, options);
+
+            return Cookies;
+        };
+
+        Cookies.expire = function (key, options) {
+            return Cookies.set(key, undefined, options);
+        };
+
+        Cookies._getExtendedOptions = function (options) {
+            return {
+                path: options && options.path || Cookies.defaults.path,
+                domain: options && options.domain || Cookies.defaults.domain,
+                expires: options && options.expires || Cookies.defaults.expires,
+                secure: options && options.secure !== undefined ?  options.secure : Cookies.defaults.secure
+            };
+        };
+
+        Cookies._isValidDate = function (date) {
+            return Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date.getTime());
+        };
+
+        Cookies._getExpiresDate = function (expires, now) {
+            now = now || new Date();
+
+            if (typeof expires === 'number') {
+                expires = expires === Infinity ?
+                    Cookies._maxExpireDate : new Date(now.getTime() + expires * 1000);
+            } else if (typeof expires === 'string') {
+                expires = new Date(expires);
+            }
+
+            if (expires && !Cookies._isValidDate(expires)) {
+                throw new Error('`expires` parameter cannot be converted to a valid Date instance');
+            }
+
+            return expires;
+        };
+
+        Cookies._generateCookieString = function (key, value, options) {
+            key = key.replace(/[^#$&+\^`|]/g, encodeURIComponent);
+            key = key.replace(/\(/g, '%28').replace(/\)/g, '%29');
+            value = (value + '').replace(/[^!#$&-+\--:<-\[\]-~]/g, encodeURIComponent);
+            options = options || {};
+
+            var cookieString = key + '=' + value;
+            cookieString += options.path ? ';path=' + options.path : '';
+            cookieString += options.domain ? ';domain=' + options.domain : '';
+            cookieString += options.expires ? ';expires=' + options.expires.toUTCString() : '';
+            cookieString += options.secure ? ';secure' : '';
+
+            return cookieString;
+        };
+
+        Cookies._getCacheFromString = function (documentCookie) {
+            var cookieCache = {};
+            var cookiesArray = documentCookie ? documentCookie.split('; ') : [];
+
+            for (var i = 0; i < cookiesArray.length; i++) {
+                var cookieKvp = Cookies._getKeyValuePairFromCookieString(cookiesArray[i]);
+
+                if (cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] === undefined) {
+                    cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] = cookieKvp.value;
+                }
+            }
+
+            return cookieCache;
+        };
+
+        Cookies._getKeyValuePairFromCookieString = function (cookieString) {
+            // "=" is a valid character in a cookie value according to RFC6265, so cannot `split('=')`
+            var separatorIndex = cookieString.indexOf('=');
+
+            // IE omits the "=" when the cookie value is an empty string
+            separatorIndex = separatorIndex < 0 ? cookieString.length : separatorIndex;
+
+            var key = cookieString.substr(0, separatorIndex);
+            var decodedKey;
+            try {
+                decodedKey = decodeURIComponent(key);
+            } catch (e) {
+                if (console && typeof console.error === 'function') {
+                    console.error('Could not decode cookie with key "' + key + '"', e);
+                }
+            }
+            
+            return {
+                key: decodedKey,
+                value: cookieString.substr(separatorIndex + 1) // Defer decoding value until accessed
+            };
+        };
+
+        Cookies._renewCache = function () {
+            Cookies._cache = Cookies._getCacheFromString(Cookies._document.cookie);
+            Cookies._cachedDocumentCookie = Cookies._document.cookie;
+        };
+
+        Cookies._areEnabled = function () {
+            var testKey = 'cookies.js';
+            var areEnabled = Cookies.set(testKey, 1).get(testKey) === '1';
+            Cookies.expire(testKey);
+            return areEnabled;
+        };
+
+        Cookies.enabled = Cookies._areEnabled();
+
+        return Cookies;
+    };
+    var cookiesExport = (global && typeof global.document === 'object') ? factory(global) : factory;
+
+    // AMD support
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () { return cookiesExport; }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    // CommonJS/Node.js support
+    } else if (typeof exports === 'object') {
+        // Support Node.js specific `module.exports` (which can be a function)
+        if (typeof module === 'object' && typeof module.exports === 'object') {
+            exports = module.exports = cookiesExport;
+        }
+        // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+        exports.Cookies = cookiesExport;
+    } else {
+        global.Cookies = cookiesExport;
+    }
+})(typeof window === 'undefined' ? this : window);
+
+/***/ }),
 /* 35 */
 /***/ (function(module, exports) {
 
@@ -13651,7 +14068,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_main_sidebar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_main_content__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_main_content___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_main_content__);
-window.Vue = __webpack_require__(11);
+window.Vue = __webpack_require__(12);
 
 
 var app = new Vue({
@@ -13716,8 +14133,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__axios__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
 //
 //
 //
@@ -13827,7 +14244,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13840,14 +14257,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             file_avatar: new FormData(),
             avatar_user: '',
             user_name: '',
-            graduated: ''
+            graduated: '',
+            configUrl: new __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */]()
         };
     },
 
     methods: {
         getAvatarUser: function getAvatarUser() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/request-info/get-option-student?code_student=' + vm.code_student + '&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_OPTION_STUDENT + '?code_student=' + vm.code_student + '&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(function (data) {
                 console.log(data);
                 vm.avatar_user = data.data.avatar_student;
                 vm.user_name = data.data.first_name_student + ' ' + data.data.last_name_student;
@@ -13868,7 +14286,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var vm = this;
             vm.file_avatar.append('avatar', e.target.files[0]);
             vm.file_avatar.append('code_student', vm.code_student);
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/update-avatar-student', vm.file_avatar).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT, vm.file_avatar).then(function (data) {
                 vm.avatar_user = data.data.url + '?' + new Date();
             }).catch(function (err) {
                 console.log(err);
@@ -14341,8 +14759,8 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__choose_info_select2_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__axios__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(10);
 //
 //
 //
@@ -14486,6 +14904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -14550,14 +14969,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             classEmail: ['form-control'],
             classCodeStudent: ['form-control'],
             classPassword: ['form-control'],
-            classOldPassword: ['form-control']
+            classOldPassword: ['form-control'],
+            configUrl: new __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */]()
         };
     },
 
     methods: {
         getCourses: function getCourses() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/request-info/get-courses').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_COURSES).then(function (data) {
                 var courses = data.data;
                 vm.courses = [{ id: '', text: '' }];
                 courses.forEach(function (item) {
@@ -14572,7 +14992,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getInforStudent: function getInforStudent() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/request-info/get-info-student?code_student=' + vm.code_student).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_INFO_STUDENT + '?code_student=' + vm.code_student).then(function (data) {
 
                 vm.code_department = data.data.code_department;
                 vm.infoStudent.address_student = data.data.info_student.address_student;
@@ -14592,7 +15012,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getDepartments: function getDepartments() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/request-info/get-departments').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_DEPARTMENTS).then(function (data) {
                 var courses = data.data;
                 vm.departments = [{ id: '', text: '' }];
                 courses.forEach(function (item) {
@@ -14604,6 +15024,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }).catch(function (err) {
                 console.log(err);
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi xảy ra từ server!',
+                    addclass: 'bg-danger'
+                });
             });
         },
         getBranches: function getBranches(code_department) {
@@ -14613,7 +15038,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     id: '',
                     text: ''
                 }];
-                __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/request-info/get-branches/' + code_department).then(function (data) {
+                __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_BRANCHES(code_department)).then(function (data) {
                     var branches = data.data;
 
                     branches.forEach(function (item) {
@@ -14622,15 +15047,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: item.name_branch
                         });
                     });
-                }).catch(function (error) {});
+                }).catch(function (error) {
+                    console.log(err);
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi xảy ra từ server!',
+                        addclass: 'bg-danger'
+                    });
+                });
             }
         },
         submitUpdateStudent: function submitUpdateStudent() {
             var vm = this;
             if (vm.exist_email == false && vm.infoStudent.code_branch != null && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password) {
 
-                __WEBPACK_IMPORTED_MODULE_1_axios___default.a.put('/api/admin/student-manage/update-student', vm.infoStudent).then(function (data) {
-                    console.log(data);
+                __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].put(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT, vm.infoStudent).then(function (data) {
+
                     new PNotify({
                         title: 'Ohh Yeah! Thành công!',
                         text: 'Update thông tin sinh viên thành công',
@@ -14651,7 +15083,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         checkExistEmail: function checkExistEmail() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/request-info/check-exist-info-student', {
+            __WEBPACK_IMPORTED_MODULE_1__axios__["a" /* default */].post(vm.configUrl.API_REQUEST_INFO_CHECK_EXIST_INFO_STUDENT, {
                 email_address_student: vm.infoStudent.email_address_student,
                 code_student: vm.code_student
             }).then(function (data) {
@@ -14813,11 +15245,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var vm = this;
         console.log(this.value);
-        // $el chính nó
+
         if (vm.readonly == true) {
-            $(this.$el).select2({ data: vm.options, disabled: true }).val(vm.value).trigger('change')
-            // emit event on change.
-            .on('change', function () {
+            $(this.$el).select2({ data: vm.options, disabled: true }).val(vm.value).trigger('change').on('change', function () {
                 vm.$emit('input', this.value);
             });
         } else {
@@ -15536,8 +15966,8 @@ exports.push([module.i, "\n.avatar-user{\n}\n.avatar-user img{\n    border-radiu
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__axios__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
 //
 //
 //
@@ -15753,6 +16183,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -15781,15 +16212,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 code_student: '',
                 email_address_enterprise: ''
             },
-            listEnterprise: []
+            listEnterprise: [],
+            configUrl: new __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */]()
         };
     },
 
     methods: {
         getWorkStudent: function getWorkStudent() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/admin/student-manage/get-work-student?code_student=' + vm.code_student).then(function (data) {
-                console.log(data);
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].get(vm.configUrl.API_ADMIN_STUDENT_MANAGE_GET_WORK_STUDENT + '?code_student=' + vm.code_student).then(function (data) {
+
                 vm.work_student = data.data;
             }).catch(function (err) {
                 console.log(err);
@@ -15799,7 +16231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return window.location.origin + url;
         },
         openInfoEnterprise: function openInfoEnterprise(email_address_enterprise) {
-            return window.location.origin + '/admin/enterprise-manage/info-enterprise?user_enterprise=' + email_address_enterprise;
+            return null;
         },
         showModalExcel: function showModalExcel() {
             $('#modal-push-excel').modal('show');
@@ -15837,7 +16269,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var vm = this;
             vm.editingWork = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/update-work-student/' + vm.idEmployee, vm.work).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_WORK_STUDENT(vm.idEmployee), vm.work).then(function (data) {
                 new PNotify({
                     title: 'Ohh Yeah! Thành công!',
                     text: data.data.message,
@@ -15871,7 +16303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         AddWork: function AddWork() {
             var vm = this;
             vm.newWork.code_student = vm.code_student;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/add-work-student', vm.newWork).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_ADD_WORK_STUDENT, vm.newWork).then(function (data) {
                 new PNotify({
                     title: 'Ohh Yeah! Thành công!',
                     text: 'Thêm mới thành công',
@@ -15891,7 +16323,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getEnterprise: function getEnterprise() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/admin/student-manage/get-list-enterprise').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].get(vm.configUrl.API_ADMIN_STUDENT_MANAGE_GET_LIST_ENTERPRISE).then(function (data) {
                 vm.listEnterprise = data.data;
             }).catch(function (err) {
                 console.dir(err);
@@ -15906,7 +16338,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var vm = this;
             vm.editingWork = true;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/api/admin/student-manage/delete-work-student/' + vm.idEmployee, vm.work).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].delete(vm.configUrl.API_ADMIN_STUDENT_MANAGE_DELETE_WORK_STUDENT(vm.idEmployee), vm.work).then(function (data) {
                 vm.work_student = vm.work_student.filter(function (item) {
                     return item.id != vm.idEmployee;
                 });
@@ -15944,7 +16376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.ExcelFileuploading = true;
             var formData = new FormData();
             formData.append('ExcelFileUpload', vm.ExcelFileUpload);
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/admin/student-manage/add-work-student-excel', formData).then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].post(vm.API_ADMIN_STUDENT_MANAGE_ADD_STUDENT_EXCEL, formData).then(function (data) {
                 vm.ExcelFileuploading = false;
                 if (data.data.error.length > 0 || data.data.error == null) {
                     var html_err = '';
@@ -15984,7 +16416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getSalary: function getSalary() {
             var vm = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/api/request-info/get-list-salary').then(function (data) {
+            __WEBPACK_IMPORTED_MODULE_0__axios__["a" /* default */].get(vm.configUrl.API_REQUEST_INFO_GET_LIST_SALARY).then(function (data) {
                 vm.listSalary = data.data;
             }).catch(function (err) {
                 console.dir(err);
@@ -16093,8 +16525,7 @@ var render = function() {
                     {
                       staticClass: "text-semibold",
                       attrs: {
-                        href: _vm.openInfoEnterprise(work.user_enterprise),
-                        target: "_blank"
+                        href: _vm.openInfoEnterprise(work.user_enterprise)
                       }
                     },
                     [_vm._v(_vm._s(work.name_enterprise))]
@@ -16113,13 +16544,11 @@ var render = function() {
                     },
                     [
                       _c("span", {
-                        staticClass: "status-mark bg-grey position-left"
-                      }),
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(work.introduce_enterprise) +
-                          "\n                        "
-                      )
+                        staticClass: "status-mark bg-grey position-left",
+                        domProps: {
+                          innerHTML: _vm._s(work.introduce_enterprise)
+                        }
+                      })
                     ]
                   )
                 ]),

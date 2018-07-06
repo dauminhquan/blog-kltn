@@ -16,7 +16,8 @@ class ApiCheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->authentication == 1)
+
+        if(Auth::user()->type == 1)
         {
             return $next($request);
         }

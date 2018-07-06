@@ -15,7 +15,7 @@ class ApiCheckStudent
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->authentication == 3)
+        if(Auth::user()->type == 3)
         {
             return $next($request);
         }

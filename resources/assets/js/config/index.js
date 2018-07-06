@@ -134,7 +134,25 @@ class Config{
         this.API_ENTERPRISE_POST = this.API_ENTERPRISE+'/post'
         this.API_ENTERPRISE_POST_COURSE = this.API_ENTERPRISE+'/post-course'
 
+        this.API_ENTERPRISE_OPTION_PROFILE = this.API_ENTERPRISE+'/option-profile'
+        this.API_ENTERPRISE_INFO = this.API_ENTERPRISE+'/info'
+        this.API_ENTERPRISE_EMPLOYEES = this.API_ENTERPRISE+'/employees'
         /*API ENTERPRISE*/
+
+        /*API STUDENT*/
+
+        this.API_STUDENT = this.API+'/student'
+        this.API_STUDENT_OPTION_PROFILE = this.API_STUDENT+'/option-profile'
+        this.API_STUDENT_INFO = this.API_STUDENT+'/info'
+        this.API_STUDENT_WORKS = this.API_STUDENT+'/works'
+
+        this.API_STUDENT_GET_LIST_ENTERPRISE = this.API_STUDENT+'/get-list-enterprise'
+
+        this.API_STUDENT_ADD_WORK_STUDENT_EXCEL= this.API_STUDENT+'/add-work-excel'
+        this.API_STUDENT_ADD_WORK_STUDENT= this.API_STUDENT+'/add-work'
+
+        this.API_STUDENT_DELETE_WORK_STUDENT= (ID) => {return this.API_STUDENT+'/delete-work/' + ID}
+        /*API STUDENT*/
 
         /*API JOB*/
         this.API_JOB = this.API+'/job'

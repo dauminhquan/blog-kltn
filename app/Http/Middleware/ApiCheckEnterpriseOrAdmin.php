@@ -15,7 +15,7 @@ class ApiCheckEnterpriseOrAdmin
     public function handle($request, Closure $next)
     {
         $type = Auth::user()->type;
-        if($type == 2 || $type == 0)
+        if($type == 2 || $type == 1)
         {
             return $next($request);
         }

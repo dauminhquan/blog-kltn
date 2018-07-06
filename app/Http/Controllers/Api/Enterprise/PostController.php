@@ -46,7 +46,6 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
 
-
         $update_data_service = new UpdateDataService();
         return $update_data_service->updatePost($request,$id);
     }

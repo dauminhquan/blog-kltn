@@ -12,15 +12,10 @@
                     <div class="media-body">
                         <h5 class="media-heading text-semibold">{{infoEnterprise == undefined ? '' : infoEnterprise.name_enterprise}}</h5>
                         <ul class="list-inline list-inline-separate text-muted no-margin">
-                            <!--<li>IT Services</li>-->
+
                         </ul>
                     </div>
 
-                    <div class="media-right media-middle text-nowrap">
-                        <ul class="list-inline no-margin">
-                            <li><a href="#" class="btn bg-blue"><i class="icon-menu7 position-left"></i> Thông tin chi tiết</a></li>
-                        </ul>
-                    </div>
                 </div>
 
                 <div v-html="infoEnterprise == null ? '' :infoEnterprise.introduce_enterprise"></div>

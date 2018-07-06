@@ -1241,7 +1241,27 @@ var Config = function Config() {
         this.API_ENTERPRISE_POST = this.API_ENTERPRISE + '/post';
         this.API_ENTERPRISE_POST_COURSE = this.API_ENTERPRISE + '/post-course';
 
+        this.API_ENTERPRISE_OPTION_PROFILE = this.API_ENTERPRISE + '/option-profile';
+        this.API_ENTERPRISE_INFO = this.API_ENTERPRISE + '/info';
+        this.API_ENTERPRISE_EMPLOYEES = this.API_ENTERPRISE + '/employees';
         /*API ENTERPRISE*/
+
+        /*API STUDENT*/
+
+        this.API_STUDENT = this.API + '/student';
+        this.API_STUDENT_OPTION_PROFILE = this.API_STUDENT + '/option-profile';
+        this.API_STUDENT_INFO = this.API_STUDENT + '/info';
+        this.API_STUDENT_WORKS = this.API_STUDENT + '/works';
+
+        this.API_STUDENT_GET_LIST_ENTERPRISE = this.API_STUDENT + '/get-list-enterprise';
+
+        this.API_STUDENT_ADD_WORK_STUDENT_EXCEL = this.API_STUDENT + '/add-work-excel';
+        this.API_STUDENT_ADD_WORK_STUDENT = this.API_STUDENT + '/add-work';
+
+        this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
+                return _this.API_STUDENT + '/delete-work/' + ID;
+        };
+        /*API STUDENT*/
 
         /*API JOB*/
         this.API_JOB = this.API + '/job';
@@ -1277,7 +1297,8 @@ var Config = function Config() {
 /* harmony default export */ __webpack_exports__["a"] = (Config);
 
 /***/ }),
-/* 11 */
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12243,7 +12264,6 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(13).setImmediate))
 
 /***/ }),
-/* 12 */,
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13505,7 +13525,7 @@ module.exports = __webpack_require__(131);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue__);
-window.Vue = __webpack_require__(11);
+window.Vue = __webpack_require__(12);
 
 // import store from './store'
 Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__components_contentWrapper_vue___default.a);

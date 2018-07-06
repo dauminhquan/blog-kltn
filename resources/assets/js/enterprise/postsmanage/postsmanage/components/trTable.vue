@@ -6,7 +6,7 @@
         <td><a :href="infoPost(item.id,item.accept)" target="_blank">{{item.title_post}}</a>
 
         </td>
-        <td>{{item.created_at}}</td>
+        <td>{{coverDate(item.created_at)}}</td>
         <td><span v-for="position in item.positions" :key="position.name_position" class="label label-primary" >{{position.name_position}}</span></td>
         <td><span v-for="type in item.types" :key="type.name_job_type" class="label label-info" >{{type.name_job_type}}</span></td>
         <td><span class="label label-default" v-if="item.accept == 0">Đang đợi</span> <span class="label label-danger" v-else-if="item.accept == 2">Đã hủy</span> <span v-else class="label label-success" >Đã đăng</span> </td>
@@ -75,6 +75,11 @@
             openInforPost(id){
                 let vm = this
                 window.open(vm.configUrl.WEB_ENTERPRISE_POST(id),'_blank')
+            },
+            coverDate(newDate){
+                let date = new Date(newDate)
+
+                return date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear()
             }
         }
     }

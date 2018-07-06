@@ -35,8 +35,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- /user details -->
-            <!-- Online users -->
+
             <div class="sidebar-category">
                 <div class="category-title">
                     <span>Các việc làm gần nhất</span>
@@ -104,12 +103,13 @@
                     </ul>
                 </div>
             </div>
-            <!-- /online-users -->
+
         </div>
     </div>
 </template>
 <script>
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         props : ['code_student'],
         mounted(){
@@ -120,14 +120,15 @@
                 file_avatar: new FormData(),
                 avatar_user : '',
                 user_name: '',
-                graduated:''
+                graduated:'',
+                configUrl: new configUrl()
             }
         },
         methods:{
 
             getAvatarUser(){
                 var vm = this
-                axios.get('/api/request-info/get-option-student?code_student='+vm.code_student+'&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(data => {
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_OPTION_STUDENT+'?code_student='+vm.code_student+'&option[]=avatar_student&option[]=first_name_student&option[]=last_name_student&option[]=graduated').then(data => {
                     console.log(data)
                     vm.avatar_user = data.data.avatar_student
                     vm.user_name = data.data.first_name_student + ' ' +data.data.last_name_student
@@ -154,7 +155,7 @@
                 var vm = this
                 vm.file_avatar.append('avatar',e.target.files[0])
                 vm.file_avatar.append('code_student',vm.code_student)
-                axios.post('/api/admin/student-manage/update-avatar-student',vm.file_avatar).then(data => {
+                axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT,vm.file_avatar).then(data => {
                         vm.avatar_user = data.data.url+'?'+new Date()
                 }).catch(err => {
                     console.log(err)

@@ -228,6 +228,7 @@ class UpdateDataService
     }
     public function UpdateEnterprise(Request $request)
     {
+
         $validate = Validator::make($request->all(),[
 
             'email_address_enterprise' => 'required|exists:users,user_name',
@@ -239,6 +240,13 @@ class UpdateDataService
         if($validate->fails())
         {
             return response()->json($validate->errors());
+        }
+        if(Auth::user()->type == 2)
+        {
+            if(Auth::user()->user_name != $request->email_address_enterprise)
+            {
+                return response()->json(['message' => 'Khong du quyen'],406);
+            }
         }
         $user = User::where('user_name',$request->email_address_enterprise)->first();
         $enterprise = $user->enterprise;
@@ -358,7 +366,7 @@ class UpdateDataService
                 $post->time_end_post = $request->time_end_post;
                 $post->description_post = $request->description_post;
                 $post->content_post = $request->content_post;
-                $post->accept = 0;
+
                 $post->localtion = $request->location;
                 if($request->hasFile('file_attach_post'))
                 {

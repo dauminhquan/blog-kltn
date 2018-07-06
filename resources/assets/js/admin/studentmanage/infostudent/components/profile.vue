@@ -1,7 +1,7 @@
 <template>
     <div class="tab-pane fade in active" id="profile">
 
-        <!-- Profile info -->
+
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h6 class="panel-title">Thông tin cá nhân sinh viên </h6>
@@ -15,7 +15,7 @@
             </div>
 
             <div class="panel-body">
-                <!-- 2 columns form -->
+
                 <form v-on:submit.prevent="submitUpdateStudent">
                     <div class="row">
                         <fieldset>
@@ -132,10 +132,10 @@
 
 
                 </form>
-                <!-- /2 columns form -->
+
             </div>
         </div>
-        <!-- /profile info -->
+
 
 
 
@@ -143,7 +143,8 @@
 </template>
 <script>
     import chooseInfoSelect2 from './choose-info-select2.vue'
-    import axios from 'axios'
+    import axios from './../../../../axios'
+    import configUrl from './../../../../config'
     export default {
         computed: {
             getInforEmail(){
@@ -222,6 +223,7 @@
                 classCodeStudent : ['form-control'],
                 classPassword : ['form-control'],
                 classOldPassword : ['form-control'],
+                configUrl:new configUrl()
             }
         },
         methods:{
@@ -229,7 +231,7 @@
             getCourses()
             {
                 var vm = this
-                axios.get('/api/request-info/get-courses').then(data => {
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_COURSES).then(data => {
                     var courses = data.data
                     vm.courses = [{id:'',text:''}]
                     courses.forEach(item => {
@@ -244,7 +246,7 @@
             },
             getInforStudent(){
                 var vm =this
-                    axios.get('/api/request-info/get-info-student?code_student='+vm.code_student).then(data => {
+                    axios.get(vm.configUrl.API_REQUEST_INFO_GET_INFO_STUDENT+'?code_student='+vm.code_student).then(data => {
 
                         vm.code_department = data.data.code_department
                         vm.infoStudent.address_student = data.data.info_student.address_student
@@ -267,7 +269,7 @@
             getDepartments()
             {
                 var vm = this
-                axios.get('/api/request-info/get-departments').then(data => {
+                axios.get(vm.configUrl.API_REQUEST_INFO_GET_DEPARTMENTS).then(data => {
                     var courses = data.data
                     vm.departments = [{id:'',text:''}]
                     courses.forEach(item => {
@@ -279,6 +281,11 @@
                     })
                 }).catch(err =>{
                     console.log(err)
+                    new PNotify({
+                        title: 'Ohh! Có lỗi xảy ra rồi!',
+                        text: 'Đã có lỗi xảy ra từ server!',
+                        addclass: 'bg-danger'
+                    });
                 })
             },
             getBranches(code_department)
@@ -290,7 +297,7 @@
                         id: '',
                         text: ''
                     }]
-                    axios.get('/api/request-info/get-branches/'+code_department).then(data => {
+                    axios.get(vm.configUrl.API_REQUEST_INFO_GET_BRANCHES(code_department)).then(data => {
                         var branches = data.data;
 
                         branches.forEach(item => {
@@ -300,7 +307,12 @@
                             })
                         })
                     }).catch(error => {
-
+                        console.log(err)
+                        new PNotify({
+                            title: 'Ohh! Có lỗi xảy ra rồi!',
+                            text: 'Đã có lỗi xảy ra từ server!',
+                            addclass: 'bg-danger'
+                        });
                     })
                 }
             },
@@ -309,8 +321,8 @@
                 if(vm.exist_email == false && vm.infoStudent.code_branch != null && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password)
                 {
 
-                    axios.put('/api/admin/student-manage/update-student',vm.infoStudent).then(data => {
-                        console.log(data)
+                    axios.put(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT,vm.infoStudent).then(data => {
+
                         new PNotify({
                             title: 'Ohh Yeah! Thành công!',
                             text: 'Update thông tin sinh viên thành công',
@@ -332,7 +344,7 @@
             checkExistEmail()
             {
                 var vm = this
-                axios.post('/api/request-info/check-exist-info-student',{
+                axios.post(vm.configUrl.API_REQUEST_INFO_CHECK_EXIST_INFO_STUDENT,{
                     email_address_student : vm.infoStudent.email_address_student,
                     code_student : vm.code_student
                 }).then(data => {
