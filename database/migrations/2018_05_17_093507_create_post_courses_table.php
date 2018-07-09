@@ -17,8 +17,12 @@ class CreatePostCoursesTable extends Migration
             $table->increments('id');
             $table->integer('id_enterprise');
             $table->string('title_post_course');
+            $table->string('description_post_course',400);
+            $table->string('location',200);
             $table->text('content_post_course');
             $table->string('file_attach_course');
+            $table->date('time_start');
+            $table->date('time_end');
             $table->boolean('accept')->default(0);
 
             $table->timestamps();

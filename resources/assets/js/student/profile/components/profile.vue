@@ -321,7 +321,7 @@
                 if(vm.exist_email == false && vm.infoStudent.code_branch != null && vm.exist_code_student == false && vm.infoStudent.password == vm.infoStudent.rep_password)
                 {
 
-                    axios.put(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_STUDENT,vm.infoStudent).then(data => {
+                    axios.put(vm.configUrl.API_STUDENT_UPDATE_INFO,vm.infoStudent).then(data => {
 
                         new PNotify({
                             title: 'Ohh Yeah! Thành công!',

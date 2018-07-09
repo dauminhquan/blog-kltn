@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 238);
+/******/ 	return __webpack_require__(__webpack_require__.s = 239);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -525,6 +525,15 @@ var Config = function Config() {
         this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
         /*ADMIN JOB*/
 
+        /*ADMIN NOTIFY*/
+
+        this.WEB_ADMIN_NOTIFY_MANAGE = this.WEB_ADMIN + '/notify-manage';
+        this.WEB_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.WEB_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.WEB_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.WEB_ADMIN_NOTIFY_MANAGE + '/edit/' + ID;
+        };
+        /*---ADMIN NOTIFY*/
+
         /*ADMIN POST COURSE*/
 
         this.WEB_ADMIN_POST_COURSE = function (ID) {
@@ -632,7 +641,22 @@ var Config = function Config() {
                 return _this.API_ADMIN_JOB_MANAGE + '/get-detail-post/' + ID;
         };
         /*JOB MANAGE*/
+        /*NOTIFY MANAGE*/
 
+        this.API_ADMIN_NOTIFY_MANAGE = this.API_ADM + '/notify-manage';
+        this.API_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.API_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.API_ADMIN_NOTIFY_MANAGE_GET_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/update-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/delete-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_LIST_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/delete-list-notify';
+        this.API_ADMIN_NOTIFY_MANAGE_ADD_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/add-notify';
+        /*NOTIFY MANAGE*/
         /*POST COURSE*/
 
         this.API_ADMIN_POST_COURSE_MANAGE = this.API_ADM + '/post-course-manage';
@@ -675,6 +699,10 @@ var Config = function Config() {
         this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
                 return _this.API_STUDENT + '/delete-work/' + ID;
         };
+
+        this.API_STUDENT_UPDATE_AVATAR = this.API_STUDENT + '/update-avatar';
+        this.API_STUDENT_UPDATE_INFO = this.API_STUDENT + '/update-info';
+
         /*API STUDENT*/
 
         /*API JOB*/
@@ -12390,29 +12418,11 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 238:
+/***/ 239:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(239);
+module.exports = __webpack_require__(240);
 
-
-/***/ }),
-
-/***/ 239:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(240);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
-window.Vue = __webpack_require__(12);
-
-// import store from './store'
-Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
-var app = new Vue({
-    // store:store,
-    el: '#page-content'
-});
 
 /***/ }),
 
@@ -12493,14 +12503,32 @@ module.exports = (
 /***/ }),
 
 /***/ 240:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
+window.Vue = __webpack_require__(12);
+
+// import store from './store'
+Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
+var app = new Vue({
+    // store:store,
+    el: '#page-content'
+});
+
+/***/ }),
+
+/***/ 241:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(241)
+var __vue_script__ = __webpack_require__(242)
 /* template */
-var __vue_template__ = __webpack_require__(255)
+var __vue_template__ = __webpack_require__(256)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12540,12 +12568,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 241:
+/***/ 242:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(243);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__);
 //
 //
@@ -12568,19 +12596,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 242:
+/***/ 243:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(243)
+  __webpack_require__(244)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(245)
+var __vue_script__ = __webpack_require__(246)
 /* template */
-var __vue_template__ = __webpack_require__(254)
+var __vue_template__ = __webpack_require__(255)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12620,13 +12648,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 243:
+/***/ 244:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(244);
+var content = __webpack_require__(245);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12647,7 +12675,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 244:
+/***/ 245:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(35)(false);
@@ -12662,16 +12690,16 @@ exports.push([module.i, "\n.avatar-user{\n    width: 45px;\n    height: 60px;\n}
 
 /***/ }),
 
-/***/ 245:
+/***/ 246:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(249);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(252);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__trTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__axios_index__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config_index__ = __webpack_require__(10);
@@ -12940,7 +12968,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 246:
+/***/ 247:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12995,7 +13023,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 247:
+/***/ 248:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13055,15 +13083,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 248:
+/***/ 249:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(249)
+var __vue_script__ = __webpack_require__(250)
 /* template */
-var __vue_template__ = __webpack_require__(250)
+var __vue_template__ = __webpack_require__(251)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13103,7 +13131,51 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 249:
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+
+/***/ 250:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13175,51 +13247,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-
-/***/ 250:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13347,15 +13375,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 251:
+/***/ 252:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(252)
+var __vue_script__ = __webpack_require__(253)
 /* template */
-var __vue_template__ = __webpack_require__(253)
+var __vue_template__ = __webpack_require__(254)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13395,7 +13423,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 252:
+/***/ 253:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13509,7 +13537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 253:
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13676,7 +13704,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 254:
+/***/ 255:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13869,7 +13897,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 255:
+/***/ 256:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -15316,9 +15344,9 @@ module.exports = function xhrAdapter(config) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(246)
+var __vue_script__ = __webpack_require__(247)
 /* template */
-var __vue_template__ = __webpack_require__(247)
+var __vue_template__ = __webpack_require__(248)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */

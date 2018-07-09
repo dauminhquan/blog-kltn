@@ -5,8 +5,8 @@
             <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Đăng tin tuyển dụng</span></h4>
 
             <ul class="breadcrumb breadcrumb-caret position-right">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="form_inputs_basic.html">Quản lý bài đăng</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{route('post.manage.post-manage')}}">Quản lý tin tuyển dụng</a></li>
                 <li class="active">Thêm tin tuyển dụng</li>
             </ul>
         </div>

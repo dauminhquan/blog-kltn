@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 417);
+/******/ 	return __webpack_require__(__webpack_require__.s = 452);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -13128,22 +13128,22 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 417:
+/***/ 452:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(418);
+module.exports = __webpack_require__(453);
 
 
 /***/ }),
 
-/***/ 418:
+/***/ 453:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_form_login_vue__ = __webpack_require__(419);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_form_login_vue__ = __webpack_require__(454);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_form_login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_form_login_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forgot_password_vue__ = __webpack_require__(422);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forgot_password_vue__ = __webpack_require__(457);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forgot_password_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_forgot_password_vue__);
 window.Vue = __webpack_require__(12);
 
@@ -13171,15 +13171,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 419:
+/***/ 454:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(420)
+var __vue_script__ = __webpack_require__(455)
 /* template */
-var __vue_template__ = __webpack_require__(421)
+var __vue_template__ = __webpack_require__(456)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13219,13 +13219,17 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 420:
+/***/ 455:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
 //
 //
 //
@@ -13272,7 +13276,7 @@ window.Cookies = __webpack_require__(34);
         },
         login: function login() {
             var vm = this;
-
+            vm.processing = true;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/api/login', vm.infoLogin).then(function (data) {
                 var index = vm.styleText.findIndex(function (element) {
                     return 'text-danger' == element;
@@ -13287,6 +13291,7 @@ window.Cookies = __webpack_require__(34);
                 }).catch(function (err) {
                     alert(err);
                 });
+                vm.processing = false;
             }).catch(function (err) {
                 console.log(err);
                 vm.styleText.push('text-danger');
@@ -13303,6 +13308,7 @@ window.Cookies = __webpack_require__(34);
                     alert('Đã xảy ra lỗi. Vui lòng kiếm tra lại');
                     console.dir(err);
                 }
+                vm.processing = false;
             });
         }
     },
@@ -13313,14 +13319,15 @@ window.Cookies = __webpack_require__(34);
                 password: ''
             },
             styleText: ['display-block'],
-            Text: 'Điền tài khoản và mật khẩu của bạn'
+            Text: 'Điền tài khoản và mật khẩu của bạn',
+            processing: false
         };
     }
 });
 
 /***/ }),
 
-/***/ 421:
+/***/ 456:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13340,7 +13347,17 @@ var render = function() {
     [
       _c("div", { staticClass: "panel panel-body login-form" }, [
         _c("div", { staticClass: "text-center" }, [
-          _vm._m(0),
+          _vm.processing == false
+            ? _c(
+                "div",
+                { staticClass: "icon-object border-slate-300 text-slate-300" },
+                [_c("i", { staticClass: "icon-reading" })]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.processing == true
+            ? _c("div", { staticClass: "pace-demo" }, [_vm._m(0)])
+            : _vm._e(),
           _vm._v(" "),
           _c("h5", { staticClass: "content-group" }, [
             _vm._v("Đăng nhập "),
@@ -13432,11 +13449,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "icon-object border-slate-300 text-slate-300" },
-      [_c("i", { staticClass: "icon-reading" })]
-    )
+    return _c("div", { staticClass: "theme_xbox_xs" }, [
+      _c("div", {
+        staticClass: "pace_progress",
+        attrs: { "data-progress-text": "60%", "data-progress": "60" }
+      }),
+      _c("div", { staticClass: "pace_activity" })
+    ])
   },
   function() {
     var _vm = this
@@ -13481,15 +13500,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 422:
+/***/ 457:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(423)
+var __vue_script__ = __webpack_require__(458)
 /* template */
-var __vue_template__ = __webpack_require__(424)
+var __vue_template__ = __webpack_require__(459)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13529,7 +13548,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 423:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13562,7 +13581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 424:
+/***/ 459:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

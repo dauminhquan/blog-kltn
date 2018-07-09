@@ -2,8 +2,12 @@
     <form @submit.prevent="login">
         <div class="panel panel-body login-form">
             <div class="text-center">
-                <div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
+                <div class="icon-object border-slate-300 text-slate-300"  v-if="processing == false"><i class="icon-reading"></i></div>
+                <div class="pace-demo" v-if="processing == true" >
+                    <div class="theme_xbox_xs"><div class="pace_progress" data-progress-text="60%" data-progress="60"></div><div class="pace_activity"></div></div>
+                </div>
                 <h5 class="content-group">Đăng nhập <small :class="styleText" v-html="Text"></small></h5>
+
             </div>
 
             <div class="form-group has-feedback has-feedback-left">
@@ -46,7 +50,7 @@
             },
             login(){
                 var vm = this
-
+                    vm.processing = true
                     axios.post('/api/login',vm.infoLogin).then(data => {
                         let index = vm.styleText.findIndex(element => {
                             return 'text-danger' == element
@@ -61,7 +65,7 @@
                         }).catch(err =>{
                             alert(err)
                         })
-
+                        vm.processing = false
                     }).catch(err => {
                         console.log(err)
                         vm.styleText.push('text-danger');
@@ -82,7 +86,7 @@
                             alert('Đã xảy ra lỗi. Vui lòng kiếm tra lại')
                             console.dir(err)
                         }
-
+                        vm.processing = false
                     })
             }
         },
@@ -93,7 +97,8 @@
                     password: ''
                 },
                 styleText: ['display-block'],
-                Text: 'Điền tài khoản và mật khẩu của bạn'
+                Text: 'Điền tài khoản và mật khẩu của bạn',
+                processing: false
             }
         }
     }

@@ -155,7 +155,7 @@
                 var vm = this
                 vm.file_avatar.append('avatar',e.target.files[0])
                 vm.file_avatar.append('code_student',vm.code_student)
-                axios.post(vm.configUrl.API_ADMIN_STUDENT_MANAGE_UPDATE_AVATAR_STUDENT,vm.file_avatar).then(data => {
+                axios.post(vm.configUrl.API_STUDENT_UPDATE_AVATAR,vm.file_avatar).then(data => {
                         vm.avatar_user = data.data.url+'?'+new Date()
                 }).catch(err => {
                     console.log(err)

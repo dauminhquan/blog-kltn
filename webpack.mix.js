@@ -45,8 +45,14 @@ mix.js('resources/assets/js/admin/post/postsmanage/updatepost/updatepost.js', 'p
 //post course
 mix.js('resources/assets/js/admin/postcourse/postcoursesmanage/postcoursemanage.js', 'public/assets/js/build/pages/admin/post-course/post-courses.js');
 mix.js('resources/assets/js/admin/postcourse/updatepostcourse/updatepostcourse.js', 'public/assets/js/build/pages/admin/post-course/update-post-course.js');
+//post course
+mix.js('resources/assets/js/admin/notifymanage/notifymanage/notifymanage.js', 'public/assets/js/build/pages/admin/notify/notify.js');
+mix.js('resources/assets/js/admin/notifymanage/updatenotify/updatenotify.js', 'public/assets/js/build/pages/admin/notify/update-notify.js');
 
+mix.js('resources/assets/js/admin/notifymanage/addnotify/addnotify.js', 'public/assets/js/build/pages/admin/notify/add-notify.js');
+//notify
 
+//--notify
 // !-- admin
 // -- enterprise
 mix.js('resources/assets/js/enterprise/postsmanage/newpost/newpost.js', 'public/assets/js/build/pages/enterprise/post-manage/new-post.js');

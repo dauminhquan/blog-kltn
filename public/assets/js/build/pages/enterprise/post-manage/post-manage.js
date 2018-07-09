@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 298);
+/******/ 	return __webpack_require__(__webpack_require__.s = 333);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -525,6 +525,15 @@ var Config = function Config() {
         this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
         /*ADMIN JOB*/
 
+        /*ADMIN NOTIFY*/
+
+        this.WEB_ADMIN_NOTIFY_MANAGE = this.WEB_ADMIN + '/notify-manage';
+        this.WEB_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.WEB_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.WEB_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.WEB_ADMIN_NOTIFY_MANAGE + '/edit/' + ID;
+        };
+        /*---ADMIN NOTIFY*/
+
         /*ADMIN POST COURSE*/
 
         this.WEB_ADMIN_POST_COURSE = function (ID) {
@@ -632,7 +641,22 @@ var Config = function Config() {
                 return _this.API_ADMIN_JOB_MANAGE + '/get-detail-post/' + ID;
         };
         /*JOB MANAGE*/
+        /*NOTIFY MANAGE*/
 
+        this.API_ADMIN_NOTIFY_MANAGE = this.API_ADM + '/notify-manage';
+        this.API_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.API_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.API_ADMIN_NOTIFY_MANAGE_GET_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/update-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/delete-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_LIST_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/delete-list-notify';
+        this.API_ADMIN_NOTIFY_MANAGE_ADD_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/add-notify';
+        /*NOTIFY MANAGE*/
         /*POST COURSE*/
 
         this.API_ADMIN_POST_COURSE_MANAGE = this.API_ADM + '/post-course-manage';
@@ -675,6 +699,10 @@ var Config = function Config() {
         this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
                 return _this.API_STUDENT + '/delete-work/' + ID;
         };
+
+        this.API_STUDENT_UPDATE_AVATAR = this.API_STUDENT + '/update-avatar';
+        this.API_STUDENT_UPDATE_INFO = this.API_STUDENT + '/update-info';
+
         /*API STUDENT*/
 
         /*API JOB*/
@@ -12753,32 +12781,6 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 298:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(299);
-
-
-/***/ }),
-
-/***/ 299:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(300);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
-window.Vue = __webpack_require__(12);
-
-
-Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
-var app = new Vue({
-
-    el: '#page-content'
-});
-
-/***/ }),
-
 /***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12906,15 +12908,163 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 300:
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(9);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+
+/***/ 333:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(334);
+
+
+/***/ }),
+
+/***/ 334:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
+window.Vue = __webpack_require__(12);
+
+
+Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
+var app = new Vue({
+
+    el: '#page-content'
+});
+
+/***/ }),
+
+/***/ 335:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(301)
+var __vue_script__ = __webpack_require__(336)
 /* template */
-var __vue_template__ = __webpack_require__(315)
+var __vue_template__ = __webpack_require__(350)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -12954,12 +13104,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 301:
+/***/ 336:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(302);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__);
 //
 //
@@ -12982,19 +13132,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 302:
+/***/ 337:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(303)
+  __webpack_require__(338)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(305)
+var __vue_script__ = __webpack_require__(340)
 /* template */
-var __vue_template__ = __webpack_require__(314)
+var __vue_template__ = __webpack_require__(349)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13034,13 +13184,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 303:
+/***/ 338:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(304);
+var content = __webpack_require__(339);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13061,7 +13211,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 304:
+/***/ 339:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(35)(false);
@@ -13076,16 +13226,195 @@ exports.push([module.i, "\n.avatar-user{\n    width: 30px;\n    height: 50px;\n}
 
 /***/ }),
 
-/***/ 305:
+/***/ 34:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/*
+ * Cookies.js - 1.2.3
+ * https://github.com/ScottHamper/Cookies
+ *
+ * This is free and unencumbered software released into the public domain.
+ */
+(function (global, undefined) {
+    'use strict';
+
+    var factory = function (window) {
+        if (typeof window.document !== 'object') {
+            throw new Error('Cookies.js requires a `window` with a `document` object');
+        }
+
+        var Cookies = function (key, value, options) {
+            return arguments.length === 1 ?
+                Cookies.get(key) : Cookies.set(key, value, options);
+        };
+
+        // Allows for setter injection in unit tests
+        Cookies._document = window.document;
+
+        // Used to ensure cookie keys do not collide with
+        // built-in `Object` properties
+        Cookies._cacheKeyPrefix = 'cookey.'; // Hurr hurr, :)
+        
+        Cookies._maxExpireDate = new Date('Fri, 31 Dec 9999 23:59:59 UTC');
+
+        Cookies.defaults = {
+            path: '/',
+            secure: false
+        };
+
+        Cookies.get = function (key) {
+            if (Cookies._cachedDocumentCookie !== Cookies._document.cookie) {
+                Cookies._renewCache();
+            }
+            
+            var value = Cookies._cache[Cookies._cacheKeyPrefix + key];
+
+            return value === undefined ? undefined : decodeURIComponent(value);
+        };
+
+        Cookies.set = function (key, value, options) {
+            options = Cookies._getExtendedOptions(options);
+            options.expires = Cookies._getExpiresDate(value === undefined ? -1 : options.expires);
+
+            Cookies._document.cookie = Cookies._generateCookieString(key, value, options);
+
+            return Cookies;
+        };
+
+        Cookies.expire = function (key, options) {
+            return Cookies.set(key, undefined, options);
+        };
+
+        Cookies._getExtendedOptions = function (options) {
+            return {
+                path: options && options.path || Cookies.defaults.path,
+                domain: options && options.domain || Cookies.defaults.domain,
+                expires: options && options.expires || Cookies.defaults.expires,
+                secure: options && options.secure !== undefined ?  options.secure : Cookies.defaults.secure
+            };
+        };
+
+        Cookies._isValidDate = function (date) {
+            return Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date.getTime());
+        };
+
+        Cookies._getExpiresDate = function (expires, now) {
+            now = now || new Date();
+
+            if (typeof expires === 'number') {
+                expires = expires === Infinity ?
+                    Cookies._maxExpireDate : new Date(now.getTime() + expires * 1000);
+            } else if (typeof expires === 'string') {
+                expires = new Date(expires);
+            }
+
+            if (expires && !Cookies._isValidDate(expires)) {
+                throw new Error('`expires` parameter cannot be converted to a valid Date instance');
+            }
+
+            return expires;
+        };
+
+        Cookies._generateCookieString = function (key, value, options) {
+            key = key.replace(/[^#$&+\^`|]/g, encodeURIComponent);
+            key = key.replace(/\(/g, '%28').replace(/\)/g, '%29');
+            value = (value + '').replace(/[^!#$&-+\--:<-\[\]-~]/g, encodeURIComponent);
+            options = options || {};
+
+            var cookieString = key + '=' + value;
+            cookieString += options.path ? ';path=' + options.path : '';
+            cookieString += options.domain ? ';domain=' + options.domain : '';
+            cookieString += options.expires ? ';expires=' + options.expires.toUTCString() : '';
+            cookieString += options.secure ? ';secure' : '';
+
+            return cookieString;
+        };
+
+        Cookies._getCacheFromString = function (documentCookie) {
+            var cookieCache = {};
+            var cookiesArray = documentCookie ? documentCookie.split('; ') : [];
+
+            for (var i = 0; i < cookiesArray.length; i++) {
+                var cookieKvp = Cookies._getKeyValuePairFromCookieString(cookiesArray[i]);
+
+                if (cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] === undefined) {
+                    cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] = cookieKvp.value;
+                }
+            }
+
+            return cookieCache;
+        };
+
+        Cookies._getKeyValuePairFromCookieString = function (cookieString) {
+            // "=" is a valid character in a cookie value according to RFC6265, so cannot `split('=')`
+            var separatorIndex = cookieString.indexOf('=');
+
+            // IE omits the "=" when the cookie value is an empty string
+            separatorIndex = separatorIndex < 0 ? cookieString.length : separatorIndex;
+
+            var key = cookieString.substr(0, separatorIndex);
+            var decodedKey;
+            try {
+                decodedKey = decodeURIComponent(key);
+            } catch (e) {
+                if (console && typeof console.error === 'function') {
+                    console.error('Could not decode cookie with key "' + key + '"', e);
+                }
+            }
+            
+            return {
+                key: decodedKey,
+                value: cookieString.substr(separatorIndex + 1) // Defer decoding value until accessed
+            };
+        };
+
+        Cookies._renewCache = function () {
+            Cookies._cache = Cookies._getCacheFromString(Cookies._document.cookie);
+            Cookies._cachedDocumentCookie = Cookies._document.cookie;
+        };
+
+        Cookies._areEnabled = function () {
+            var testKey = 'cookies.js';
+            var areEnabled = Cookies.set(testKey, 1).get(testKey) === '1';
+            Cookies.expire(testKey);
+            return areEnabled;
+        };
+
+        Cookies.enabled = Cookies._areEnabled();
+
+        return Cookies;
+    };
+    var cookiesExport = (global && typeof global.document === 'object') ? factory(global) : factory;
+
+    // AMD support
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () { return cookiesExport; }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    // CommonJS/Node.js support
+    } else if (typeof exports === 'object') {
+        // Support Node.js specific `module.exports` (which can be a function)
+        if (typeof module === 'object' && typeof module.exports === 'object') {
+            exports = module.exports = cookiesExport;
+        }
+        // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+        exports.Cookies = cookiesExport;
+    } else {
+        global.Cookies = cookiesExport;
+    }
+})(typeof window === 'undefined' ? this : window);
+
+/***/ }),
+
+/***/ 340:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(343);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(346);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__trTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__axios__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(10);
@@ -13352,7 +13681,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 306:
+/***/ 341:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13407,7 +13736,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 307:
+/***/ 342:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13467,15 +13796,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 308:
+/***/ 343:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(309)
+var __vue_script__ = __webpack_require__(344)
 /* template */
-var __vue_template__ = __webpack_require__(310)
+var __vue_template__ = __webpack_require__(345)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13515,7 +13844,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 309:
+/***/ 344:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13587,29 +13916,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 31:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL
-    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
-    : baseURL;
-};
-
-
-/***/ }),
-
-/***/ 310:
+/***/ 345:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -13737,15 +14044,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 311:
+/***/ 346:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(312)
+var __vue_script__ = __webpack_require__(347)
 /* template */
-var __vue_template__ = __webpack_require__(313)
+var __vue_template__ = __webpack_require__(348)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13785,12 +14092,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 312:
+/***/ 347:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
 //
@@ -13877,7 +14184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 313:
+/***/ 348:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -14024,7 +14331,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 314:
+/***/ 349:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -14217,311 +14524,6 @@ if (false) {
 
 /***/ }),
 
-/***/ 315:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "content-wrapper", attrs: { id: "content-wrapper" } },
-    [_c("datatable")],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5a75dae4", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 32:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(9);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-
-/***/ 34:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_RESULT__;/*
- * Cookies.js - 1.2.3
- * https://github.com/ScottHamper/Cookies
- *
- * This is free and unencumbered software released into the public domain.
- */
-(function (global, undefined) {
-    'use strict';
-
-    var factory = function (window) {
-        if (typeof window.document !== 'object') {
-            throw new Error('Cookies.js requires a `window` with a `document` object');
-        }
-
-        var Cookies = function (key, value, options) {
-            return arguments.length === 1 ?
-                Cookies.get(key) : Cookies.set(key, value, options);
-        };
-
-        // Allows for setter injection in unit tests
-        Cookies._document = window.document;
-
-        // Used to ensure cookie keys do not collide with
-        // built-in `Object` properties
-        Cookies._cacheKeyPrefix = 'cookey.'; // Hurr hurr, :)
-        
-        Cookies._maxExpireDate = new Date('Fri, 31 Dec 9999 23:59:59 UTC');
-
-        Cookies.defaults = {
-            path: '/',
-            secure: false
-        };
-
-        Cookies.get = function (key) {
-            if (Cookies._cachedDocumentCookie !== Cookies._document.cookie) {
-                Cookies._renewCache();
-            }
-            
-            var value = Cookies._cache[Cookies._cacheKeyPrefix + key];
-
-            return value === undefined ? undefined : decodeURIComponent(value);
-        };
-
-        Cookies.set = function (key, value, options) {
-            options = Cookies._getExtendedOptions(options);
-            options.expires = Cookies._getExpiresDate(value === undefined ? -1 : options.expires);
-
-            Cookies._document.cookie = Cookies._generateCookieString(key, value, options);
-
-            return Cookies;
-        };
-
-        Cookies.expire = function (key, options) {
-            return Cookies.set(key, undefined, options);
-        };
-
-        Cookies._getExtendedOptions = function (options) {
-            return {
-                path: options && options.path || Cookies.defaults.path,
-                domain: options && options.domain || Cookies.defaults.domain,
-                expires: options && options.expires || Cookies.defaults.expires,
-                secure: options && options.secure !== undefined ?  options.secure : Cookies.defaults.secure
-            };
-        };
-
-        Cookies._isValidDate = function (date) {
-            return Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date.getTime());
-        };
-
-        Cookies._getExpiresDate = function (expires, now) {
-            now = now || new Date();
-
-            if (typeof expires === 'number') {
-                expires = expires === Infinity ?
-                    Cookies._maxExpireDate : new Date(now.getTime() + expires * 1000);
-            } else if (typeof expires === 'string') {
-                expires = new Date(expires);
-            }
-
-            if (expires && !Cookies._isValidDate(expires)) {
-                throw new Error('`expires` parameter cannot be converted to a valid Date instance');
-            }
-
-            return expires;
-        };
-
-        Cookies._generateCookieString = function (key, value, options) {
-            key = key.replace(/[^#$&+\^`|]/g, encodeURIComponent);
-            key = key.replace(/\(/g, '%28').replace(/\)/g, '%29');
-            value = (value + '').replace(/[^!#$&-+\--:<-\[\]-~]/g, encodeURIComponent);
-            options = options || {};
-
-            var cookieString = key + '=' + value;
-            cookieString += options.path ? ';path=' + options.path : '';
-            cookieString += options.domain ? ';domain=' + options.domain : '';
-            cookieString += options.expires ? ';expires=' + options.expires.toUTCString() : '';
-            cookieString += options.secure ? ';secure' : '';
-
-            return cookieString;
-        };
-
-        Cookies._getCacheFromString = function (documentCookie) {
-            var cookieCache = {};
-            var cookiesArray = documentCookie ? documentCookie.split('; ') : [];
-
-            for (var i = 0; i < cookiesArray.length; i++) {
-                var cookieKvp = Cookies._getKeyValuePairFromCookieString(cookiesArray[i]);
-
-                if (cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] === undefined) {
-                    cookieCache[Cookies._cacheKeyPrefix + cookieKvp.key] = cookieKvp.value;
-                }
-            }
-
-            return cookieCache;
-        };
-
-        Cookies._getKeyValuePairFromCookieString = function (cookieString) {
-            // "=" is a valid character in a cookie value according to RFC6265, so cannot `split('=')`
-            var separatorIndex = cookieString.indexOf('=');
-
-            // IE omits the "=" when the cookie value is an empty string
-            separatorIndex = separatorIndex < 0 ? cookieString.length : separatorIndex;
-
-            var key = cookieString.substr(0, separatorIndex);
-            var decodedKey;
-            try {
-                decodedKey = decodeURIComponent(key);
-            } catch (e) {
-                if (console && typeof console.error === 'function') {
-                    console.error('Could not decode cookie with key "' + key + '"', e);
-                }
-            }
-            
-            return {
-                key: decodedKey,
-                value: cookieString.substr(separatorIndex + 1) // Defer decoding value until accessed
-            };
-        };
-
-        Cookies._renewCache = function () {
-            Cookies._cache = Cookies._getCacheFromString(Cookies._document.cookie);
-            Cookies._cachedDocumentCookie = Cookies._document.cookie;
-        };
-
-        Cookies._areEnabled = function () {
-            var testKey = 'cookies.js';
-            var areEnabled = Cookies.set(testKey, 1).get(testKey) === '1';
-            Cookies.expire(testKey);
-            return areEnabled;
-        };
-
-        Cookies.enabled = Cookies._areEnabled();
-
-        return Cookies;
-    };
-    var cookiesExport = (global && typeof global.document === 'object') ? factory(global) : factory;
-
-    // AMD support
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () { return cookiesExport; }).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    // CommonJS/Node.js support
-    } else if (typeof exports === 'object') {
-        // Support Node.js specific `module.exports` (which can be a function)
-        if (typeof module === 'object' && typeof module.exports === 'object') {
-            exports = module.exports = cookiesExport;
-        }
-        // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
-        exports.Cookies = cookiesExport;
-    } else {
-        global.Cookies = cookiesExport;
-    }
-})(typeof window === 'undefined' ? this : window);
-
-/***/ }),
-
 /***/ 35:
 /***/ (function(module, exports) {
 
@@ -14602,6 +14604,32 @@ function toComment(sourceMap) {
 	return '/*# ' + data + ' */';
 }
 
+
+/***/ }),
+
+/***/ 350:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "content-wrapper", attrs: { id: "content-wrapper" } },
+    [_c("datatable")],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5a75dae4", module.exports)
+  }
+}
 
 /***/ }),
 
@@ -15292,15 +15320,15 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 70:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(306)
+var __vue_script__ = __webpack_require__(341)
 /* template */
-var __vue_template__ = __webpack_require__(307)
+var __vue_template__ = __webpack_require__(342)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */

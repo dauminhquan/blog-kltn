@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 329);
+/******/ 	return __webpack_require__(__webpack_require__.s = 364);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -525,6 +525,15 @@ var Config = function Config() {
         this.WEB_ADMIN_JOB_MANAGE_SKILL = this.WEB_ADMIN_JOB_MANAGE + '/skill';
         /*ADMIN JOB*/
 
+        /*ADMIN NOTIFY*/
+
+        this.WEB_ADMIN_NOTIFY_MANAGE = this.WEB_ADMIN + '/notify-manage';
+        this.WEB_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.WEB_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.WEB_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.WEB_ADMIN_NOTIFY_MANAGE + '/edit/' + ID;
+        };
+        /*---ADMIN NOTIFY*/
+
         /*ADMIN POST COURSE*/
 
         this.WEB_ADMIN_POST_COURSE = function (ID) {
@@ -632,7 +641,22 @@ var Config = function Config() {
                 return _this.API_ADMIN_JOB_MANAGE + '/get-detail-post/' + ID;
         };
         /*JOB MANAGE*/
+        /*NOTIFY MANAGE*/
 
+        this.API_ADMIN_NOTIFY_MANAGE = this.API_ADM + '/notify-manage';
+        this.API_ADMIN_NOTIFY_MANAGE_NOTIFIES = this.API_ADMIN_NOTIFY_MANAGE + '/notifies';
+        this.API_ADMIN_NOTIFY_MANAGE_GET_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_UPDATE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/update-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_NOTIFY = function (ID) {
+                return _this.API_ADMIN_NOTIFY_MANAGE + '/delete-notify/' + ID;
+        };
+        this.API_ADMIN_NOTIFY_MANAGE_DELETE_LIST_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/delete-list-notify';
+        this.API_ADMIN_NOTIFY_MANAGE_ADD_NOTIFY = this.API_ADMIN_NOTIFY_MANAGE + '/add-notify';
+        /*NOTIFY MANAGE*/
         /*POST COURSE*/
 
         this.API_ADMIN_POST_COURSE_MANAGE = this.API_ADM + '/post-course-manage';
@@ -675,6 +699,10 @@ var Config = function Config() {
         this.API_STUDENT_DELETE_WORK_STUDENT = function (ID) {
                 return _this.API_STUDENT + '/delete-work/' + ID;
         };
+
+        this.API_STUDENT_UPDATE_AVATAR = this.API_STUDENT + '/update-avatar';
+        this.API_STUDENT_UPDATE_INFO = this.API_STUDENT + '/update-info';
+
         /*API STUDENT*/
 
         /*API JOB*/
@@ -12967,14 +12995,6 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 329:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(330);
-
-
-/***/ }),
-
 /***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13006,633 +13026,6 @@ module.exports = function spread(callback) {
     return callback.apply(null, arr);
   };
 };
-
-
-/***/ }),
-
-/***/ 330:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(331);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
-window.Vue = __webpack_require__(12);
-
-
-Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
-var app = new Vue({
-
-    el: '#page-content'
-});
-
-/***/ }),
-
-/***/ 331:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(332)
-/* template */
-var __vue_template__ = __webpack_require__(346)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\contentWrapper.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-535db184", Component.options)
-  } else {
-    hotAPI.reload("data-v-535db184", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 332:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__);
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'datatable': __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default.a
-    },
-    data: function data() {
-        return {};
-    }
-});
-
-/***/ }),
-
-/***/ 333:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(334)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(336)
-/* template */
-var __vue_template__ = __webpack_require__(345)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\datatable.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-25726d70", Component.options)
-  } else {
-    hotAPI.reload("data-v-25726d70", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 334:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(335);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(36)("774bdd8c", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-25726d70\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue", function() {
-     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-25726d70\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 335:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(35)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.avatar-user{\n    width: 30px;\n    height: 50px;\n}\n.avatar-user img{\n    border-radius: 50%;\n    width: 100%;\n}\n.check-all{\n    width: 200px\n}\n.check-item div.checker{\n    margin-left: 30px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 336:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(342);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__trTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__axios__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(10);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-    components: {
-        'td-checkbox': __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default.a,
-        'th-check-all': __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default.a,
-        'tr-table': __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default.a
-    },
-
-    computed: {
-        getDataRows: function getDataRows() {
-            return this.dataRows;
-        }
-    },
-    beforeCreate: function beforeCreate() {},
-    beforeMount: function beforeMount() {
-        this.getPostCourse();
-    },
-    mounted: function mounted() {
-
-        this.setDatatable();
-    },
-    beforeUpdate: function beforeUpdate() {
-        this.table.fnDestroy();
-    },
-    updated: function updated() {
-        this.$nextTick(function () {
-
-            this.setDatatable();
-        });
-    },
-
-    methods: {
-        setCheckAllData: function setCheckAllData(vl) {
-            this.checkAll = vl;
-        },
-        setDatatable: function setDatatable() {
-            var vm = this;
-            $.extend($.fn.dataTable.defaults, {
-                autoWidth: false,
-                dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
-                language: {
-                    search: '<span>Tìm kiếm:</span> _INPUT_',
-                    lengthMenu: '<span>Hiển thị:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
-                }
-            });
-            this.table = $('#table').dataTable({
-                columnDefs: [{ orderable: false, targets: [0, 4] }],
-                buttons: {
-                    buttons: [{
-                        extend: 'colvis',
-                        text: '<i class="icon-three-bars"></i> <span class="caret"></span>',
-                        className: 'btn bg-blue btn-icon'
-                    }, {
-                        text: 'Thêm mới',
-                        className: 'btn bg-primary',
-                        action: function action(e, dt, node, config) {
-                            window.open(vm.configUrl.WEB_ENTERPRISE_NEW_POST_COURSE, '_blank');
-                        }
-                    }]
-                }
-            });
-            // Add placeholder to the datatable filter option
-            $('.dataTables_filter input[type=search]').attr('placeholder', 'Nhập từ khóa');
-
-            // Enable Select2 select for the length option
-            $('.dataTables_length select').select2({
-                minimumResultsForSearch: Infinity,
-                width: 'auto'
-            });
-            $('a.dt-button.buttons-collection.buttons-colvis.btn.bg-blue.btn-icon[tabindex="0"][aria-controls="table"]').click(function () {
-                if ($(this).attr('removed') == undefined) {
-                    $('a.dt-button.buttons-columnVisibility.active[tabindex="0"]')[0].remove();
-                    $(this).attr('removed', 1);
-                }
-            });
-        },
-        pop_id_item: function pop_id_item(id_item) {
-            this.id_item_selected = this.id_item_selected.filter(function (value) {
-                return value != id_item;
-            });
-        },
-        delete_selected: function delete_selected() {
-            $('#modal_danger').modal('show');
-        },
-        confirm_delete: function confirm_delete() {
-            var vm = this;
-            vm.deleting = true;
-            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].delete(vm.configUrl.API_ENTERPRISE_POST_COURSE, {
-                params: {
-                    list_id_post_course: vm.id_item_selected
-                }
-            }).then(function (data) {
-                vm.posts = vm.posts.filter(function (value) {
-                    return vm.id_item_selected.indexOf(value.id) == -1;
-                });
-                var rows_selected = vm.fnGetSelected(vm.table);
-
-                for (var i = 0; i < rows_selected.length; i++) {
-                    vm.table.fnDeleteRow(rows_selected[i]);
-                };
-
-                vm.deleting = false;
-                $('#modal_danger').modal('hide');
-                new PNotify({
-                    title: 'Ohh Yeah! Thành công!',
-                    text: 'Đã xóa thành công ' + vm.id_item_selected.length + ' bài viết',
-                    addclass: 'bg-success'
-                });
-                vm.id_item_selected = [];
-            }).catch(function (err) {
-                new PNotify({
-                    title: 'Ohh! Có lỗi xảy ra rồi!',
-                    text: 'Đã có lỗi từ server',
-                    addclass: 'bg-danger'
-                });
-            });
-        },
-        push_id_item_selected: function push_id_item_selected(id) {
-            this.id_item_selected.push(id);
-            this.table.$('tr[will-delete="true"]');
-        },
-        fnGetSelected: function fnGetSelected(oTableLocal) {
-            return oTableLocal.$('tr[will-delete="true"]');
-        },
-        getPostCourse: function getPostCourse() {
-            var vm = this;
-            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].get(vm.configUrl.API_ENTERPRISE_POST_COURSE).then(function (data) {
-                vm.dataRows = data.data;
-                vm.posts = data.data;
-            }).catch(function (err) {
-                new PNotify({
-                    title: 'Ohh! Có lỗi xảy ra rồi!',
-                    text: err.response.data,
-                    addclass: 'bg-danger'
-                });
-            });
-        },
-        confirm_delete_item: function confirm_delete_item(id) {
-            var vm = this;
-            vm.deleting = true;
-            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].delete(vm.configUrl.API_ENTERPRISE_POST_COURSE + '/' + id).then(function (data) {
-                vm.posts = vm.posts.filter(function (value) {
-                    return value.id != id;
-                });
-                var rows_selected = vm.fnGetSelected(vm.table);
-
-                for (var i = 0; i < rows_selected.length; i++) {
-                    vm.table.fnDeleteRow(rows_selected[i]);
-                };
-                new PNotify({
-                    title: 'Ohh Yeah! Thành công!',
-                    text: 'Đã xóa thành công bài viết',
-                    addclass: 'bg-success'
-                });
-                vm.id_item_selected = [];
-            }).catch(function (err) {
-                new PNotify({
-                    title: 'Ohh! Có lỗi xảy ra rồi!',
-                    text: 'Đã có lỗi từ server',
-                    addclass: 'bg-danger'
-                });
-            });
-        }
-    },
-    data: function data() {
-        return {
-            checkAll: false,
-            table: '',
-            id_item_selected: [],
-            posts: [],
-            ExcelFileuploading: false,
-            dataRows: [],
-            ExcelFileUpload: '',
-            deleting: false,
-            configUrl: new __WEBPACK_IMPORTED_MODULE_4__config__["a" /* default */]()
-
-        };
-    },
-
-    watch: {
-        getDataRows: {
-            handler: function handler(old) {},
-
-            deep: true
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 337:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    computed: {
-        getCheck: function getCheck() {
-            return this.checked;
-        },
-        getCheckAll: function getCheckAll() {
-            return this.checkAll;
-        }
-    },
-    data: function data() {
-        return {
-            checked: false,
-            styleCheck: ''
-        };
-    },
-
-    props: ['checkAll', 'id-item'],
-    watch: {
-        getCheck: {
-            handler: function handler(new_value, old_value) {
-                if (new_value == true) {
-                    this.$emit('push_item_selected', this.idItem);
-                    this.styleCheck = 'checked';
-                } else {
-                    this.$emit('pop_item_selected', this.idItem);
-                    this.styleCheck = '';
-                }
-            },
-
-            deep: true
-        },
-        getCheckAll: {
-            handler: function handler(new_value, old_value) {
-                console.log(new_value);
-                if (new_value == true) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            }
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 338:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "checker" }, [
-    _c("span", { class: _vm.styleCheck }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.checked,
-            expression: "checked"
-          }
-        ],
-        staticClass: "styled",
-        attrs: { type: "checkbox" },
-        domProps: {
-          checked: Array.isArray(_vm.checked)
-            ? _vm._i(_vm.checked, null) > -1
-            : _vm.checked
-        },
-        on: {
-          change: function($event) {
-            var $$a = _vm.checked,
-              $$el = $event.target,
-              $$c = $$el.checked ? true : false
-            if (Array.isArray($$a)) {
-              var $$v = null,
-                $$i = _vm._i($$a, $$v)
-              if ($$el.checked) {
-                $$i < 0 && (_vm.checked = $$a.concat([$$v]))
-              } else {
-                $$i > -1 &&
-                  (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-              }
-            } else {
-              _vm.checked = $$c
-            }
-          }
-        }
-      })
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7d3b52c2", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 339:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(340)
-/* template */
-var __vue_template__ = __webpack_require__(341)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\thCheckAll.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b80dad4e", Component.options)
-  } else {
-    hotAPI.reload("data-v-b80dad4e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
 
 
 /***/ }),
@@ -13813,681 +13206,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*
         global.Cookies = cookiesExport;
     }
 })(typeof window === 'undefined' ? this : window);
-
-/***/ }),
-
-/***/ 340:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        this.checked = this.selected;
-    },
-
-    computed: {
-        getCheck: function getCheck() {
-            return this.checked;
-        }
-    },
-    data: function data() {
-        return {
-            checked: false,
-            styleCheck: ''
-        };
-    },
-
-    props: ['selected'],
-
-    watch: {
-        getCheck: {
-            handler: function handler(new_value, old_value) {
-                this.$emit('setcheckAll', new_value);
-                if (new_value == true) {
-                    this.styleCheck = 'checked';
-                } else {
-                    this.styleCheck = '';
-                }
-            },
-
-            deep: true
-        }
-    },
-    methods: {
-        selectAll: function selectAll() {
-            if (this.checked == true) {
-                this.checked = false;
-            } else {
-                this.checked = true;
-            }
-        },
-        delete_selected: function delete_selected() {
-            this.$emit('delete_selected');
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 341:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "btn-group navbar-btn" }, [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-default btn-icon btn-checkbox-all",
-        attrs: { type: "button" }
-      },
-      [
-        _c("div", { staticClass: "checker" }, [
-          _c("span", { class: _vm.styleCheck }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.checked,
-                  expression: "checked"
-                }
-              ],
-              staticClass: "styled",
-              attrs: { type: "checkbox" },
-              domProps: {
-                checked: Array.isArray(_vm.checked)
-                  ? _vm._i(_vm.checked, null) > -1
-                  : _vm.checked
-              },
-              on: {
-                change: function($event) {
-                  var $$a = _vm.checked,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.checked = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.checked = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
-                  } else {
-                    _vm.checked = $$c
-                  }
-                }
-              }
-            })
-          ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c("ul", { staticClass: "dropdown-menu" }, [
-      _c("li", [
-        _vm.checked == false
-          ? _c(
-              "a",
-              {
-                attrs: { href: "javascript:void(0);" },
-                on: { click: _vm.selectAll }
-              },
-              [_vm._v("Chọn tất cả")]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _vm.checked == true
-          ? _c(
-              "a",
-              {
-                attrs: { href: "javascript:void(0);" },
-                on: { click: _vm.selectAll }
-              },
-              [_vm._v("Bỏ chọn tất cả")]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c(
-          "a",
-          {
-            attrs: { href: "javascript:void(0);" },
-            on: { click: _vm.delete_selected }
-          },
-          [_vm._v("Xóa mục đã chọn")]
-        )
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-default btn-icon dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
-      },
-      [_c("span", { staticClass: "caret" })]
-    )
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b80dad4e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 342:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(343)
-/* template */
-var __vue_template__ = __webpack_require__(344)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\trTable.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-57e75bd4", Component.options)
-  } else {
-    hotAPI.reload("data-v-57e75bd4", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 343:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'td-checkbox': __WEBPACK_IMPORTED_MODULE_0__tdCheckbox___default.a
-    },
-    props: ['item', 'checkAll'],
-    data: function data() {
-        return {
-            willDelete: false,
-            configUrl: new __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */]()
-        };
-    },
-
-    methods: {
-        push_id_item_selected: function push_id_item_selected(id) {
-            this.willDelete = true;
-            this.$emit('push_item_selected', id);
-        },
-        getAvatar: function getAvatar(url) {
-            return window.location.origin + url;
-        },
-        pop_id_item: function pop_id_item(id) {
-            this.willDelete = false;
-            this.$emit('pop_item_selected', id);
-        },
-        request_delete: function request_delete() {
-            this.willDelete = true;
-            var vm = this;
-            vm.$emit('request_delete_item', vm.item.id);
-        },
-        infoPostCourse: function infoPostCourse(id, accept) {
-            var vm = this;
-            // if(accept == '1')
-            // {
-            //     return vm.configUrl.WEB_JOB_JOB_DETAIL(id)
-            // }
-            // if(accept == 2)
-            // {
-            //     return 'javascript:void()'
-            // }
-            // return vm.configUrl.WEB_ENTERPRISE_POST(id)
-        },
-        openInforPostCourse: function openInforPostCourse(id) {
-            var vm = this;
-            window.open(vm.configUrl.WEB_ENTERPRISE_POST_COURSE(id), '_blank');
-        }
-    }
-});
-
-/***/ }),
-
-/***/ 344:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("tr", { attrs: { "will-delete": _vm.willDelete } }, [
-    _c(
-      "td",
-      { staticClass: "check-item" },
-      [
-        _c("td-checkbox", {
-          attrs: { checkAll: _vm.checkAll, "id-item": _vm.item.id },
-          on: {
-            push_item_selected: function($event) {
-              _vm.push_id_item_selected($event)
-            },
-            pop_item_selected: function($event) {
-              _vm.pop_id_item($event)
-            }
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("td", [
-      _c(
-        "a",
-        {
-          attrs: {
-            href: _vm.infoPostCourse(_vm.item.id, _vm.item.accept),
-            target: "_blank"
-          }
-        },
-        [_vm._v(_vm._s(_vm.item.title_post_course))]
-      )
-    ]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.item.created_at))]),
-    _vm._v(" "),
-    _c("td", [
-      _vm.item.accept == 0
-        ? _c("span", { staticClass: "label label-default" }, [
-            _vm._v("Đang đợi")
-          ])
-        : _vm.item.accept == 2
-          ? _c("span", { staticClass: "label label-danger" }, [
-              _vm._v("Đã hủy")
-            ])
-          : _c("span", { staticClass: "label label-success" }, [
-              _vm._v("Đã đăng")
-            ])
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
-      _c("ul", { staticClass: "icons-list" }, [
-        _c("li", { staticClass: "dropdown" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("ul", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-            _c("li", { on: { click: _vm.request_delete } }, [_vm._m(1)]),
-            _vm._v(" "),
-            _c(
-              "li",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.openInforPostCourse(_vm.item.id)
-                  }
-                }
-              },
-              [_vm._m(2)]
-            )
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "dropdown-toggle",
-        attrs: { href: "#", "data-toggle": "dropdown" }
-      },
-      [_c("i", { staticClass: "icon-menu9" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "javascript:void(0)" } }, [
-      _c("i", { staticClass: "glyphicon glyphicon-trash" }),
-      _vm._v(" Xóa bài viết")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "javascript:void(0)" } }, [
-      _c("i", { staticClass: "glyphicon glyphicon-edit" }),
-      _vm._v(" Sửa bài đăng")
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-57e75bd4", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 345:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "panel panel-flat" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "table",
-      {
-        staticClass: "table datatable-button-html5-columns",
-        attrs: { id: "table" }
-      },
-      [
-        _c("thead", [
-          _c("tr", [
-            _c(
-              "th",
-              { staticClass: "check-all" },
-              [
-                _c("th-check-all", {
-                  attrs: { selected: false },
-                  on: {
-                    delete_selected: _vm.delete_selected,
-                    setcheckAll: _vm.setCheckAllData
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("th", [_vm._v("Tiêu đề")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Ngày đăng")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Tình trạng")]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center" }, [_vm._v("Actions")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          { attrs: { id: "table_body" } },
-          _vm._l(_vm.dataRows, function(item) {
-            return _c("tr-table", {
-              key: item.id_item,
-              attrs: { item: item, checkAll: _vm.checkAll },
-              on: {
-                request_delete_item: function($event) {
-                  _vm.confirm_delete_item($event)
-                },
-                push_item_selected: function($event) {
-                  _vm.push_id_item_selected($event)
-                },
-                pop_item_selected: function($event) {
-                  _vm.pop_id_item($event)
-                }
-              }
-            })
-          })
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal fade", attrs: { id: "modal_danger" } }, [
-      _c("div", { staticClass: "modal-dialog" }, [
-        _c("div", { staticClass: "modal-content" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-body" }, [
-            _vm._m(2),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "panel panel-body border-top-danger text-center",
-                staticStyle: { border: "snow" }
-              },
-              [
-                _vm.deleting == true
-                  ? _c("div", { staticClass: "pace-demo" }, [_vm._m(3)])
-                  : _vm._e()
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-link",
-                attrs: { type: "button", "data-dismiss": "modal" }
-              },
-              [_vm._v("Hủy")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                attrs: { type: "button" },
-                on: { click: _vm.confirm_delete }
-              },
-              [_vm._v("Xác định xóa")]
-            )
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-heading" }, [
-      _c("h5", { staticClass: "panel-title" }, [_vm._v("Danh sách bài viết")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "heading-elements" }, [
-        _c("ul", { staticClass: "icons-list" }, [
-          _c("li", [_c("a", { attrs: { "data-action": "collapse" } })]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { "data-action": "reload" } })]),
-          _vm._v(" "),
-          _c("li", [_c("a", { attrs: { "data-action": "close" } })])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header bg-danger" }, [
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("×")]
-      ),
-      _vm._v(" "),
-      _c("h6", { staticClass: "modal-title" }, [
-        _c("i", { staticClass: "icon-warning" }),
-        _vm._v(" Cảnh báo")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("i", { staticClass: "icon-warning" }),
-      _vm._v(
-        " Sau khi xóa, mọi dữ liệu liên quan sẽ bị xóa. Bạn nên cân nhắc điều này ! "
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "theme_xbox_xs" }, [
-      _c("div", {
-        staticClass: "pace_progress",
-        attrs: { "data-progress-text": "60%", "data-progress": "60" }
-      }),
-      _c("div", { staticClass: "pace_activity" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-25726d70", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 346:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "content-wrapper", attrs: { id: "content-wrapper" } },
-    [_c("datatable")],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-535db184", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -14803,6 +13521,187 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
+/***/ 364:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(365);
+
+
+/***/ }),
+
+/***/ 365:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue__);
+window.Vue = __webpack_require__(12);
+
+
+Vue.component('content-wrapper', __WEBPACK_IMPORTED_MODULE_0__contentWrapper_vue___default.a);
+var app = new Vue({
+
+    el: '#page-content'
+});
+
+/***/ }),
+
+/***/ 366:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(367)
+/* template */
+var __vue_template__ = __webpack_require__(381)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\contentWrapper.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-535db184", Component.options)
+  } else {
+    hotAPI.reload("data-v-535db184", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 367:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_datatable_vue__);
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        'datatable': __WEBPACK_IMPORTED_MODULE_0__components_datatable_vue___default.a
+    },
+    data: function data() {
+        return {};
+    }
+});
+
+/***/ }),
+
+/***/ 368:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(369)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(371)
+/* template */
+var __vue_template__ = __webpack_require__(380)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\datatable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-25726d70", Component.options)
+  } else {
+    hotAPI.reload("data-v-25726d70", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 369:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(370);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(36)("774bdd8c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-25726d70\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-25726d70\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./datatable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ 37:
 /***/ (function(module, exports) {
 
@@ -14834,6 +13733,1135 @@ module.exports = function listToStyles (parentId, list) {
   return styles
 }
 
+
+/***/ }),
+
+/***/ 370:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(35)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.avatar-user{\n    width: 30px;\n    height: 50px;\n}\n.avatar-user img{\n    border-radius: 50%;\n    width: 100%;\n}\n.check-all{\n    width: 200px\n}\n.check-item div.checker{\n    margin-left: 30px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 371:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__ = __webpack_require__(374);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue__ = __webpack_require__(377);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__trTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__axios__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(10);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    components: {
+        'td-checkbox': __WEBPACK_IMPORTED_MODULE_0__tdCheckbox_vue___default.a,
+        'th-check-all': __WEBPACK_IMPORTED_MODULE_1__thCheckAll_vue___default.a,
+        'tr-table': __WEBPACK_IMPORTED_MODULE_2__trTable_vue___default.a
+    },
+
+    computed: {
+        getDataRows: function getDataRows() {
+            return this.dataRows;
+        }
+    },
+    beforeCreate: function beforeCreate() {},
+    beforeMount: function beforeMount() {
+        this.getPostCourse();
+    },
+    mounted: function mounted() {
+
+        this.setDatatable();
+    },
+    beforeUpdate: function beforeUpdate() {
+        this.table.fnDestroy();
+    },
+    updated: function updated() {
+        this.$nextTick(function () {
+
+            this.setDatatable();
+        });
+    },
+
+    methods: {
+        setCheckAllData: function setCheckAllData(vl) {
+            this.checkAll = vl;
+        },
+        setDatatable: function setDatatable() {
+            var vm = this;
+            $.extend($.fn.dataTable.defaults, {
+                autoWidth: false,
+                dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
+                language: {
+                    search: '<span>Tìm kiếm:</span> _INPUT_',
+                    lengthMenu: '<span>Hiển thị:</span> _MENU_',
+                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                }
+            });
+            this.table = $('#table').dataTable({
+                columnDefs: [{ orderable: false, targets: [0, 4] }],
+                buttons: {
+                    buttons: [{
+                        extend: 'colvis',
+                        text: '<i class="icon-three-bars"></i> <span class="caret"></span>',
+                        className: 'btn bg-blue btn-icon'
+                    }, {
+                        text: 'Thêm mới',
+                        className: 'btn bg-primary',
+                        action: function action(e, dt, node, config) {
+                            window.open(vm.configUrl.WEB_ENTERPRISE_NEW_POST_COURSE, '_blank');
+                        }
+                    }]
+                }
+            });
+            // Add placeholder to the datatable filter option
+            $('.dataTables_filter input[type=search]').attr('placeholder', 'Nhập từ khóa');
+
+            // Enable Select2 select for the length option
+            $('.dataTables_length select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'auto'
+            });
+            $('a.dt-button.buttons-collection.buttons-colvis.btn.bg-blue.btn-icon[tabindex="0"][aria-controls="table"]').click(function () {
+                if ($(this).attr('removed') == undefined) {
+                    $('a.dt-button.buttons-columnVisibility.active[tabindex="0"]')[0].remove();
+                    $(this).attr('removed', 1);
+                }
+            });
+        },
+        pop_id_item: function pop_id_item(id_item) {
+            this.id_item_selected = this.id_item_selected.filter(function (value) {
+                return value != id_item;
+            });
+        },
+        delete_selected: function delete_selected() {
+            $('#modal_danger').modal('show');
+        },
+        confirm_delete: function confirm_delete() {
+            var vm = this;
+            vm.deleting = true;
+            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].delete(vm.configUrl.API_ENTERPRISE_POST_COURSE, {
+                params: {
+                    list_id_post_course: vm.id_item_selected
+                }
+            }).then(function (data) {
+                vm.posts = vm.posts.filter(function (value) {
+                    return vm.id_item_selected.indexOf(value.id) == -1;
+                });
+                var rows_selected = vm.fnGetSelected(vm.table);
+
+                for (var i = 0; i < rows_selected.length; i++) {
+                    vm.table.fnDeleteRow(rows_selected[i]);
+                };
+
+                vm.deleting = false;
+                $('#modal_danger').modal('hide');
+                new PNotify({
+                    title: 'Ohh Yeah! Thành công!',
+                    text: 'Đã xóa thành công ' + vm.id_item_selected.length + ' bài viết',
+                    addclass: 'bg-success'
+                });
+                vm.id_item_selected = [];
+            }).catch(function (err) {
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+            });
+        },
+        push_id_item_selected: function push_id_item_selected(id) {
+            this.id_item_selected.push(id);
+            this.table.$('tr[will-delete="true"]');
+        },
+        fnGetSelected: function fnGetSelected(oTableLocal) {
+            return oTableLocal.$('tr[will-delete="true"]');
+        },
+        getPostCourse: function getPostCourse() {
+            var vm = this;
+            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].get(vm.configUrl.API_ENTERPRISE_POST_COURSE).then(function (data) {
+                vm.dataRows = data.data;
+                vm.posts = data.data;
+            }).catch(function (err) {
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: err.response.data,
+                    addclass: 'bg-danger'
+                });
+            });
+        },
+        confirm_delete_item: function confirm_delete_item(id) {
+            var vm = this;
+            vm.deleting = true;
+            __WEBPACK_IMPORTED_MODULE_3__axios__["a" /* default */].delete(vm.configUrl.API_ENTERPRISE_POST_COURSE + '/' + id).then(function (data) {
+                vm.posts = vm.posts.filter(function (value) {
+                    return value.id != id;
+                });
+                var rows_selected = vm.fnGetSelected(vm.table);
+
+                for (var i = 0; i < rows_selected.length; i++) {
+                    vm.table.fnDeleteRow(rows_selected[i]);
+                };
+                new PNotify({
+                    title: 'Ohh Yeah! Thành công!',
+                    text: 'Đã xóa thành công bài viết',
+                    addclass: 'bg-success'
+                });
+                vm.id_item_selected = [];
+            }).catch(function (err) {
+                new PNotify({
+                    title: 'Ohh! Có lỗi xảy ra rồi!',
+                    text: 'Đã có lỗi từ server',
+                    addclass: 'bg-danger'
+                });
+            });
+        }
+    },
+    data: function data() {
+        return {
+            checkAll: false,
+            table: '',
+            id_item_selected: [],
+            posts: [],
+            ExcelFileuploading: false,
+            dataRows: [],
+            ExcelFileUpload: '',
+            deleting: false,
+            configUrl: new __WEBPACK_IMPORTED_MODULE_4__config__["a" /* default */]()
+
+        };
+    },
+
+    watch: {
+        getDataRows: {
+            handler: function handler(old) {},
+
+            deep: true
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 372:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        getCheck: function getCheck() {
+            return this.checked;
+        },
+        getCheckAll: function getCheckAll() {
+            return this.checkAll;
+        }
+    },
+    data: function data() {
+        return {
+            checked: false,
+            styleCheck: ''
+        };
+    },
+
+    props: ['checkAll', 'id-item'],
+    watch: {
+        getCheck: {
+            handler: function handler(new_value, old_value) {
+                if (new_value == true) {
+                    this.$emit('push_item_selected', this.idItem);
+                    this.styleCheck = 'checked';
+                } else {
+                    this.$emit('pop_item_selected', this.idItem);
+                    this.styleCheck = '';
+                }
+            },
+
+            deep: true
+        },
+        getCheckAll: {
+            handler: function handler(new_value, old_value) {
+                console.log(new_value);
+                if (new_value == true) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            }
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 373:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "checker" }, [
+    _c("span", { class: _vm.styleCheck }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.checked,
+            expression: "checked"
+          }
+        ],
+        staticClass: "styled",
+        attrs: { type: "checkbox" },
+        domProps: {
+          checked: Array.isArray(_vm.checked)
+            ? _vm._i(_vm.checked, null) > -1
+            : _vm.checked
+        },
+        on: {
+          change: function($event) {
+            var $$a = _vm.checked,
+              $$el = $event.target,
+              $$c = $$el.checked ? true : false
+            if (Array.isArray($$a)) {
+              var $$v = null,
+                $$i = _vm._i($$a, $$v)
+              if ($$el.checked) {
+                $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+              } else {
+                $$i > -1 &&
+                  (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.checked = $$c
+            }
+          }
+        }
+      })
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7d3b52c2", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 374:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(375)
+/* template */
+var __vue_template__ = __webpack_require__(376)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\thCheckAll.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b80dad4e", Component.options)
+  } else {
+    hotAPI.reload("data-v-b80dad4e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 375:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.checked = this.selected;
+    },
+
+    computed: {
+        getCheck: function getCheck() {
+            return this.checked;
+        }
+    },
+    data: function data() {
+        return {
+            checked: false,
+            styleCheck: ''
+        };
+    },
+
+    props: ['selected'],
+
+    watch: {
+        getCheck: {
+            handler: function handler(new_value, old_value) {
+                this.$emit('setcheckAll', new_value);
+                if (new_value == true) {
+                    this.styleCheck = 'checked';
+                } else {
+                    this.styleCheck = '';
+                }
+            },
+
+            deep: true
+        }
+    },
+    methods: {
+        selectAll: function selectAll() {
+            if (this.checked == true) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        },
+        delete_selected: function delete_selected() {
+            this.$emit('delete_selected');
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 376:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "btn-group navbar-btn" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-default btn-icon btn-checkbox-all",
+        attrs: { type: "button" }
+      },
+      [
+        _c("div", { staticClass: "checker" }, [
+          _c("span", { class: _vm.styleCheck }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.checked,
+                  expression: "checked"
+                }
+              ],
+              staticClass: "styled",
+              attrs: { type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.checked)
+                  ? _vm._i(_vm.checked, null) > -1
+                  : _vm.checked
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.checked,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.checked = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.checked = $$c
+                  }
+                }
+              }
+            })
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c("ul", { staticClass: "dropdown-menu" }, [
+      _c("li", [
+        _vm.checked == false
+          ? _c(
+              "a",
+              {
+                attrs: { href: "javascript:void(0);" },
+                on: { click: _vm.selectAll }
+              },
+              [_vm._v("Chọn tất cả")]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _vm.checked == true
+          ? _c(
+              "a",
+              {
+                attrs: { href: "javascript:void(0);" },
+                on: { click: _vm.selectAll }
+              },
+              [_vm._v("Bỏ chọn tất cả")]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c(
+          "a",
+          {
+            attrs: { href: "javascript:void(0);" },
+            on: { click: _vm.delete_selected }
+          },
+          [_vm._v("Xóa mục đã chọn")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default btn-icon dropdown-toggle",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [_c("span", { staticClass: "caret" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b80dad4e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 377:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(378)
+/* template */
+var __vue_template__ = __webpack_require__(379)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\enterprise\\postcoursesmanage\\postcoursesmanage\\components\\trTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-57e75bd4", Component.options)
+  } else {
+    hotAPI.reload("data-v-57e75bd4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 378:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tdCheckbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tdCheckbox__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(10);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        'td-checkbox': __WEBPACK_IMPORTED_MODULE_0__tdCheckbox___default.a
+    },
+    props: ['item', 'checkAll'],
+    data: function data() {
+        return {
+            willDelete: false,
+            configUrl: new __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */]()
+        };
+    },
+
+    methods: {
+        push_id_item_selected: function push_id_item_selected(id) {
+            this.willDelete = true;
+            this.$emit('push_item_selected', id);
+        },
+        getAvatar: function getAvatar(url) {
+            return window.location.origin + url;
+        },
+        pop_id_item: function pop_id_item(id) {
+            this.willDelete = false;
+            this.$emit('pop_item_selected', id);
+        },
+        request_delete: function request_delete() {
+            this.willDelete = true;
+            var vm = this;
+            vm.$emit('request_delete_item', vm.item.id);
+        },
+        infoPostCourse: function infoPostCourse(id, accept) {
+            var vm = this;
+            // if(accept == '1')
+            // {
+            //     return vm.configUrl.WEB_JOB_JOB_DETAIL(id)
+            // }
+            // if(accept == 2)
+            // {
+            //     return 'javascript:void()'
+            // }
+            // return vm.configUrl.WEB_ENTERPRISE_POST(id)
+        },
+        openInforPostCourse: function openInforPostCourse(id) {
+            var vm = this;
+            window.open(vm.configUrl.WEB_ENTERPRISE_POST_COURSE(id), '_blank');
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 379:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", { attrs: { "will-delete": _vm.willDelete } }, [
+    _c(
+      "td",
+      { staticClass: "check-item" },
+      [
+        _c("td-checkbox", {
+          attrs: { checkAll: _vm.checkAll, "id-item": _vm.item.id },
+          on: {
+            push_item_selected: function($event) {
+              _vm.push_id_item_selected($event)
+            },
+            pop_item_selected: function($event) {
+              _vm.pop_id_item($event)
+            }
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("td", [
+      _c(
+        "a",
+        {
+          attrs: {
+            href: _vm.infoPostCourse(_vm.item.id, _vm.item.accept),
+            target: "_blank"
+          }
+        },
+        [_vm._v(_vm._s(_vm.item.title_post_course))]
+      )
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.item.created_at))]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.item.accept == 0
+        ? _c("span", { staticClass: "label label-default" }, [
+            _vm._v("Đang đợi")
+          ])
+        : _vm.item.accept == 2
+          ? _c("span", { staticClass: "label label-danger" }, [
+              _vm._v("Đã hủy")
+            ])
+          : _c("span", { staticClass: "label label-success" }, [
+              _vm._v("Đã đăng")
+            ])
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "text-center" }, [
+      _c("ul", { staticClass: "icons-list" }, [
+        _c("li", { staticClass: "dropdown" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("ul", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+            _c("li", { on: { click: _vm.request_delete } }, [_vm._m(1)]),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.openInforPostCourse(_vm.item.id)
+                  }
+                }
+              },
+              [_vm._m(2)]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [_c("i", { staticClass: "icon-menu9" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "javascript:void(0)" } }, [
+      _c("i", { staticClass: "glyphicon glyphicon-trash" }),
+      _vm._v(" Xóa bài viết")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "javascript:void(0)" } }, [
+      _c("i", { staticClass: "glyphicon glyphicon-edit" }),
+      _vm._v(" Sửa bài đăng")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-57e75bd4", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 380:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "panel panel-flat" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "table",
+      {
+        staticClass: "table datatable-button-html5-columns",
+        attrs: { id: "table" }
+      },
+      [
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              { staticClass: "check-all" },
+              [
+                _c("th-check-all", {
+                  attrs: { selected: false },
+                  on: {
+                    delete_selected: _vm.delete_selected,
+                    setcheckAll: _vm.setCheckAllData
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("th", [_vm._v("Tiêu đề")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Ngày đăng")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Tình trạng")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "text-center" }, [_vm._v("Actions")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          { attrs: { id: "table_body" } },
+          _vm._l(_vm.dataRows, function(item) {
+            return _c("tr-table", {
+              key: item.id_item,
+              attrs: { item: item, checkAll: _vm.checkAll },
+              on: {
+                request_delete_item: function($event) {
+                  _vm.confirm_delete_item($event)
+                },
+                push_item_selected: function($event) {
+                  _vm.push_id_item_selected($event)
+                },
+                pop_item_selected: function($event) {
+                  _vm.pop_id_item($event)
+                }
+              }
+            })
+          })
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal fade", attrs: { id: "modal_danger" } }, [
+      _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "panel panel-body border-top-danger text-center",
+                staticStyle: { border: "snow" }
+              },
+              [
+                _vm.deleting == true
+                  ? _c("div", { staticClass: "pace-demo" }, [_vm._m(3)])
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-link",
+                attrs: { type: "button", "data-dismiss": "modal" }
+              },
+              [_vm._v("Hủy")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                attrs: { type: "button" },
+                on: { click: _vm.confirm_delete }
+              },
+              [_vm._v("Xác định xóa")]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h5", { staticClass: "panel-title" }, [_vm._v("Danh sách bài viết")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "heading-elements" }, [
+        _c("ul", { staticClass: "icons-list" }, [
+          _c("li", [_c("a", { attrs: { "data-action": "collapse" } })]),
+          _vm._v(" "),
+          _c("li", [_c("a", { attrs: { "data-action": "reload" } })]),
+          _vm._v(" "),
+          _c("li", [_c("a", { attrs: { "data-action": "close" } })])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header bg-danger" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h6", { staticClass: "modal-title" }, [
+        _c("i", { staticClass: "icon-warning" }),
+        _vm._v(" Cảnh báo")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("i", { staticClass: "icon-warning" }),
+      _vm._v(
+        " Sau khi xóa, mọi dữ liệu liên quan sẽ bị xóa. Bạn nên cân nhắc điều này ! "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "theme_xbox_xs" }, [
+      _c("div", {
+        staticClass: "pace_progress",
+        attrs: { "data-progress-text": "60%", "data-progress": "60" }
+      }),
+      _c("div", { staticClass: "pace_activity" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-25726d70", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 381:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "content-wrapper", attrs: { id: "content-wrapper" } },
+    [_c("datatable")],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-535db184", module.exports)
+  }
+}
 
 /***/ }),
 
@@ -15261,15 +15289,15 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(337)
+var __vue_script__ = __webpack_require__(372)
 /* template */
-var __vue_template__ = __webpack_require__(338)
+var __vue_template__ = __webpack_require__(373)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */

@@ -94,7 +94,15 @@ Route::group(['namespace' => 'Api'],function(){
                 Route::get('/get-detail-post-course/{id}',['name' => 'get.detail.post.course','uses' => 'PostCourseManageController@get_detail_post_course']);
             });
 
-
+            Route::group(['prefix' => '/notify-manage','as' => 'notify.manage.'],function(){
+                Route::get('/notifies',['as' => 'notifies','uses' => 'NotifyController@notifies']);
+                Route::get('/notify/{id}',['as' => 'notify.id','uses' => 'NotifyController@notify']);
+                Route::post('/notify/{id}',['as' => 'notify_id','uses' => 'NotifyController@update_notify']);
+                Route::delete('/delete-notify/{id}',['as' => 'delete_notify','uses' => 'NotifyController@delete_notify']);
+                Route::delete('/delete-list-notify',['as' => 'delete_list_notify','uses' => 'NotifyController@delete_list_notify']);
+                Route::post('/add-notify',['as' => 'add_notify','uses' => 'NotifyController@add_notify']);
+                Route::post('/update-notify/{id}',['as' => 'update_notify','uses' => 'NotifyController@update_notify']);
+            });
             //post
 //        Route::group(['prefix' => '/post-manage','name' => 'post.manage.'],function (){
 //
@@ -185,6 +193,8 @@ Route::group(['namespace' => 'Api'],function(){
 
             Route::delete('/delete-work/{id}',['name' => 'delete.work','uses' => 'ProfileManageController@delete_work']);
 
+            Route::post('/update-avatar',['name' => 'update.avatar','uses' => 'ProfileManageController@update_avatar']);
+            Route::put('/update-info',['name' => 'update.info','uses' => 'ProfileManageController@update_info']);
         });
 
     });

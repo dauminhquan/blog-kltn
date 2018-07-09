@@ -18,13 +18,14 @@ class CreateStudentsTable extends Migration
             $table->string('first_name_student');
             $table->string('last_name_student');
             $table->string('address_student');
+            $table->string('phone_number_student');
             $table->string('email_address_student');
             $table->string('introduce_student');
-            // phần giới thiệu bản thân -- Sẽ cho người dùng tự ghi
             $table->string('id_user');
-            $table->string('avatar_student');
-            $table->integer('id_department');
-            $table->string('salary');
+            $table->boolean('graduated')->default(false);
+            $table->string('avatar_student',400);
+            $table->string('code_course');
+            $table->string('code_branch');
             $table->timestamps();
         });
     }

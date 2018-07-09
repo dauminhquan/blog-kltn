@@ -47,8 +47,12 @@ Route::group(['middleware' => 'web.check.login'],function (){
             Route::get('/skill',['as' => "skill","uses" => 'JobManageController@skillsManage']);
             Route::get('/jobs',['as' => "jobs","uses" => 'JobManageController@jobsManage']);
             Route::get('/jobs/{id}',['as' => "jobs.id","uses" => 'JobManageController@updateJob']);
-
-
+        });
+        Route::group(['prefix' => 'notify-manage','as' => 'notify.manage.'],function(){
+            Route::get('/add-notify',['as' => 'add.notify','uses' => 'NotifyController@add_notify']);
+            Route::get('/notifies',['as' => 'notifies','uses' => 'NotifyController@notifies']);
+            Route::get('/edit/{id}',['as' => 'edit.notify','uses' => 'NotifyController@edit_notify']);
+            Route::get('/notify/{id}',['as' => 'notify.id','uses' => 'NotifyController@update_notify']);
 
         });
         Route::get('/post-courses',['as' => "post.courses","uses" => 'PostCourseManageController@postcoursesManage']);

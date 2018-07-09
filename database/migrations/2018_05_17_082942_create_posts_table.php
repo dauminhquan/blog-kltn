@@ -18,9 +18,11 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('id_enterprise');
             $table->string('title_post');
-            $table->dateTime('time_start_post');
-            $table->dateTime('time_end_post');
-            $table->string('description_post');
+            $table->string('localtion',200);
+
+            $table->date('time_start_post');
+            $table->date('time_end_post');
+            $table->string('description_post',400);
             $table->text('content_post');
             $table->string('file_attach_post');
             $table->boolean('accept')->default(false);

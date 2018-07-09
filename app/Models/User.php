@@ -55,5 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Employee::class,'code_student','user_name');
     }
+    public function admin()
+    {
+        return $this->hasOne(Admin::class,'id_user','id');
+    }
 
 }

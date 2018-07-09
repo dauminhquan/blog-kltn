@@ -234,7 +234,7 @@ class InsertDataService
                 $post->localtion = $request->location;
                 $post->file_attach_post = 'none';
                 $post->save();
-                $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','post_'.$post->id.'file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
+                $post->file_attach_post = $request->file('file_attach_post')->storeAs('public/file_attaches','post_'.$post->id.'_file_attach.'.$request->file('file_attach_post')->getClientOriginalExtension());
                 $post->update();
                 foreach ($request->cities as $city)
                 {
